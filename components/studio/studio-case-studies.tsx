@@ -20,11 +20,11 @@ export function StudioCaseStudies() {
         {/* The section heading uses the dark reference's editorial contrast with one dominant line and one quieter display block. */}
         <div className="max-w-6xl space-y-5 lg:pl-10 xl:pl-14">
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">Work</p>
-          <h2 className="text-section-display max-w-5xl text-[var(--neutral-950)]">
-            Launch faster. Reach revenue sooner.
+          <h2 className="font-semibold text-hero-support max-w-5xl text-[var(--neutral-950)]">
+            <strong>Launch faster. Reach revenue sooner.</strong>
           </h2>
           <p className="text-display-muted-editorial max-w-6xl">
-            Turn roadmap bets into <span className="font-semibold text-[var(--color-text-primary)]">shipped releases</span>, adoption, and compounding traction with one execution partner.
+            Turn roadmap bets into <span className="@ text-[var(--color-text-brand)]">shipped releases</span>, adoption, and compounding traction with one execution partner.
           </p>
         </div>
 

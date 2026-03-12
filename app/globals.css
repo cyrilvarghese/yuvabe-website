@@ -205,8 +205,8 @@ body {
 /* This display utility supports editorial secondary statements without dropping to paragraph styling. */
 .text-display-muted-editorial {
   font-family: var(--font-display-family);
-  font-size: clamp(1.9rem, 3.3vw, 3.1rem);
-  font-weight: 500;
+  font-size: clamp(1.45rem, 2.4vw, 2.7rem);
+  font-weight: 600;
   line-height: 1.06;
   letter-spacing: -0.038em;
   color: var(--color-text-secondary);

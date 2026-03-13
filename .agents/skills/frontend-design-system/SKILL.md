@@ -22,15 +22,15 @@ Implement Yuvabe's design system in code with a design-system-first approach so 
    - `../../../app/design-system/foundations/page.tsx`
 2. Translate the spec in this order: tokens, typography, shared variants, components, then patterns.
 3. Always use shadcn primitives as the base layer for UI components, and build custom wrappers or variants on top of them instead of inventing new foundations from scratch.
-4. Add or update internal preview routes when introducing new foundation or component layers so the system remains inspectable.
-5. Add short intent-focused comments for non-trivial helpers and major JSX sections.
+4. Check the original `https://ui.shadcn.com/` and `https://www.radix-ui.com/` docs before adding custom code; prefer documented built-in APIs, structure, and patterns before inventing wrappers or interaction logic.
+5. Add or update internal preview routes when introducing new foundation or component layers so the system remains inspectable.
+6. Add short intent-focused comments for non-trivial helpers and major JSX sections.
 
 ## Implementation Rules
 - Keep `app/globals.css` as the single source of truth for tokens and typography utility contracts.
 - Use semantic tokens in components whenever possible; avoid hardcoded hex values, spacing, radius, or shadow values in component code.
 - Do not ship custom `color-mix(...)` recipes, arbitrary Tailwind color values, or one-off type-size utilities in production components when the same result can be achieved with existing design-system tokens.
 - All grays must come from the neutral palette, and all production colors must come from the approved palette or semantic tokens defined in the shared foundation layer.
-
 - If a neutral needs a primary tint, create a named tinted-neutral token or utility in the shared foundation first; never solve it with per-instance component-level color mixing.
 - Keep variant counts lean and aligned with the spec.
 - Reuse one button contract across nav, hero, and section CTAs.
@@ -40,6 +40,7 @@ Implement Yuvabe's design system in code with a design-system-first approach so 
 - Treat premium surfaces as reusable contracts: glass overlays, elevated cards, floating panels, and badges should share consistent border, blur, shadow, and translucency behavior instead of ad-hoc one-off styles.
 - Use premium surfaces only when a layer needs clear separation from the canvas or content beneath it, such as mobile nav overlays, hero callouts, proof cards, or modal-like states.
 - Use Framer Motion for implemented component and interaction animation work, and default to ease-out easing curves unless a specific alternative is justified.
+- Always check the original shadcn and Radix docs before adding custom interaction or primitive code; if the official APIs already cover the need, use or adapt those patterns first.
 
 ## Component Order
 Build or refine components in this order unless the task clearly asks otherwise:
@@ -68,6 +69,3 @@ Build or refine components in this order unless the task clearly asks otherwise:
 - Do not expand the component library beyond the current spec unless the user explicitly asks.
 - Do not move brand-source material into this skill; keep brand truth in `brand-foundation`.
 - Do not move visual-direction guidance into component code when it belongs in `VD`.
-
-
-

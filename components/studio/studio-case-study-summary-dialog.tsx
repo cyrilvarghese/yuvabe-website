@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowUpRight, CheckCircle2, ImageIcon, Sparkles } from "lucide-react";
@@ -9,6 +10,7 @@ import {
   type StudioCaseStudyProofPoint,
   type StudioCaseStudySection,
   type StudioCaseStudySummary,
+  type StudioCaseStudyTestimonial,
 } from "@/components/studio/studio-case-study-content";
 import galleryImageLibrary from "@/components/studio/studio-case-study-gallery-images.json";
 import { Button, buttonVariants } from "@/components/ui/button";
@@ -54,27 +56,40 @@ export function StudioCaseStudySummaryDialog({
   open,
   onOpenChange,
 }: StudioCaseStudySummaryDialogProps) {
-  if (!caseStudy) {
+  const [renderedCaseStudy, setRenderedCaseStudy] = useState<StudioCaseStudySummary | null>(caseStudy);
+  const activeCaseStudy = caseStudy ?? renderedCaseStudy;
+  const caseStudyId = activeCaseStudy?.id;
+
+  // Keep the last open case study mounted long enough for the shell exit animation to finish.
+  useEffect(() => {
+    if (!caseStudy) {
+      return;
+    }
+
+    setRenderedCaseStudy(caseStudy);
+  }, [caseStudy]);
+
+  if (!activeCaseStudy) {
     return null;
   }
 
   // Pull mock gallery image data from JSON so the source can later move to a CDN without changing the UI contract.
   const caseStudyGalleryAssets =
-    caseStudyGalleryImageLibrary[caseStudy.id] ?? caseStudyGalleryImageLibrary.bevolve;
+    caseStudyGalleryImageLibrary[activeCaseStudy.id] ?? caseStudyGalleryImageLibrary.bevolve;
 
   // Keep the expanded modal useful even when a case study only provides partial fields.
-  const outcomes = caseStudy.modalOutcomes ?? [
+  const outcomes = activeCaseStudy.modalOutcomes ?? [
     "Created a clearer story around the product, team, and strategic value.",
-    `Focused the experience around ${caseStudy.services.join(", ").toLowerCase()} to reduce friction and improve comprehension.`,
+    `Focused the experience around ${activeCaseStudy.services.join(", ").toLowerCase()} to reduce friction and improve comprehension.`,
     "Built a stronger foundation for future launches, iteration, and growth.",
   ];
 
   // These sections preserve the numbered narrative breakdown from the darker reference.
   const sections: StudioCaseStudySection[] =
-    caseStudy.modalSections ?? [
+    activeCaseStudy.modalSections ?? [
       {
         title: "Context",
-        body: `${caseStudy.title} needed a more coherent narrative across product, experience, and communication as the scope of the work expanded.`,
+        body: `${activeCaseStudy.title} needed a more coherent narrative across product, experience, and communication as the scope of the work expanded.`,
       },
       {
         title: "Challenge",
@@ -92,7 +107,7 @@ export function StudioCaseStudySummaryDialog({
 
   // Proof points close the modal with concise credibility signals instead of long-form copy.
   const proofPoints: StudioCaseStudyProofPoint[] =
-    caseStudy.modalProofPoints ?? [
+    activeCaseStudy.modalProofPoints ?? [
       {
         title: "Sharpened the narrative",
         description: "Brought the product story, interaction model, and supporting experience into one clearer point of view.",
@@ -109,7 +124,7 @@ export function StudioCaseStudySummaryDialog({
 
   // Gallery rows stay present even with partial content so the light layout never collapses unpredictably.
   const galleryRows: StudioCaseStudyGalleryRow[] =
-    caseStudy.modalGalleryRows ?? [
+    activeCaseStudy.modalGalleryRows ?? [
       {
         title: "Selected screens",
         items: [
@@ -138,11 +153,29 @@ export function StudioCaseStudySummaryDialog({
       },
     ];
 
+  const detailSectionId = `${activeCaseStudy.id}-case-study-details`;
+
+  // The bottom proof block uses testimonial-style copy without fabricating sourced client quotes.
+  const testimonial: StudioCaseStudyTestimonial =
+    activeCaseStudy.modalTestimonial ?? {
+      quote:
+        "The work brought the story, product direction, and user experience into tighter alignment, making the next stage of growth easier to communicate and easier to build toward.",
+      attribution: `${activeCaseStudy.title} engagement`,
+      ctaLabel: "See more work",
+      ctaHref: "#work",
+    };
+
   return (
     <ModalShell
       open={open}
       onOpenChange={onOpenChange}
-      title={`${caseStudy.title} case study summary`}
+      closeVariant="case-study"
+      onAfterClose={() => {
+        if (!open) {
+          setRenderedCaseStudy(null);
+        }
+      }}
+      title={`${activeCaseStudy.title} case study summary`}
       contentClassName="px-5 pb-8 pt-16 sm:px-8 lg:px-10 lg:pb-10"
     >
       <div className="relative isolate overflow-visible rounded-[1.85rem]">
@@ -151,24 +184,26 @@ export function StudioCaseStudySummaryDialog({
         <div className="relative z-10 border-b border-[var(--color-border-default)]/80 pb-8">
           <div className="grid gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(18rem,0.8fr)] lg:items-start">
             <div>
-              <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">{caseStudy.sector}</p>
+              <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">{activeCaseStudy.sector}</p>
               <h3 className="mt-2 max-w-2xl font-display text-[clamp(2.25rem,4vw,4.25rem)] leading-[0.92] tracking-[-0.05em] text-[var(--neutral-950)]">
-                {caseStudy.title}
+                {activeCaseStudy.title}
               </h3>
               <p className="mt-4 max-w-2xl text-body-lg leading-8 text-[var(--color-text-secondary)]">
-                {caseStudy.modalIntro ?? caseStudy.summary}
+                {activeCaseStudy.modalIntro ?? activeCaseStudy.summary}
               </p>
 
-              {/* The CTA row mirrors the dark reference but stays inside the existing light button system. */}
+              {/* The top CTA only nudges people deeper into the case-study details. */}
               <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-                <Button asChild size="lg" className="rounded-full px-6">
-                  <Link href="#process">
-                    Book a Founder Call
-                    <ArrowUpRight className="size-4" />
-                  </Link>
-                </Button>
-                <Button asChild variant="secondary" size="lg" className="rounded-full px-6">
-                  <Link href="#work">View more work</Link>
+                <Button
+                  type="button"
+                  size="lg"
+                  className="rounded-full px-6"
+                  onClick={() => {
+                    document.getElementById(detailSectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }}
+                >
+                  Read more
+                  <ArrowUpRight className="size-4" />
                 </Button>
               </div>
             </div>
@@ -189,17 +224,20 @@ export function StudioCaseStudySummaryDialog({
         </div>
 
         {/* Visual summary and breakdown narrative */}
-        <div className="relative z-10 grid gap-4 border-b border-[var(--color-border-default)]/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
+        <div
+          id={detailSectionId}
+          className="relative z-10 grid gap-4 border-b border-[var(--color-border-default)]/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]"
+        >
           <PremiumSurface tone="glass" elevation="sm" blur="lg" radius="xl" className="self-start min-h-[18rem] overflow-visible border-white/42 bg-[linear-gradient(180deg,rgba(255,255,255,0.36),rgba(255,255,255,0.18))] p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] sm:min-h-[24rem] sm:p-6 lg:sticky lg:top-6">
             <div className="relative flex h-full items-end justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:p-3">
               <div className="relative flex h-full min-h-[16rem] items-center justify-center p-8 text-[var(--neutral-700)]">
-                {caseStudy.media}
+                {activeCaseStudy.media}
               </div>
             </div>
           </PremiumSurface>
 
           <div className="relative min-h-[18rem] px-4 py-5 sm:min-h-[24rem] sm:p-6">
-              <div className="relative space-y-5">
+            <div className="relative space-y-5">
               <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">Case Breakdown</p>
               <div className="space-y-6">
                 {sections.map((section, index) => (
@@ -210,7 +248,7 @@ export function StudioCaseStudySummaryDialog({
                   </div>
                 ))}
               </div>
-              </div>
+            </div>
           </div>
         </div>
 
@@ -230,25 +268,25 @@ export function StudioCaseStudySummaryDialog({
 
                   return (
                     <div key={item.title} className={cn("space-y-3", layout.wrapper)}>
-                        <div
-                          className={cn(
-                            "relative overflow-hidden rounded-[1.1rem] border border-white/42 bg-[radial-gradient(circle_at_70%_18%,rgba(255,202,45,0.14),rgba(255,202,45,0)_24%,rgba(255,255,255,0)_44%),linear-gradient(145deg,rgba(255,255,255,0.32),rgba(255,255,255,0.14))] shadow-[0_10px_26px_rgba(15,23,42,0.035)] backdrop-blur-md",
-                            layout.frame,
-                          )}
-                        >
-                          {/* The image fill replaces the placeholder scaffolding while preserving the premium frame treatment. */}
-                          <Image
-                            src={galleryImage.src}
-                            alt={galleryImage.alt}
-                            fill
-                            sizes="(min-width: 768px) 50vw, 100vw"
-                            className="object-cover"
-                          />
-                          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(11,15,25,0.08),rgba(11,15,25,0.02)_24%,rgba(255,255,255,0)_56%)]" />
-                          <div className="absolute left-5 top-5 inline-flex h-10 items-center gap-2 rounded-full border border-white/44 bg-white/42 px-3 text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-text-tertiary)] shadow-[0_6px_12px_rgba(15,23,42,0.028)] backdrop-blur-md">
-                            <ImageIcon className="size-3.5" strokeWidth={1.9} />
-                            {caseStudyGalleryAssets.badgeLabel}
-                          </div>
+                      <div
+                        className={cn(
+                          "relative overflow-hidden rounded-[1.1rem] border border-white/42 bg-[radial-gradient(circle_at_70%_18%,rgba(255,202,45,0.14),rgba(255,202,45,0)_24%,rgba(255,255,255,0)_44%),linear-gradient(145deg,rgba(255,255,255,0.32),rgba(255,255,255,0.14))] shadow-[0_10px_26px_rgba(15,23,42,0.035)] backdrop-blur-md",
+                          layout.frame,
+                        )}
+                      >
+                        {/* The image fill replaces the placeholder scaffolding while preserving the premium frame treatment. */}
+                        <Image
+                          src={galleryImage.src}
+                          alt={galleryImage.alt}
+                          fill
+                          sizes="(min-width: 768px) 50vw, 100vw"
+                          className="object-cover"
+                        />
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(11,15,25,0.08),rgba(11,15,25,0.02)_24%,rgba(255,255,255,0)_56%)]" />
+                        <div className="absolute left-5 top-5 inline-flex h-10 items-center gap-2 rounded-full border border-white/44 bg-white/42 px-3 text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-text-tertiary)] shadow-[0_6px_12px_rgba(15,23,42,0.028)] backdrop-blur-md">
+                          <ImageIcon className="size-3.5" strokeWidth={1.9} />
+                          {caseStudyGalleryAssets.badgeLabel}
+                        </div>
                       </div>
                       <div className="space-y-1 px-1">
                         <p className="text-body-lg font-semibold text-[var(--neutral-950)]">{item.title}</p>
@@ -263,7 +301,7 @@ export function StudioCaseStudySummaryDialog({
         </div>
 
         {/* Closing proof points reinforce the value of the work in the same final position as the dark reference. */}
-        <div className="relative z-10 grid gap-5 pt-8 md:grid-cols-3">
+        <div className="relative z-10 grid gap-5 border-b border-[var(--color-border-default)]/80 py-8 md:grid-cols-3">
           {proofPoints.map((point) => {
             const ProofIcon = point.icon ?? Sparkles;
 
@@ -285,11 +323,39 @@ export function StudioCaseStudySummaryDialog({
             );
           })}
         </div>
+
+        {/* The final testimonial-style section closes the case study with one proof-rich takeaway and a clear next action. */}
+        <div className="relative z-10 py-10 sm:py-12">
+          <div className="mx-auto max-w-4xl text-center">
+            <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">Client perspective</p>
+            <p className="mt-5 text-[clamp(1.65rem,3vw,2.75rem)] leading-[1.16] tracking-[-0.04em] text-[var(--color-text-secondary)] sm:text-balance">
+              “{testimonial.quote}”
+            </p>
+            <p className="mt-6 text-body-lg text-[var(--neutral-950)]">
+              <span className="font-semibold">{testimonial.attribution}</span>
+            </p>
+
+            {/* The CTA keeps the bottom of the modal moving toward either more proof or a founder conversation. */}
+            <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Button
+                type="button"
+                size="lg"
+                className="rounded-full px-6"
+                onClick={() => {
+                  document.getElementById(detailSectionId)?.scrollIntoView({ behavior: "smooth", block: "start" });
+                }}
+              >
+                  Read more
+                  <ArrowUpRight className="size-4" />
+              </Button>
+              <Button asChild variant="secondary" size="lg" className="rounded-full px-6">
+                <Link href="#process">Get in touch</Link>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </ModalShell>
   );
 }
-
-
-
 

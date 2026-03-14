@@ -53,12 +53,18 @@ Write premium, founder-focused copy that sounds decisive, useful, and conversion
 
 ## CTA Guidelines
 - Primary CTA should be action + audience intent:
-  - `Book a Founder Call`
-  - `View Startup Work`
-  - `Start Your Build`
+  - `Start Your Project`
+  - `Talk Through Your Roadmap`
+  - `View Our Work`
 - Secondary CTA should reduce friction:
   - `How We Work`
   - `See Case Studies`
+  - `See More Work`
+
+## CTA Language Guardrail
+- Avoid vague meeting CTAs like `Book a Founder Call` when the actual value is strategy, prioritization, or product direction.
+- Prefer simple next-step CTAs that say what happens next without sounding vague or over-written.
+- Treat `See more work` as a secondary CTA pattern, not a primary CTA.
 
 ## Quality Checklist
 Before finalizing copy:

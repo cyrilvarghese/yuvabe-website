@@ -31,6 +31,13 @@ export type StudioCaseStudyGalleryRow = {
   items: StudioCaseStudyGalleryItem[];
 };
 
+export type StudioCaseStudyTestimonial = {
+  quote: string;
+  attribution: string;
+  ctaLabel?: string;
+  ctaHref?: string;
+};
+
 export type StudioCaseStudySummary = {
   id: StudioCaseStudyId;
   sector: string;
@@ -44,6 +51,7 @@ export type StudioCaseStudySummary = {
   modalSections?: StudioCaseStudySection[];
   modalProofPoints?: StudioCaseStudyProofPoint[];
   modalGalleryRows?: StudioCaseStudyGalleryRow[];
+  modalTestimonial?: StudioCaseStudyTestimonial;
 };
 
 function CaseStudyIcon({ icon: Icon }: { icon: LucideIcon }) {
@@ -129,6 +137,13 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
         icon: Sparkles,
       },
     ],
+    modalTestimonial: {
+      quote:
+        "The engagement turned a technically strong business into a much clearer market story. Product, brand, and communication started working together instead of asking buyers to piece it together on their own.",
+      attribution: "General Aeronautics engagement",
+      ctaLabel: "See more work",
+      ctaHref: "#work",
+    },
     media: <CaseStudyIcon icon={LayoutGrid} />,
     size: "feature",
   },
@@ -210,6 +225,13 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
         icon: Sparkles,
       },
     ],
+    modalTestimonial: {
+      quote:
+        "The platform became easier to trust because the reporting flow, AI guidance, and decision support finally felt like one system. That clarity made complex ESG work faster to navigate and easier to act on.",
+      attribution: "Bevolve.ai engagement",
+      ctaLabel: "See more work",
+      ctaHref: "#work",
+    },
     media: <CaseStudyIcon icon={Bot} />,
   },
 ];

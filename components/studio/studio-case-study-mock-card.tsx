@@ -23,6 +23,7 @@ const easeOut = [0.22, 1, 0.36, 1] as const;
 export type StudioCaseStudyMockVariant = "aurora" | "sunrise" | "prism";
 export type StudioCaseStudyMockCardLayout = "feature" | "compact" | "wide";
 export type StudioCaseStudyMockViewport = "portrait" | "landscape";
+export type StudioCaseStudyMockCardSpan = "grid" | "full";
 
 const mockCardVariantStyles: Record<
   StudioCaseStudyMockVariant,
@@ -65,36 +66,48 @@ const mockCardLayoutStyles: Record<
     footerClassName: string;
     imageClassName: string;
     imageStageClassName: string;
+    mediaGroupClassName: string;
     shellClassName: string;
     summaryClassName: string;
     titleClassName: string;
   }
 > = {
+  // This layout config is the single source of truth for case-study card spacing and height behavior.
+  // Mobile stacks naturally for better density, while desktop restores the editorial equal-height composition.
   feature: {
-    bodyClassName: "gap-6",
-    footerClassName: "max-w-[30rem]",
+    bodyClassName: "gap-4 md:gap-6",
+    footerClassName: "max-w-none md:max-w-[30rem]",
     imageClassName: "h-[20rem] sm:h-[22rem] lg:h-[24rem]",
-    imageStageClassName: "min-h-[460px] px-4 pb-2 pt-8 sm:px-6",
-    shellClassName: "h-[760px] p-5 sm:p-6 md:p-7",
+    // The mock stage gets a smaller mobile min-height so the image sits closer to the copy.
+    imageStageClassName:
+      "min-h-[250px] px-1 pb-1 pt-1 sm:min-h-[300px] sm:px-2 sm:pt-2 md:min-h-[460px] md:px-4 md:pb-2 md:pt-8 lg:px-6",
+    // Mobile keeps the media group in normal flow; desktop pushes it down to preserve the premium editorial rhythm.
+    mediaGroupClassName: "space-y-4 md:mt-auto md:space-y-5",
+    // Mobile uses natural height to avoid dead space, while desktop restores equal card heights for balanced rows.
+    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[760px] md:p-6 lg:p-7",
     summaryClassName: "max-w-[34ch] text-body-sm text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-md text-foreground",
   },
   compact: {
-    bodyClassName: "gap-4",
+    bodyClassName: "gap-3 md:gap-4",
     footerClassName: "max-w-none",
     imageClassName: "h-[11rem] sm:h-[12rem]",
-    imageStageClassName: "min-h-[250px] px-2 pb-1 pt-4 sm:px-3",
-    shellClassName: "h-[520px] p-4 sm:p-5",
+    imageStageClassName:
+      "min-h-[180px] px-1 pb-1 pt-1 sm:min-h-[220px] sm:px-2 sm:pt-2 md:min-h-[250px] md:px-2 md:pt-4 lg:px-3",
+    mediaGroupClassName: "space-y-3 md:mt-auto md:space-y-4",
+    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[520px]",
     summaryClassName:
       "max-w-[30ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-sm text-foreground",
   },
   wide: {
-    bodyClassName: "gap-5",
-    footerClassName: "max-w-[34rem]",
+    bodyClassName: "gap-4 md:gap-5",
+    footerClassName: "max-w-none md:max-w-[34rem]",
     imageClassName: "h-[14rem] sm:h-[15rem] lg:h-[16rem]",
-    imageStageClassName: "min-h-[320px] px-3 pb-1 pt-5 sm:px-5",
-    shellClassName: "h-[560px] p-5 sm:p-6 md:p-7",
+    imageStageClassName:
+      "min-h-[220px] px-1 pb-1 pt-1 sm:min-h-[260px] sm:px-3 sm:pt-2 md:min-h-[320px] md:pb-1 md:pt-5 lg:px-5",
+    mediaGroupClassName: "space-y-4 md:mt-auto md:space-y-5",
+    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[560px] md:p-6 lg:p-7",
     summaryClassName:
       "max-w-[56ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-md text-foreground",
@@ -105,6 +118,7 @@ const mockViewportStyles: Record<
   StudioCaseStudyMockViewport,
   { frameClassName: string; imageClassName: string }
 > = {
+  // Viewport shape stays separate from layout so portrait and landscape cropping can change without rewriting card spacing rules.
   portrait: {
     frameClassName:
       "h-[320px] w-[200px] sm:h-[360px] sm:w-[220px] lg:h-[390px] lg:w-[240px]",
@@ -115,6 +129,23 @@ const mockViewportStyles: Record<
       "h-[210px] w-[300px] sm:h-[240px] sm:w-[360px] lg:h-[280px] lg:w-[440px]",
     imageClassName: "object-cover object-center",
   },
+};
+
+const fullSpanShellOverrides: Record<StudioCaseStudyMockCardLayout, string> = {
+  feature: "md:h-auto md:min-h-[38rem] lg:min-h-[40rem]",
+  compact: "md:h-auto md:min-h-[30rem]",
+  wide: "md:h-auto md:min-h-[34rem] lg:min-h-[36rem]",
+};
+
+const fullSpanImageStageOverrides: Record<StudioCaseStudyMockCardLayout, string> = {
+  feature: "md:min-h-[320px] md:pt-4 lg:min-h-[360px] lg:pt-6",
+  compact: "md:min-h-[220px] md:pt-3",
+  wide: "md:min-h-[260px] md:pt-4 lg:min-h-[300px] lg:pt-5",
+};
+
+const fullSpanViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
+  portrait: "md:h-[400px] md:w-[250px] lg:h-[440px] lg:w-[275px]",
+  landscape: "md:h-[260px] md:w-[420px] lg:h-[320px] lg:w-[540px]",
 };
 
 export type StudioCaseStudyMockCardProps = {
@@ -128,6 +159,7 @@ export type StudioCaseStudyMockCardProps = {
   mockViewport?: StudioCaseStudyMockViewport;
   variant?: StudioCaseStudyMockVariant;
   layout?: StudioCaseStudyMockCardLayout;
+  span?: StudioCaseStudyMockCardSpan;
   detailHref?: string;
   onOpenDetails?: () => void;
   className?: string;
@@ -145,6 +177,7 @@ export function StudioCaseStudyMockCard({
   onOpenDetails,
   sector,
   services,
+  span = "grid",
   summary,
   title,
   variant = "aurora",
@@ -195,7 +228,7 @@ export function StudioCaseStudyMockCard({
   return (
     <motion.div
       className={cn(
-        "group h-full",
+        "group h-full min-w-0 w-full",
         canOpenDetails ? "cursor-pointer" : undefined,
         className,
       )}
@@ -222,8 +255,9 @@ export function StudioCaseStudyMockCard({
         blur="none"
         radius="xl"
         className={cn(
-          "border-[color:color-mix(in_srgb,var(--lavender-200)_56%,white)] transition-[box-shadow,transform] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(88,41,199,0.18),0_24px_70px_rgba(11,15,25,0.14)]",
+          "w-full min-w-0 border-[color:color-mix(in_srgb,var(--lavender-200)_56%,white)] transition-[box-shadow,transform] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(88,41,199,0.18),0_24px_70px_rgba(11,15,25,0.14)]",
           layoutStyles.shellClassName,
+          span === "full" && fullSpanShellOverrides[layout],
         )}
       >
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]">
@@ -269,11 +303,18 @@ export function StudioCaseStudyMockCard({
             </div>
           </div>
 
-          <div className="mt-auto space-y-5">
+          {/* The media group uses tighter mobile spacing, then restores the desktop push-down behavior from md upward. */}
+          <div
+            className={cn(
+              layoutStyles.mediaGroupClassName,
+              span === "full" && "md:mt-0",
+            )}
+          >
             <div
               className={cn(
                 "flex items-end justify-center [perspective:1400px]",
                 layoutStyles.imageStageClassName,
+                span === "full" && fullSpanImageStageOverrides[layout],
               )}
             >
               <motion.div
@@ -288,12 +329,14 @@ export function StudioCaseStudyMockCard({
                 className={cn(
                   variantStyles.mockFrameClassName,
                   "relative max-w-[560px] transition-[box-shadow] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
+                  span === "full" && "max-w-[680px]",
                 )}
               >
                 <div
                   className={cn(
                     "relative overflow-hidden rounded-[1.6rem] bg-[rgba(17,24,39,0.05)]",
                     viewportStyles.frameClassName,
+                    span === "full" && fullSpanViewportOverrides[mockViewport],
                   )}
                 >
                   <Image
@@ -302,8 +345,12 @@ export function StudioCaseStudyMockCard({
                     fill
                     sizes={
                       mockViewport === "portrait"
-                        ? "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
-                        : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
+                        ? span === "full"
+                          ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
+                          : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
+                        : span === "full"
+                          ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
+                          : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
                     }
                     className={cn(
                       viewportStyles.imageClassName,

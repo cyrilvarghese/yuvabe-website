@@ -292,7 +292,7 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
     media: <CaseStudyIcon icon={Bot} />,
     mockImageSrc: "/assets/tvam_cover.jpeg",
     mockImageAlt: "TVAM case study cover",
-    mockViewport: "landscape",
+    mockViewport: "portrait",
     mockVariant: "aurora",
     mockLayout: "feature",
     modalIntro:
@@ -340,7 +340,7 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
     media: <CaseStudyIcon icon={Sparkles} />,
     mockImageSrc: "/assets/KK-cover.png",
     mockImageAlt: "KittyKat AI fashion workflow cover",
-    mockViewport: "portrait",
+    mockViewport: "landscape",
     mockVariant: "sunrise",
     mockLayout: "feature",
     modalIntro:

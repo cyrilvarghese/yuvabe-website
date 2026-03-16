@@ -60,7 +60,8 @@ export function StudioCaseStudies() {
           </div>
 
           {/* The work grid keeps the current 2 / 2 / 1 rhythm while adding crawlable case-study links. */}
-          <div className="space-y-6 lg:px-10 xl:px-14">
+          {/* A small mobile gutter keeps the case-study cards from feeling pinned to the screen edges. */}
+          <div className="space-y-6 px-4 sm:px-0 lg:px-10 xl:px-14">
             <div className="grid gap-6 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
               {featuredCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
@@ -123,6 +124,7 @@ export function StudioCaseStudies() {
                   mockViewport={spotlightCaseStudy.mockViewport}
                   variant={spotlightCaseStudy.mockVariant}
                   layout={spotlightCaseStudy.mockLayout}
+                  span="full"
                   detailHref={getStudioCaseStudyHref(spotlightCaseStudy.id)}
                   onOpenDetails={() => handleOpenCaseStudy(spotlightCaseStudy)}
                 />

@@ -104,7 +104,7 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
     services: ["Positioning", "UX/UI", "Brand system"],
     mockImageSrc: "/assets/GA_cover.png",
     mockImageAlt: "General Aeronautics mobile product mock",
-    mockViewport: "landscape",
+    mockViewport: "portrait",
     mockVariant: "aurora",
     modalIntro:
       "General Aeronautics builds drone systems across agriculture, defense, humanitarian response, and warehouse automation. As the business expanded, its digital presence needed to explain that breadth with more clarity, confidence, and usability.",
@@ -292,7 +292,7 @@ export const studioCaseStudies: StudioCaseStudySummary[] = [
     media: <CaseStudyIcon icon={Bot} />,
     mockImageSrc: "/assets/tvam_cover.jpeg",
     mockImageAlt: "TVAM case study cover",
-    mockViewport: "portrait",
+    mockViewport: "landscape",
     mockVariant: "aurora",
     mockLayout: "feature",
     modalIntro:

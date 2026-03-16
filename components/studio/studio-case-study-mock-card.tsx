@@ -2,8 +2,7 @@
 
 import { useRef, type PointerEvent } from "react";
 import Image from "next/image";
-import Link from "next/link";
-import { ArrowUpRight, Maximize2 } from "lucide-react";
+import { Maximize2 } from "lucide-react";
 import {
   motion,
   useMotionTemplate,
@@ -16,6 +15,7 @@ import {
   PremiumSurface,
   type PremiumSurfaceProps,
 } from "@/components/ui/premium-surface";
+import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
@@ -148,6 +148,14 @@ const fullSpanViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
   landscape: "md:h-[260px] md:w-[420px] lg:h-[320px] lg:w-[540px]",
 };
 
+function normalizeServiceLabel(service: string) {
+  if (service === "Brand system") {
+    return "Branding";
+  }
+
+  return service;
+}
+
 export type StudioCaseStudyMockCardProps = {
   sector: string;
   title: string;
@@ -200,7 +208,7 @@ export function StudioCaseStudyMockCard({
   const variantStyles = mockCardVariantStyles[variant];
   const layoutStyles = mockCardLayoutStyles[layout];
   const viewportStyles = mockViewportStyles[mockViewport];
-  const serviceLabel = services.join(" / ");
+  const serviceTags = services.map(normalizeServiceLabel);
   const canOpenDetails = Boolean(onOpenDetails);
 
   function handleOpenDetails() {
@@ -363,44 +371,21 @@ export function StudioCaseStudyMockCard({
               </motion.div>
             </div>
 
-            <PremiumSurface
-              tone="neutral"
-              elevation="sm"
-              blur="none"
-              radius="lg"
+            {/* The service footer turns each capability into centered proof tags without adding a second CTA. */}
+            <div
               className={cn(
-                "mx-auto flex w-full items-center justify-between gap-3 border-white/70 bg-white/88 px-4 py-3 shadow-[0_16px_40px_rgba(15,23,42,0.08)] transition-[transform,box-shadow] duration-300 ease-out group-hover:-translate-y-0.5 group-hover:shadow-[0_22px_54px_rgba(15,23,42,0.12)]",
+                "mx-auto flex w-full justify-center",
                 layoutStyles.footerClassName,
               )}
             >
-              <p className="text-body-sm text-[var(--color-text-secondary)]">
-                {serviceLabel}
-              </p>
-              {detailHref ? (
-                <Link
-                  href={detailHref}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                  }}
-                  className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-full",
-                    variantStyles.iconAccentClassName,
-                  )}
-                  aria-label={`Read ${title} case study page`}
-                >
-                  <ArrowUpRight className="size-4" />
-                </Link>
-              ) : (
-                <span
-                  className={cn(
-                    "flex size-8 shrink-0 items-center justify-center rounded-full",
-                    variantStyles.iconAccentClassName,
-                  )}
-                >
-                  <ArrowUpRight className="size-4" />
-                </span>
-              )}
-            </PremiumSurface>
+              <div className="flex flex-wrap justify-center gap-2">
+                {serviceTags.map((service) => (
+                  <Badge key={`${title}-${service}`} variant="service">
+                    {service}
+                  </Badge>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </PremiumSurface>

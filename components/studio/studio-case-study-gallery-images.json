@@ -3,16 +3,20 @@
     "badgeLabel": "Drones",
     "images": [
       {
-        "src": "/assets/GA_cover.png",
-        "alt": "General Aeronautics mobile product mock."
+        "src": "/assets/general-aeronautics/positioning.png",
+        "alt": "General Aeronautics positioning-led homepage view."
       },
       {
-        "src": "/assets/GA_bg.png",
-        "alt": "General Aeronautics interface background treatment."
+        "src": "/assets/general-aeronautics/product-com.png",
+        "alt": "General Aeronautics product communication system."
       },
       {
-        "src": "/assets/general-aeronautics.svg",
-        "alt": "General Aeronautics brand mark."
+        "src": "/assets/general-aeronautics/interface.png",
+        "alt": "General Aeronautics application UX direction."
+      },
+      {
+        "src": "/assets/general-aeronautics/content.png",
+        "alt": "General Aeronautics content and campaign assets."
       }
     ]
   },

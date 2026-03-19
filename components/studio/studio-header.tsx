@@ -3,15 +3,19 @@
 import { useEffect, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
+import Image from "next/image";
 
 import { PremiumSurface } from "@/components/ui/premium-surface";
 
 const navigationItems = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "AI-first DNA", href: "#ai-first-dna" },
+  { label: "Home", href: "/" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Careers", href: "/careers" },
+  { label: "Contact", href: "/contact" },
 ];
 
 const overlayTransition = {
@@ -38,12 +42,15 @@ function subscribe() {
   return () => {};
 }
 
-// The header keeps desktop navigation calm while letting mobile users open a full-screen overlay menu.
 export function StudioHeader() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
+  const isMounted = useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
+  const pathname = usePathname();
 
-  // Lock page scroll and flag the shell while the overlay menu is open so the background can blur and scale.
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? "hidden" : "";
     document.body.dataset.mobileNavOpen = isMenuOpen ? "true" : "false";
@@ -54,80 +61,73 @@ export function StudioHeader() {
     };
   }, [isMenuOpen]);
 
-  // Close the mobile panel after navigation so the page content regains focus immediately.
   function handleNavClick() {
     setIsMenuOpen(false);
   }
 
   const overlay = (
     <AnimatePresence>
-      {isMenuOpen ? (
+      {isMenuOpen && (
         <motion.div
           key="mobile-nav-overlay"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.22, ease: "easeOut" }}
+          transition={{ duration: 0.22 }}
           className="fixed inset-0 z-[100] lg:hidden"
         >
           <button
-            type="button"
-            aria-label="Close navigation overlay"
             onClick={handleNavClick}
-            className="absolute inset-0 h-full w-full cursor-default bg-[rgba(255,255,255,0.2)] backdrop-blur-2xl"
+            className="absolute inset-0 bg-white/20 backdrop-blur-2xl"
           />
 
-          {/* The overlay shell keeps the brand row and nav card floating above the softened page. */}
           <div className="absolute inset-0 overflow-y-auto">
-            <div className="min-h-full bg-[radial-gradient(circle_at_top,rgba(255,202,45,0.16),rgba(255,255,255,0)_34%),linear-gradient(180deg,rgba(255,255,255,0.42),rgba(255,255,255,0.22))] px-6 pb-10 pt-4">
+            <div className="min-h-full px-6 pb-10 pt-4">
+              {/* Top Row */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -14 }}
-                transition={overlayTransition}
-                className="mx-auto flex max-w-7xl items-center justify-between gap-4"
+                className="mx-auto flex max-w-7xl items-center justify-between"
               >
-                <Link
-                  href="/"
-                  className="flex min-w-0 items-center gap-3 text-[var(--neutral-950)]"
-                  onClick={handleNavClick}
-                >
-                  <span className="flex size-10 items-center justify-center rounded-full border border-white/50 bg-slate-950 text-sm font-semibold text-white shadow-[0_14px_30px_rgba(15,23,42,0.12)]">
-                    Y
-                  </span>
-                  <span className="truncate font-display text-[26px] leading-none tracking-[-0.03em] sm:text-[30px]">
-                    Yuvabe
-                  </span>
+                <Link href="/" onClick={handleNavClick}>
+                  <Image
+                    src="/assets/logo.svg"
+                    alt="Logo"
+                    width={150}
+                    height={50}
+                  />
                 </Link>
 
-                {/* The dismiss control now reuses the shared premium-surface contract instead of one-off glass styling. */}
-                <PremiumSurface asChild tone="glassSubtle" elevation="md" blur="md" radius="full">
-                  <button
-                    type="button"
-                    aria-label="Close navigation menu"
-                    onClick={handleNavClick}
-                    className="inline-flex size-11 items-center justify-center text-slate-900 transition-colors hover:border-[var(--purple-500)] hover:text-[var(--purple-500)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20 focus-visible:ring-offset-2"
-                  >
-                    <X className="size-5" />
-                  </button>
-                </PremiumSurface>
+                <button onClick={handleNavClick}>
+                  <X />
+                </button>
               </motion.div>
 
-              {/* The overlay menu uses the shared premium surface so other modal-like panels can inherit the same shell. */}
-              <PremiumSurface asChild tone="glass" elevation="lg" blur="lg" radius="xl" className="mx-auto mt-6 max-w-7xl p-3">
-                <motion.nav id="mobile-site-nav" variants={menuListVariants} initial="closed" animate="open" exit="closed">
+              {/* Menu */}
+              <PremiumSurface
+                asChild
+                tone="glass"
+                elevation="lg"
+                className="mx-auto mt-6 max-w-7xl p-3"
+              >
+                <motion.nav
+                  variants={menuListVariants}
+                  initial="closed"
+                  animate="open"
+                >
                   {navigationItems.map((item) => (
                     <motion.div key={item.label} variants={menuItemVariants}>
                       <Link
                         href={item.href}
                         onClick={handleNavClick}
-                        className="flex min-h-[5.5rem] items-center justify-between rounded-[1.25rem] px-5 py-6 text-left text-[2.25rem] leading-[0.96] tracking-[-0.04em] text-slate-900 transition-colors hover:bg-white/55 hover:text-[var(--purple-500)] touch-manipulation sm:min-h-[6rem] sm:px-6 sm:py-6 sm:text-[2.5rem]"
+                        className={`flex justify-between px-5 py-6 text-2xl rounded-xl transition ${
+                          pathname === item.href
+                            ? "bg-black text-white"
+                            : "hover:bg-gray-100"
+                        }`}
                       >
-                        <span>{item.label}</span>
-                        <span className="inline-flex items-center gap-2 text-label-lg tracking-normal text-slate-400">
-                          Go
-                          <ArrowUpRight className="size-4" />
-                        </span>
+                        {item.label}
+                        <ArrowUpRight size={18} />
                       </Link>
                     </motion.div>
                   ))}
@@ -136,59 +136,54 @@ export function StudioHeader() {
             </div>
           </div>
         </motion.div>
-      ) : null}
+      )}
     </AnimatePresence>
   );
 
   return (
     <>
-      <header className="relative z-20 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-6 py-3 md:px-10">
-          <div className="flex items-center justify-start gap-4">
-            {/* The wordmark stays compact so the mobile trigger has room on smaller screens. */}
-            <div className="flex min-w-0 items-center gap-3 sm:gap-4">
-              <Link href="/" className="flex min-w-0 items-center gap-3 text-[var(--neutral-950)]" onClick={handleNavClick}>
-                <span className="flex size-10 items-center justify-center rounded-full border border-slate-200 bg-slate-950 text-sm font-semibold text-white shadow-sm">
-                  Y
-                </span>
-                <span className="truncate font-display text-[26px] leading-none tracking-[-0.03em] sm:text-[30px] md:text-[32px]">
-                  Yuvabe
-                </span>
+      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
+          {/* Logo */}
+          <Link href="/">
+            <Image
+              src="/assets/logo.svg"
+              alt="Logo"
+              width={180}
+              height={60}
+              className="w-[150px]"
+              priority
+            />
+          </Link>
+
+          {/* Desktop Nav */}
+          <nav className="hidden lg:flex items-center gap-4">
+            {navigationItems.map((item) => (
+              <Link
+                key={item.label}
+                href={item.href}
+                className={`px-3 py-1.5 rounded-md text-sm transition ${
+                  pathname === item.href
+                    ? "bg-black text-white"
+                    : "hover:bg-gray-200"
+                }`}
+              >
+                {item.label}
               </Link>
-              <span className="hidden h-9 w-px bg-slate-200 lg:block" />
-            </div>
+            ))}
+          </nav>
 
-            {/* Desktop navigation stays persistent once there is enough horizontal room. */}
-            <nav className="hidden items-center gap-8 lg:flex">
-              {navigationItems.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className="text-label-lg text-slate-800 transition-colors hover:text-[var(--purple-500)]"
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </nav>
-
-            {/* The mobile trigger opens a fixed overlay instead of pushing page content down. */}
-            <button
-              type="button"
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-site-nav"
-              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              onClick={() => setIsMenuOpen((open) => !open)}
-              className="inline-flex size-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition-colors hover:border-[var(--purple-500)] hover:text-[var(--purple-500)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20 focus-visible:ring-offset-2 lg:hidden"
-            >
-              {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
-          </div>
+          {/* Mobile Button */}
+          <button
+            onClick={() => setIsMenuOpen(!isMenuOpen)}
+            className="lg:hidden"
+          >
+            {isMenuOpen ? <X /> : <Menu />}
+          </button>
         </div>
       </header>
 
-      {isMounted ? createPortal(overlay, document.body) : null}
+      {isMounted && createPortal(overlay, document.body)}
     </>
   );
 }
-
-

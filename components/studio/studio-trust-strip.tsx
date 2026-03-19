@@ -1,31 +1,26 @@
-﻿import {
-  Building2,
-  Coins,
-  CreditCard,
-  Globe,
-  Package,
-  Rocket,
-  Search,
-  ShoppingBag,
-  Smartphone,
-  Tv,
-  Users,
-  type LucideIcon,
-} from "lucide-react";
+import Image from "next/image";
 
-const companyLogos = [
-  { name: "Coinbase", Icon: Coins },
-  { name: "Brex", Icon: Rocket },
-  { name: "Airbnb", Icon: Building2 },
-  { name: "DoorDash", Icon: ShoppingBag },
-  { name: "Dropbox", Icon: Package },
-  { name: "Instacart", Icon: ShoppingBag },
-  { name: "Reddit", Icon: Users },
-  { name: "Stripe", Icon: CreditCard },
-  { name: "Twitch", Icon: Tv },
-  { name: "Cruise", Icon: Globe },
-  { name: "Apple", Icon: Smartphone },
-  { name: "Google", Icon: Search },
+const clients = [
+  { name: "General Aeronautics", src: "/logos/general-aeronautics.svg" },
+  { name: "Bevolve AI", src: "/logos/bevolve-ai.svg" },
+  { name: "tvam", src: "/logos/tvam.svg" },
+  { name: "KittyKat", src: "/logos/kittykat.svg" },
+  { name: "AgeShift", src: "/logos/ageshift.svg" },
+  { name: "Quilt.ai", src: "/logos/quilt.ai.svg" },
+  { name: "NSF", src: "/logos/nsf.svg" },
+  { name: "Startup-O", src: "/logos/startup-o.svg" },
+  { name: "BMH", src: "/logos/bmh.svg" },
+  { name: "Indic", src: "/logos/indic.svg" },
+  { name: "Hemplanet", src: "/logos/hemplanet.svg" },
+  { name: "Maatram", src: "/logos/maatram.svg" },
+  { name: "Matrimandir", src: "/logos/matrimandir.svg" },
+  { name: "Prakriti Sattva", src: "/logos/prakriti-sattva.svg" },
+  { name: "Rangsutra", src: "/logos/rangsutra.svg" },
+  { name: "Shraddha Yoga", src: "/logos/shraddha-yoga.svg" },
+  { name: "Solitude Farm", src: "/logos/solitude-farm.svg" },
+  { name: "Buglerock", src: "/logos/buglerock.svg" },
+  { name: "AV Marathon", src: "/logos/av-marathon.svg" },
+  { name: "CAT", src: "/logos/cat.svg" },
 ];
 
 // The frame guides keep the hero background and strip edges aligned to the same centered rail.
@@ -38,32 +33,28 @@ export function StudioTrustStripGuides() {
   );
 }
 
-type TrustStripLogoProps = {
-  name: string;
-  Icon: LucideIcon;
-};
-
-// Each logo item uses one shared contract so both marquee groups render identically.
-function TrustStripLogo({ name, Icon }: TrustStripLogoProps) {
-  return (
-    <span className="inline-flex flex-none items-center gap-1.5 whitespace-nowrap text-label-lg text-slate-400/90 sm:text-heading-sm">
-      <Icon className="size-5 stroke-[1.8]" />
-      {name}
-    </span>
-  );
-}
-
 type TrustStripGroupProps = {
   groupKey: string;
   ariaHidden?: boolean;
 };
 
-// Each repeated group stays isolated so the marquee loop can duplicate content without layout drift.
 function TrustStripGroup({ groupKey, ariaHidden = false }: TrustStripGroupProps) {
   return (
-    <div aria-hidden={ariaHidden || undefined} className="marquee-group">
-      {companyLogos.map(({ name, Icon }) => (
-        <TrustStripLogo key={`${groupKey}-${name}`} name={name} Icon={Icon} />
+    <div aria-hidden={ariaHidden ? "true" : undefined} className="marquee-group">
+      {clients.map(({ name, src }) => (
+        <span
+          key={`${groupKey}-${name}`}
+          className="inline-flex flex-none items-center"
+        >
+          <Image
+            src={src}
+            alt={name}
+            width={120}
+            height={36}
+            unoptimized
+            className="h-7 w-auto object-contain opacity-60 grayscale transition-opacity duration-200 hover:opacity-90"
+          />
+        </span>
       ))}
     </div>
   );
@@ -73,18 +64,17 @@ type TrustStripMaskProps = {
   side: "left" | "right";
 };
 
-// The masks create the edge fade while keeping the strip background tone consistent.
 function TrustStripMask({ side }: TrustStripMaskProps) {
   const sideClass = side === "left" ? "left-0" : "right-0";
   const gradientClass =
     side === "left"
-      ? "bg-[linear-gradient(to_right,rgba(255,255,255,0.84),rgba(255,255,255,0))]"
-      : "bg-[linear-gradient(to_left,rgba(255,255,255,0.84),rgba(255,255,255,0))]";
+      ? "bg-[linear-gradient(to_right,rgba(255,255,255,0.92),rgba(255,255,255,0))]"
+      : "bg-[linear-gradient(to_left,rgba(255,255,255,0.92),rgba(255,255,255,0))]";
 
   return (
     <div
       aria-hidden="true"
-      className={`pointer-events-none absolute inset-y-0 ${sideClass} z-10 w-20 md:w-28 ${gradientClass}`}
+      className={`pointer-events-none absolute inset-y-0 ${sideClass} z-10 w-24 md:w-32 ${gradientClass}`}
     />
   );
 }
@@ -93,7 +83,6 @@ type TrustStripDividerProps = {
   side: "left" | "right";
 };
 
-// The dividers mark the visible frame edge before the logos slide under the fade.
 function TrustStripDivider({ side }: TrustStripDividerProps) {
   const sideClass = side === "left" ? "left-0" : "right-0";
 
@@ -105,21 +94,25 @@ function TrustStripDivider({ side }: TrustStripDividerProps) {
   );
 }
 
-// The trust strip stays modular so the hero can reuse the same edge system and marquee structure.
 export function StudioTrustStrip() {
   return (
     <div className="relative z-10 mt-10 border-y border-slate-200/70 bg-white/80 backdrop-blur-sm">
+      {/* Section title */}
+      <div className="pt-8 text-center">
+        <p className="text-label-sm uppercase tracking-[0.22em] text-(--color-text-tertiary)">
+          Clients We&rsquo;re Proud to Work With
+        </p>
+      </div>
+
       <div className="relative mx-auto max-w-7xl px-6 md:px-0">
-        {/* The viewport owns the clipping so the dividers and masks stay locked to the same edge. */}
         <div className="relative overflow-hidden">
           <TrustStripMask side="left" />
           <TrustStripMask side="right" />
           <TrustStripDivider side="left" />
           <TrustStripDivider side="right" />
 
-          {/* The duplicated groups keep the marquee loop seamless across the strip width. */}
           <div className="marquee-viewport">
-            <div className="marquee-track py-8">
+            <div className="marquee-track py-7">
               <TrustStripGroup groupKey="primary" />
               <TrustStripGroup groupKey="duplicate" ariaHidden />
             </div>
@@ -129,6 +122,3 @@ export function StudioTrustStrip() {
     </div>
   );
 }
-
-
-

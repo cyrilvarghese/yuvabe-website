@@ -2,8 +2,8 @@
 
 :root {
   /* Local fallback font variables keep the system buildable without network font fetches. */
-  --font-geist-sans: Arial, Helvetica, sans-serif;
-  --font-geist-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+    --font-sans: var(--font-gilroy);
+  --font-display: var(--font-clash);
 
   /* Primitive brand palette tokens from the spec. */
   --purple-500: #5829c7;
@@ -67,22 +67,22 @@
   --color-highlight-glass-panel-subtle: rgb(255 255 255 / 0.34);
   --gradient-premium-billing-aurora:
     radial-gradient(122% 78% at 50% 16%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.97) 26%, rgba(255, 255, 255, 0.84) 42%, rgba(255, 255, 255, 0.12) 62%, rgba(255, 255, 255, 0) 100%),
-    radial-gradient(84% 62% at 12% 78%, color-mix(in srgb, var(--yellow-500) 82%, white) 0%, color-mix(in srgb, var(--orange-500) 66%, white) 24%, rgba(249, 169, 31, 0.3) 48%, rgba(249, 169, 31, 0) 72%),
-    radial-gradient(80% 62% at 52% 94%, color-mix(in srgb, var(--lavender-500) 64%, white) 0%, color-mix(in srgb, var(--purple-500) 52%, white) 30%, rgba(88, 41, 199, 0.34) 56%, rgba(88, 41, 199, 0) 78%),
-    radial-gradient(76% 58% at 90% 92%, color-mix(in srgb, var(--purple-500) 46%, white) 0%, color-mix(in srgb, var(--cyan-200) 64%, var(--purple-500)) 30%, rgba(43, 183, 199, 0.24) 56%, rgba(43, 183, 199, 0) 78%),
-    linear-gradient(180deg, #fffdfa 0%, #ffffff 22%, #fff9ef 50%, #efe7ff 100%);
+    radial-gradient(84% 62% at 12% 78%, color-mix(in srgb, var(--lavender-500) 32%, white) 0%, color-mix(in srgb, var(--lavender-200) 44%, white) 24%, rgba(150, 136, 192, 0.12) 48%, rgba(150, 136, 192, 0) 72%),
+    radial-gradient(80% 62% at 52% 94%, color-mix(in srgb, var(--lavender-200) 42%, white) 0%, color-mix(in srgb, var(--purple-500) 20%, white) 30%, rgba(88, 41, 199, 0.12) 56%, rgba(88, 41, 199, 0) 78%),
+    radial-gradient(76% 58% at 90% 92%, color-mix(in srgb, var(--lavender-500) 26%, white) 0%, color-mix(in srgb, var(--lavender-200) 38%, white) 30%, rgba(150, 136, 192, 0.09) 56%, rgba(150, 136, 192, 0) 78%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 22%, #faf8ff 50%, #f3eeff 100%);
   --gradient-premium-billing-sunrise:
     radial-gradient(118% 78% at 50% 14%, rgba(255, 255, 255, 0.99) 0%, rgba(255, 255, 255, 0.96) 24%, rgba(255, 255, 255, 0.8) 42%, rgba(255, 255, 255, 0.12) 62%, rgba(255, 255, 255, 0) 100%),
-    radial-gradient(88% 64% at 14% 84%, color-mix(in srgb, var(--yellow-500) 88%, white) 0%, color-mix(in srgb, var(--orange-500) 78%, white) 24%, rgba(240, 78, 40, 0.34) 52%, rgba(240, 78, 40, 0) 76%),
-    radial-gradient(72% 56% at 52% 96%, color-mix(in srgb, var(--orange-200) 90%, white) 0%, color-mix(in srgb, var(--peach-200) 82%, white) 30%, rgba(247, 167, 147, 0.32) 56%, rgba(247, 167, 147, 0) 78%),
-    radial-gradient(72% 56% at 92% 92%, color-mix(in srgb, var(--lavender-500) 52%, white) 0%, color-mix(in srgb, var(--purple-500) 34%, white) 32%, rgba(88, 41, 199, 0.22) 58%, rgba(88, 41, 199, 0) 80%),
-    linear-gradient(180deg, #fffefb 0%, #fffdf9 22%, #fff5e6 48%, #f7eaff 100%);
+    radial-gradient(88% 64% at 14% 84%, color-mix(in srgb, var(--lavender-200) 48%, white) 0%, color-mix(in srgb, var(--lavender-500) 30%, white) 24%, rgba(150, 136, 192, 0.14) 52%, rgba(150, 136, 192, 0) 76%),
+    radial-gradient(72% 56% at 52% 96%, color-mix(in srgb, var(--lavender-200) 40%, white) 0%, color-mix(in srgb, var(--purple-500) 18%, white) 30%, rgba(88, 41, 199, 0.10) 56%, rgba(88, 41, 199, 0) 78%),
+    radial-gradient(72% 56% at 92% 92%, color-mix(in srgb, var(--lavender-500) 24%, white) 0%, color-mix(in srgb, var(--lavender-200) 32%, white) 32%, rgba(150, 136, 192, 0.08) 58%, rgba(150, 136, 192, 0) 80%),
+    linear-gradient(180deg, #ffffff 0%, #ffffff 22%, #fdf9ff 48%, #f3eeff 100%);
   --gradient-premium-billing-prism:
     radial-gradient(120% 80% at 50% 15%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.96) 24%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.14) 62%, rgba(255, 255, 255, 0) 100%),
-    radial-gradient(82% 60% at 12% 82%, color-mix(in srgb, var(--cyan-200) 92%, white) 0%, color-mix(in srgb, var(--cyan-500) 52%, white) 28%, rgba(43, 183, 199, 0.32) 54%, rgba(43, 183, 199, 0) 78%),
-    radial-gradient(72% 58% at 52% 96%, color-mix(in srgb, var(--lavender-500) 68%, white) 0%, color-mix(in srgb, var(--purple-500) 58%, white) 30%, rgba(88, 41, 199, 0.34) 58%, rgba(88, 41, 199, 0) 80%),
-    radial-gradient(76% 54% at 92% 84%, color-mix(in srgb, var(--yellow-500) 72%, white) 0%, color-mix(in srgb, var(--orange-200) 80%, white) 26%, rgba(255, 202, 45, 0.24) 52%, rgba(255, 202, 45, 0) 76%),
-    linear-gradient(180deg, #fbfdff 0%, #ffffff 22%, #eef9ff 48%, #ede6ff 100%);
+    radial-gradient(82% 60% at 12% 82%, color-mix(in srgb, var(--lavender-200) 50%, white) 0%, color-mix(in srgb, var(--purple-500) 22%, white) 28%, rgba(88, 41, 199, 0.12) 54%, rgba(88, 41, 199, 0) 78%),
+    radial-gradient(72% 58% at 52% 96%, color-mix(in srgb, var(--lavender-500) 38%, white) 0%, color-mix(in srgb, var(--purple-500) 26%, white) 30%, rgba(88, 41, 199, 0.13) 58%, rgba(88, 41, 199, 0) 80%),
+    radial-gradient(76% 54% at 92% 84%, color-mix(in srgb, var(--lavender-200) 44%, white) 0%, color-mix(in srgb, var(--lavender-500) 30%, white) 26%, rgba(150, 136, 192, 0.10) 52%, rgba(150, 136, 192, 0) 76%),
+    linear-gradient(180deg, #fbfaff 0%, #ffffff 22%, #f6f2ff 48%, #ede6ff 100%);
   --color-border-default: var(--neutral-200);
   --color-border-strong: var(--neutral-300);
   --color-border-brand: var(--purple-500);
@@ -139,9 +139,9 @@
   --ds-shadow-md: 0 6px 16px rgb(11 15 25 / 0.08);
   --ds-shadow-lg: 0 16px 32px rgb(11 15 25 / 0.12);
 
-  /* Font family aliases leave a clean swap point for brand font assets later. */
-  --font-display-family: "Clash Display", var(--font-geist-sans), Arial, sans-serif;
-  --font-body-family: "Gilroy", var(--font-geist-sans), Arial, sans-serif;
+  /* Font family aliases: Clash Display (primary/display) and Gilroy (secondary/body). */
+  --font-display-family: var(--font-clash), system-ui, Arial, sans-serif;
+  --font-body-family: var(--font-gilroy), system-ui, Arial, sans-serif;
 
   /* Compatibility aliases preserve the current shadcn starter expectations. */
   --background: var(--color-background-canvas);
@@ -312,7 +312,7 @@ body {
 }
 
 .text-heading-sm {
-  font-family: var(--font-body-family);
+  font-family: var(--font-display-family);
   font-size: 20px;
   font-weight: 600;
   line-height: 28px;

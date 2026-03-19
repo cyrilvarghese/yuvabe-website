@@ -1,4 +1,5 @@
 import { StudioCaseStudies } from "@/components/studio/studio-case-studies";
+import { StudioFooter } from "@/components/studio/studio-footer";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { StudioHero } from "@/components/studio/studio-hero";
 
@@ -17,6 +18,7 @@ export default function Home() {
       <StudioHeader />
       <StudioHero />
       <StudioCaseStudies />
+      <StudioFooter />
     </main>
   );
 }

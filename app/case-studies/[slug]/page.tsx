@@ -12,6 +12,7 @@ import {
   resolveStudioCaseStudyDetail,
   studioCaseStudies,
 } from "@/components/studio/studio-case-study-content";
+import { StudioFooter } from "@/components/studio/studio-footer";
 import { Button } from "@/components/ui/button";
 import { getAbsoluteUrl } from "@/lib/site";
 
@@ -119,7 +120,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <div className="absolute inset-y-0 left-0 w-px bg-slate-200/80" />
           <div className="absolute inset-y-0 right-0 w-px bg-slate-200/80" />
         </div>
-        <div className="absolute inset-x-0 top-0 h-[28rem] bg-[radial-gradient(circle_at_top,rgba(255,202,45,0.12),rgba(255,255,255,0)_42%),radial-gradient(circle_at_20%_22%,rgba(88,41,199,0.11),rgba(255,255,255,0)_30%)]" />
+        <div className="absolute inset-x-0 top-0 h-112 bg-[radial-gradient(circle_at_top,rgba(255,202,45,0.12),rgba(255,255,255,0)_42%),radial-gradient(circle_at_20%_22%,rgba(88,41,199,0.11),rgba(255,255,255,0)_30%)]" />
       </div>
 
       {/* The route header keeps the user close to home and the primary founder CTA. */}
@@ -177,6 +178,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           </div>
         </section>
       </article>
+      <StudioFooter />
     </main>
   );
 }

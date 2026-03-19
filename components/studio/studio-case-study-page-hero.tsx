@@ -109,9 +109,9 @@ export function StudioCaseStudyPageHero({
                     <div className="absolute inset-x-[-12%] bottom-[-8%] h-[38%] bg-[radial-gradient(circle,rgba(88,41,199,0.22),rgba(88,41,199,0)_62%)] blur-3xl" />
                     <div className="absolute right-[-4%] top-[-6%] h-[30%] w-[30%] bg-[radial-gradient(circle,rgba(255,202,45,0.26),rgba(255,202,45,0)_70%)] blur-3xl" />
                     <div className="relative aspect-[1.1/1] overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/80">
-                      {caseStudy.mockImageSrc ? (
+                      {(caseStudy.heroImageSrc ?? caseStudy.mockImageSrc) ? (
                         <Image
-                          src={caseStudy.mockImageSrc}
+                          src={caseStudy.heroImageSrc ?? caseStudy.mockImageSrc!}
                           alt={
                             caseStudy.mockImageAlt ??
                             `${caseStudy.title} case study visual`

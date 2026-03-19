@@ -71,6 +71,8 @@ export type StudioCaseStudySummary = {
   media: ReactNode;
   mockImageSrc?: string;
   mockImageAlt?: string;
+  heroImageSrc?: string;
+  detailImageSrc?: string;
   mockVariant?: StudioCaseStudyMockVariant;
   mockLayout?: StudioCaseStudyMockCardLayout;
   mockViewport?: StudioCaseStudyMockViewport;
@@ -116,7 +118,7 @@ const caseStudyIcons: Record<StudioCaseStudyIconKey, LucideIcon> = {
 
 function CaseStudyIcon({ icon: Icon }: { icon: LucideIcon }) {
   return (
-    <Icon className="size-24 stroke-[1.4] text-[color:color-mix(in_srgb,var(--neutral-700)_82%,var(--lavender-500)_18%)]" />
+    <Icon className="size-24 stroke-[1.4] text-[color-mix(in_srgb,var(--neutral-700)_82%,var(--lavender-500)_18%)]" />
   );
 }
 

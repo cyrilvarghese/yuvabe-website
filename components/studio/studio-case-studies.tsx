@@ -16,8 +16,11 @@ export function StudioCaseStudies() {
     useState<StudioCaseStudySummary | null>(null);
   const [isCaseStudyDialogOpen, setIsCaseStudyDialogOpen] = useState(false);
   const featuredCaseStudies = homepageCaseStudies.slice(0, 2);
-  const secondaryCaseStudies = homepageCaseStudies.slice(2, 4);
-  const spotlightCaseStudy = homepageCaseStudies[4];
+  const threeCardStudies = [
+    homepageCaseStudies[2], // TVAM
+    homepageCaseStudies[4], // AgeShift
+    homepageCaseStudies[3], // KittyKat
+  ].filter(Boolean);
 
   // Keeping the selected study in parent state lets the modal animate out before content is cleared.
   function handleOpenCaseStudy(caseStudy: StudioCaseStudySummary) {
@@ -29,7 +32,7 @@ export function StudioCaseStudies() {
     <>
       <section
         id="work"
-        className="relative overflow-hidden bg-white px-6 py-10 md:px-10 md:py-2"
+        className="ds-surface-billing-aurora relative overflow-hidden px-6 py-10 md:px-10 md:py-2"
       >
         {/* The section background extends the hero's light grid so the frame line continues below the fold. */}
         <div aria-hidden="true" className="absolute inset-0">
@@ -59,10 +62,9 @@ export function StudioCaseStudies() {
             </p>
           </div>
 
-          {/* The work grid keeps the current 2 / 2 / 1 rhythm while adding crawlable case-study links. */}
-          {/* A small mobile gutter keeps the case-study cards from feeling pinned to the screen edges. */}
+          {/* Row 1: 2 equal columns. Row 2: 3 equal compact columns. */}
           <div className="space-y-6 px-4 sm:px-0 lg:px-10 xl:px-14">
-            <div className="grid gap-6 xl:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+            <div className="grid gap-6 xl:grid-cols-2">
               {featuredCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}
@@ -70,7 +72,7 @@ export function StudioCaseStudies() {
                   title={caseStudy.title}
                   summary={caseStudy.summary}
                   services={caseStudy.services}
-                  imageSrc={caseStudy.mockImageSrc ?? "/assets/GA_cover.png"}
+                  imageSrc={caseStudy.mockImageSrc ?? "/assets/ga-image.png"}
                   imageAlt={
                     caseStudy.mockImageAlt ??
                     `${caseStudy.title} case study mock`
@@ -85,8 +87,8 @@ export function StudioCaseStudies() {
               ))}
             </div>
 
-            <div className="grid gap-6 xl:grid-cols-2">
-              {secondaryCaseStudies.map((caseStudy) => (
+            <div className="grid gap-6 xl:grid-cols-3">
+              {threeCardStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}
                   sector={caseStudy.sector}
@@ -101,35 +103,12 @@ export function StudioCaseStudies() {
                   imageClassName={caseStudy.mockImageClassName}
                   mockViewport={caseStudy.mockViewport}
                   variant={caseStudy.mockVariant}
-                  layout={caseStudy.mockLayout}
+                  layout="compact"
                   detailHref={getStudioCaseStudyHref(caseStudy.id)}
                   onOpenDetails={() => handleOpenCaseStudy(caseStudy)}
                 />
               ))}
             </div>
-
-            {spotlightCaseStudy ? (
-              <div className="grid gap-6">
-                <StudioCaseStudyMockCard
-                  sector={spotlightCaseStudy.sector}
-                  title={spotlightCaseStudy.title}
-                  summary={spotlightCaseStudy.summary}
-                  services={spotlightCaseStudy.services}
-                  imageSrc={spotlightCaseStudy.mockImageSrc ?? "/assets/GA_cover.png"}
-                  imageAlt={
-                    spotlightCaseStudy.mockImageAlt ??
-                    `${spotlightCaseStudy.title} case study mock`
-                  }
-                  imageClassName={spotlightCaseStudy.mockImageClassName}
-                  mockViewport={spotlightCaseStudy.mockViewport}
-                  variant={spotlightCaseStudy.mockVariant}
-                  layout={spotlightCaseStudy.mockLayout}
-                  span="full"
-                  detailHref={getStudioCaseStudyHref(spotlightCaseStudy.id)}
-                  onOpenDetails={() => handleOpenCaseStudy(spotlightCaseStudy)}
-                />
-              </div>
-            ) : null}
           </div>
         </div>
       </section>

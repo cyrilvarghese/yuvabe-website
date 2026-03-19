@@ -93,9 +93,9 @@ const mockCardLayoutStyles: Record<
     footerClassName: "max-w-none",
     imageClassName: "h-[11rem] sm:h-[12rem]",
     imageStageClassName:
-      "min-h-[180px] px-1 pb-1 pt-1 sm:min-h-[220px] sm:px-2 sm:pt-2 md:min-h-[250px] md:px-2 md:pt-4 lg:px-3",
+      "min-h-[280px] px-1 pb-1 pt-1 sm:min-h-[320px] sm:px-2 sm:pt-2 md:min-h-[340px] md:px-2 md:pt-4 lg:px-3",
     mediaGroupClassName: "space-y-3 md:mt-auto md:space-y-4",
-    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[520px]",
+    shellClassName: "h-full min-h-[560px] px-5 py-5 sm:p-5 md:p-5 lg:p-6",
     summaryClassName:
       "max-w-[30ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-sm text-foreground",
@@ -270,9 +270,9 @@ export function StudioCaseStudyMockCard({
       >
         <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden rounded-[inherit]">
           <div className="absolute inset-x-[12%] top-[12%] h-[24%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.96)_0%,rgba(255,255,255,0.5)_42%,transparent_76%)] blur-3xl" />
-          <div className="absolute -left-[14%] bottom-[14%] h-[38%] w-[42%] rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.44)_0%,rgba(249,169,31,0.26)_40%,transparent_76%)] blur-3xl" />
-          <div className="absolute left-[20%] right-[18%] bottom-[-6%] h-[42%] rounded-full bg-[radial-gradient(circle,rgba(168,85,247,0.48)_0%,rgba(139,92,246,0.26)_38%,transparent_76%)] blur-3xl" />
-          <div className="absolute -right-[10%] bottom-[8%] h-[34%] w-[36%] rounded-full bg-[radial-gradient(circle,rgba(96,165,250,0.34)_0%,rgba(43,183,199,0.18)_40%,transparent_74%)] blur-3xl" />
+          <div className="absolute -left-[14%] bottom-[14%] h-[38%] w-[42%] rounded-full bg-[radial-gradient(circle,rgba(203,195,223,0.40)_0%,rgba(150,136,192,0.22)_40%,transparent_76%)] blur-3xl" />
+          <div className="absolute left-[20%] right-[18%] bottom-[-6%] h-[42%] rounded-full bg-[radial-gradient(circle,rgba(150,136,192,0.38)_0%,rgba(88,41,199,0.18)_38%,transparent_76%)] blur-3xl" />
+          <div className="absolute -right-[10%] bottom-[8%] h-[34%] w-[36%] rounded-full bg-[radial-gradient(circle,rgba(203,195,223,0.30)_0%,rgba(150,136,192,0.14)_40%,transparent_74%)] blur-3xl" />
         </div>
 
         <div className={cn("relative z-10 flex h-full flex-col", layoutStyles.bodyClassName)}>
@@ -311,81 +311,67 @@ export function StudioCaseStudyMockCard({
             </div>
           </div>
 
-          {/* The media group uses tighter mobile spacing, then restores the desktop push-down behavior from md upward. */}
+          {/* Service tags positioned above the image */}
+          <div className="flex flex-wrap gap-2">
+            {serviceTags.map((service) => (
+              <Badge key={`${title}-${service}`} variant="service">
+                {service}
+              </Badge>
+            ))}
+          </div>
+
+          {/* Image stage pushed to the bottom of the card */}
           <div
             className={cn(
-              layoutStyles.mediaGroupClassName,
-              span === "full" && "md:mt-0",
+              "mt-auto flex items-end justify-center [perspective:1400px]",
+              layoutStyles.imageStageClassName,
+              span === "full" && fullSpanImageStageOverrides[layout],
             )}
           >
-            <div
+            <motion.div
+              ref={mockRef}
+              onPointerMove={handleMockPointerMove}
+              onPointerLeave={handleMockPointerLeave}
+              style={
+                shouldReduceMotion
+                  ? undefined
+                  : { transformStyle: "preserve-3d", transform }
+              }
               className={cn(
-                "flex items-end justify-center [perspective:1400px]",
-                layoutStyles.imageStageClassName,
-                span === "full" && fullSpanImageStageOverrides[layout],
+                variantStyles.mockFrameClassName,
+                "relative max-w-[560px] transition-[box-shadow] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
+                span === "full" && "max-w-[680px]",
               )}
             >
-              <motion.div
-                ref={mockRef}
-                onPointerMove={handleMockPointerMove}
-                onPointerLeave={handleMockPointerLeave}
-                style={
-                  shouldReduceMotion
-                    ? undefined
-                    : { transformStyle: "preserve-3d", transform }
-                }
+              <div
                 className={cn(
-                  variantStyles.mockFrameClassName,
-                  "relative max-w-[560px] transition-[box-shadow] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
-                  span === "full" && "max-w-[680px]",
+                  "relative overflow-hidden rounded-[1.6rem] bg-[rgba(17,24,39,0.05)]",
+                  viewportStyles.frameClassName,
+                  span === "full" && fullSpanViewportOverrides[mockViewport],
                 )}
               >
-                <div
+                <Image
+                  src={imageSrc}
+                  alt={imageAlt}
+                  fill
+                  sizes={
+                    mockViewport === "portrait"
+                      ? span === "full"
+                        ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
+                        : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
+                      : span === "full"
+                        ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
+                        : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
+                  }
                   className={cn(
-                    "relative overflow-hidden rounded-[1.6rem] bg-[rgba(17,24,39,0.05)]",
-                    viewportStyles.frameClassName,
-                    span === "full" && fullSpanViewportOverrides[mockViewport],
+                    viewportStyles.imageClassName,
+                    variantStyles.mockImageClassName,
+                    imageClassName,
                   )}
-                >
-                  <Image
-                    src={imageSrc}
-                    alt={imageAlt}
-                    fill
-                    sizes={
-                      mockViewport === "portrait"
-                        ? span === "full"
-                          ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
-                          : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
-                        : span === "full"
-                          ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
-                          : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
-                    }
-                    className={cn(
-                      viewportStyles.imageClassName,
-                      variantStyles.mockImageClassName,
-                      imageClassName,
-                    )}
-                    priority={false}
-                  />
-                </div>
-              </motion.div>
-            </div>
-
-            {/* The service footer turns each capability into centered proof tags without adding a second CTA. */}
-            <div
-              className={cn(
-                "mx-auto flex w-full justify-center",
-                layoutStyles.footerClassName,
-              )}
-            >
-              <div className="flex flex-wrap justify-center gap-2">
-                {serviceTags.map((service) => (
-                  <Badge key={`${title}-${service}`} variant="service">
-                    {service}
-                  </Badge>
-                ))}
+                  priority={false}
+                />
               </div>
-            </div>
+            </motion.div>
           </div>
         </div>
       </PremiumSurface>

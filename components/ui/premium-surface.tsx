@@ -7,6 +7,8 @@ import { cn } from "@/lib/utils";
 const premiumSurfaceVariants = cva("relative border text-foreground transition-[background-color,border-color,box-shadow,filter]", {
   variants: {
     tone: {
+      brandNight:
+        "isolate overflow-hidden border-[var(--color-border-brand-dark)] ds-card-brand-night text-[var(--color-text-inverse)] before:pointer-events-none before:absolute before:left-[-14%] before:top-[-18%] before:h-44 before:w-44 before:rounded-full before:bg-[radial-gradient(circle,rgba(150,136,192,0.24)_0%,rgba(150,136,192,0)_72%)] before:blur-2xl after:pointer-events-none after:absolute after:inset-0 after:rounded-[inherit] after:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
       glass:
         "border-white/50 bg-[linear-gradient(180deg,rgba(255,255,255,0.64),rgba(255,255,255,0.38))]",
       glassSubtle: "border-white/50 bg-white/45",
@@ -27,6 +29,7 @@ const premiumSurfaceVariants = cva("relative border text-foreground transition-[
       neutral: "border-slate-200/80 bg-white/90",
     },
     elevation: {
+      none: "shadow-none",
       sm: "shadow-[0_12px_28px_rgba(15,23,42,0.07)]",
       md: "shadow-[0_20px_48px_rgba(15,23,42,0.08)]",
       lg: "shadow-[0_28px_80px_rgba(15,23,42,0.12)]",

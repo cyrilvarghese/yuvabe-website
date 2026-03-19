@@ -1,11 +1,27 @@
+import { getHomepageCaseStudies } from "@/components/studio/studio-case-study-content";
 import { StudioCaseStudies } from "@/components/studio/studio-case-studies";
 import { StudioFooter } from "@/components/studio/studio-footer";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { StudioHero } from "@/components/studio/studio-hero";
+import {
+  getStudioCaseStudies,
+  getStudioHomepageContent,
+} from "@/lib/studio-content";
 
-export default function Home() {
+export const dynamic = "force-dynamic";
+
+export default async function Home() {
+  const [homepageContent, caseStudies] = await Promise.all([
+    getStudioHomepageContent(),
+    getStudioCaseStudies(),
+  ]);
+  const homepageCaseStudies = getHomepageCaseStudies(caseStudies);
+
   return (
-    <main data-studio-shell className="relative min-h-screen overflow-hidden bg-white text-foreground">
+    <main
+      data-studio-shell
+      className="relative min-h-screen overflow-hidden bg-white text-foreground"
+    >
       {/* The page-level rails keep the outer frame continuous across every homepage section. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">
         <div className="absolute inset-y-0 left-1/2 hidden w-full max-w-7xl -translate-x-1/2 px-6 md:block md:px-10">
@@ -15,11 +31,19 @@ export default function Home() {
       </div>
 
       {/* The homepage starts with the Stripe-inspired hero and flows into proof. */}
+<<<<<<< HEAD
       <StudioHeader />
       <StudioHero />
       <StudioCaseStudies />
       <StudioFooter />
+=======
+      <StudioHeader navigationItems={homepageContent.navigationItems} />
+      <StudioHero content={homepageContent.hero} />
+      <StudioCaseStudies
+        caseStudies={homepageCaseStudies}
+        workContent={homepageContent.work}
+      />
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
     </main>
   );
 }
-

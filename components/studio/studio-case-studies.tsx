@@ -2,25 +2,39 @@
 
 import { useState } from "react";
 
+import type { StudioHomepageWorkContent } from "@/components/studio/studio-homepage-content";
 import { StudioCaseStudyMockCard } from "@/components/studio/studio-case-study-mock-card";
 import {
   getStudioCaseStudyHref,
-  homepageCaseStudies,
   type StudioCaseStudySummary,
 } from "@/components/studio/studio-case-study-content";
 import { StudioCaseStudySummaryDialog } from "@/components/studio/studio-case-study-summary-dialog";
 
+type StudioCaseStudiesProps = {
+  caseStudies: StudioCaseStudySummary[];
+  workContent: StudioHomepageWorkContent;
+};
+
 // The case-studies section turns named proof into a scannable homepage evidence block.
-export function StudioCaseStudies() {
+export function StudioCaseStudies({
+  caseStudies,
+  workContent,
+}: StudioCaseStudiesProps) {
   const [activeCaseStudy, setActiveCaseStudy] =
     useState<StudioCaseStudySummary | null>(null);
   const [isCaseStudyDialogOpen, setIsCaseStudyDialogOpen] = useState(false);
+<<<<<<< HEAD
   const featuredCaseStudies = homepageCaseStudies.slice(0, 2);
   const threeCardStudies = [
     homepageCaseStudies[2], // TVAM
     homepageCaseStudies[4], // AgeShift
     homepageCaseStudies[3], // KittyKat
   ].filter(Boolean);
+=======
+  const featuredCaseStudies = caseStudies.slice(0, 2);
+  const secondaryCaseStudies = caseStudies.slice(2, 4);
+  const spotlightCaseStudy = caseStudies[4];
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
 
   // Keeping the selected study in parent state lets the modal animate out before content is cleared.
   function handleOpenCaseStudy(caseStudy: StudioCaseStudySummary) {
@@ -48,17 +62,17 @@ export function StudioCaseStudies() {
           {/* The section heading uses editorial contrast with one dominant line and one quieter display block. */}
           <div className="max-w-6xl space-y-5 lg:pl-10 xl:pl-14">
             <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
-              Work
+              {workContent.eyebrow}
             </p>
             <h2 className="text-hero-support max-w-5xl text-[var(--neutral-950)]">
-              <strong>Launch faster. Reach revenue sooner.</strong>
+              <strong>{workContent.headline}</strong>
             </h2>
             <p className="text-display-muted-editorial max-w-6xl">
-              Turn roadmap bets into{" "}
+              {workContent.supportPrefix}{" "}
               <span className="text-[var(--color-text-brand)]">
-                shipped releases
+                {workContent.supportHighlight}
               </span>
-              , stronger campaigns, and compounding traction with one execution partner.
+              {workContent.supportSuffix}
             </p>
           </div>
 

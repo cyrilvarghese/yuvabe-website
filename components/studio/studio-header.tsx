@@ -8,8 +8,10 @@ import { AnimatePresence, motion } from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 import Image from "next/image";
 
+import type { StudioHomepageNavItem } from "@/components/studio/studio-homepage-content";
 import { PremiumSurface } from "@/components/ui/premium-surface";
 
+<<<<<<< HEAD
 const navigationItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -18,6 +20,8 @@ const navigationItems = [
   { label: "Contact", href: "/contact" },
 ];
 
+=======
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
 const overlayTransition = {
   duration: 0.32,
   ease: [0.22, 1, 0.36, 1] as const,
@@ -42,7 +46,16 @@ function subscribe() {
   return () => {};
 }
 
+<<<<<<< HEAD
 export function StudioHeader() {
+=======
+type StudioHeaderProps = {
+  navigationItems: StudioHomepageNavItem[];
+};
+
+// The header keeps desktop navigation calm while letting mobile users open a full-screen overlay menu.
+export function StudioHeader({ navigationItems }: StudioHeaderProps) {
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMounted = useSyncExternalStore(
     subscribe,
@@ -187,3 +200,7 @@ export function StudioHeader() {
     </>
   );
 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786

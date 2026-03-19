@@ -7,14 +7,15 @@ import { StudioCaseStudyDetail } from "@/components/studio/studio-case-study-det
 import { StudioCaseStudyOutcomesStrip } from "@/components/studio/studio-case-study-outcomes-strip";
 import { StudioCaseStudyPageHero } from "@/components/studio/studio-case-study-page-hero";
 import {
-  getStudioCaseStudyById,
   getStudioCaseStudyHref,
   resolveStudioCaseStudyDetail,
-  studioCaseStudies,
 } from "@/components/studio/studio-case-study-content";
 import { StudioFooter } from "@/components/studio/studio-footer";
 import { Button } from "@/components/ui/button";
 import { getAbsoluteUrl } from "@/lib/site";
+import { getStudioCaseStudyById } from "@/lib/studio-content";
+
+export const dynamic = "force-dynamic";
 
 type CaseStudyPageProps = {
   params: Promise<{
@@ -22,17 +23,11 @@ type CaseStudyPageProps = {
   }>;
 };
 
-export function generateStaticParams() {
-  return studioCaseStudies.map((caseStudy) => ({
-    slug: caseStudy.id,
-  }));
-}
-
 export async function generateMetadata({
   params,
 }: CaseStudyPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const caseStudy = getStudioCaseStudyById(slug);
+  const caseStudy = await getStudioCaseStudyById(slug);
 
   if (!caseStudy) {
     return {
@@ -77,7 +72,7 @@ export async function generateMetadata({
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
-  const caseStudy = getStudioCaseStudyById(slug);
+  const caseStudy = await getStudioCaseStudyById(slug);
 
   if (!caseStudy) {
     notFound();

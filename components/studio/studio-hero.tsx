@@ -1,6 +1,7 @@
-﻿import Link from "next/link";
+import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
+import type { StudioHomepageHeroContent } from "@/components/studio/studio-homepage-content";
 import { StudioHandDrawnUnderline } from "@/components/studio/studio-hand-drawn-underline";
 import {
   StudioTrustStrip,
@@ -21,8 +22,12 @@ function HeroBackground() {
   );
 }
 
+type StudioHeroProps = {
+  content: StudioHomepageHeroContent;
+};
+
 // The hero content keeps the user-provided copy intact while shifting the visual system to a Stripe-inspired light layout.
-export function StudioHero() {
+export function StudioHero({ content }: StudioHeroProps) {
   return (
     <section
       id="about"
@@ -31,35 +36,48 @@ export function StudioHero() {
       <HeroBackground />
 
       {/* The editorial content occupies the remaining viewport height after the rail is accounted for. */}
-      <div className="relative z-10 mx-auto flex w-full max-w-7xl items-start px-6 pt-10 pb-0 md:px-10 md:pt-16 md:pb-12">
+      <div className="relative z-10 mx-auto flex w-full max-w-7xl items-start px-6 pb-0 pt-10 md:px-10 md:pb-12 md:pt-16">
         <div className="grid w-full items-center gap-5 lg:grid-cols-[minmax(0,1.08fr)_minmax(320px,0.92fr)] lg:gap-7">
           {/* The left column follows Stripe's strong editorial layout with a compact badge, oversized headline, and one CTA. */}
           <div className="max-w-4xl space-y-4 lg:pl-4 xl:pl-4">
             <div id="ai-first-dna" className="max-w-5xl space-y-4">
               <h1 className="max-w-4xl text-hero-display text-[var(--neutral-950)] font-gilroy">
                 <span className="block">
-                  Build the{" "}
+                  {content.headlineIntro}{" "}
                   <span className="relative inline-block pr-[0.12em]">
-                    right
-                    <StudioHandDrawnUnderline className="-translate-y-[0.14em] -left-[0.18em] w-[1.78em]" />
+                    {content.headlineHighlight}
+                    <StudioHandDrawnUnderline className="-left-[0.18em] -translate-y-[0.14em] w-[1.78em]" />
                   </span>
                 </span>
                 <span className="relative mt-[0.06em] block w-fit pr-[0.16em]">
+<<<<<<< HEAD
                   <span>product </span>
                   <span className="text-[var(--neutral-950)]">faster.</span>
                   <StudioHandDrawnUnderline
                     delay
                     className="-translate-y-[0.14em] -left-[0.01em] w-[calc(100%+0.22rem)]"
+=======
+                  <span>{content.headlineLineTwo}</span>
+                  <StudioHandDrawnUnderline
+                    delay
+                    className="-left-[0.01em] -translate-y-[0.14em] w-[calc(100%+0.22rem)]"
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
                   />
                 </span>
               </h1>
               <p className="text-hero-support max-w-4xl text-[var(--color-text-secondary)] lg:max-w-[46rem]">
+<<<<<<< HEAD
                 <span>
                   Clarity for startups moving fast. AI-first execution
                   across{" "}
                 </span>
                 <span className="text-[var(--color-text-brand)]">
                   strategy, design, engineering, and growth marketing.
+=======
+                <span>{content.supportPrefix} </span>
+                <span className="text-[var(--color-text-brand)]">
+                  {content.supportHighlight}
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
                 </span>
               </p>
             </div>
@@ -74,8 +92,13 @@ export function StudioHero() {
                 size="lg"
                 className="w-full min-w-0 bg-[var(--purple-500)] px-7 sm:w-auto sm:min-w-[220px]"
               >
+<<<<<<< HEAD
                 <Link href="#">
                   Start Your Project
+=======
+                <Link href={content.ctaHref}>
+                  {content.ctaLabel}
+>>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
                   <ArrowRight className="size-4" />
                 </Link>
               </Button>

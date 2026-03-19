@@ -3,7 +3,33 @@ import { Bot, LayoutGrid, Sparkles } from "lucide-react";
 import { BillingSurfacePreview } from "@/app/design-system/components/billing-surface-preview";
 import { StudioCaseStudyCard } from "@/components/studio/studio-case-study-card";
 import { Badge } from "@/components/ui/badge";
+import { IllustrationCard } from "@/components/ui/illustration-card";
 import { PremiumSurface } from "@/components/ui/premium-surface";
+
+// This tiny specimen proves the shared illustration card can hold authored HTML/CSS graphics instead of screenshots.
+function IllustrationCardPreviewGraphic() {
+  return (
+    <div className="grid gap-4 sm:grid-cols-[minmax(0,1fr)_auto] sm:items-center">
+      <div className="space-y-3">
+        {["Signals", "Users", "Assumptions"].map((label) => (
+          <div
+            key={label}
+            className="rounded-full border border-[rgb(203_195_223_/_0.12)] bg-[rgb(255_255_255_/_0.04)] px-4 py-2.5 text-label-md text-[var(--color-text-inverse-muted)]"
+          >
+            {label}
+          </div>
+        ))}
+      </div>
+
+      <div className="relative mx-auto h-28 w-full max-w-[11rem] sm:w-44">
+        <div className="absolute left-0 right-8 top-1/2 h-px -translate-y-1/2 bg-[rgb(203_195_223_/_0.16)]" />
+        <div className="absolute right-0 top-1/2 flex h-20 w-24 -translate-y-1/2 items-center justify-center rounded-[1.25rem] border border-[rgb(88_41_199_/_0.4)] bg-[rgb(88_41_199_/_0.16)] px-4 text-center text-label-md text-white shadow-[0_16px_36px_rgb(88_41_199_/_0.18)]">
+          Right wedge
+        </div>
+      </div>
+    </div>
+  );
+}
 
 // This preview route documents the light case-study card and premium surface shells as part of the shared component system.
 export default function ComponentsPage() {
@@ -49,6 +75,15 @@ export default function ComponentsPage() {
               AI-first product studio for startups
             </span>
           </PremiumSurface>
+        </section>
+
+        {/* This specimen documents the reusable dark illustration card for coded founder-story visuals. */}
+        <section>
+          <IllustrationCard
+            title="Illustration card"
+            body="Use for premium dark cards that combine founder-facing copy with coded diagrams, workflows, or mini product visuals."
+            illustration={<IllustrationCardPreviewGraphic />}
+          />
         </section>
 
         {/* The frosted-glass preview documents the reusable pill and compact-panel family before it spreads to live sections. */}

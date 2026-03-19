@@ -11,17 +11,6 @@ import Image from "next/image";
 import type { StudioHomepageNavItem } from "@/components/studio/studio-homepage-content";
 import { PremiumSurface } from "@/components/ui/premium-surface";
 
-<<<<<<< HEAD
-const navigationItems = [
-  { label: "Home", href: "/" },
-  { label: "About", href: "/about" },
-  { label: "Work", href: "/work" },
-  { label: "Careers", href: "/careers" },
-  { label: "Contact", href: "/contact" },
-];
-
-=======
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
 const overlayTransition = {
   duration: 0.32,
   ease: [0.22, 1, 0.36, 1] as const,
@@ -46,16 +35,12 @@ function subscribe() {
   return () => {};
 }
 
-<<<<<<< HEAD
-export function StudioHeader() {
-=======
 type StudioHeaderProps = {
   navigationItems: StudioHomepageNavItem[];
 };
 
 // The header keeps desktop navigation calm while letting mobile users open a full-screen overlay menu.
 export function StudioHeader({ navigationItems }: StudioHeaderProps) {
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isMounted = useSyncExternalStore(
     subscribe,
@@ -90,13 +75,14 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
           className="fixed inset-0 z-[100] lg:hidden"
         >
           <button
+            type="button"
+            aria-label="Close menu"
             onClick={handleNavClick}
             className="absolute inset-0 bg-white/20 backdrop-blur-2xl"
           />
 
           <div className="absolute inset-0 overflow-y-auto">
             <div className="min-h-full px-6 pb-10 pt-4">
-              {/* Top Row */}
               <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -111,12 +97,11 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
                   />
                 </Link>
 
-                <button onClick={handleNavClick}>
+                <button type="button" aria-label="Close menu" onClick={handleNavClick}>
                   <X />
                 </button>
               </motion.div>
 
-              {/* Menu */}
               <PremiumSurface
                 asChild
                 tone="glass"
@@ -133,7 +118,7 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
                       <Link
                         href={item.href}
                         onClick={handleNavClick}
-                        className={`flex justify-between px-5 py-6 text-2xl rounded-xl transition ${
+                        className={`flex justify-between rounded-xl px-5 py-6 text-2xl transition ${
                           pathname === item.href
                             ? "bg-black text-white"
                             : "hover:bg-gray-100"
@@ -155,9 +140,8 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
 
   return (
     <>
-      <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-lg border-b">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-3 flex items-center justify-between">
-          {/* Logo */}
+      <header className="sticky top-0 z-50 border-b bg-white/80 backdrop-blur-lg">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-3 md:px-10">
           <Link href="/">
             <Image
               src="/assets/logo.svg"
@@ -169,13 +153,12 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
             />
           </Link>
 
-          {/* Desktop Nav */}
-          <nav className="hidden lg:flex items-center gap-4">
+          <nav className="hidden items-center gap-4 lg:flex">
             {navigationItems.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
-                className={`px-3 py-1.5 rounded-md text-sm transition ${
+                className={`rounded-md px-3 py-1.5 text-sm transition ${
                   pathname === item.href
                     ? "bg-black text-white"
                     : "hover:bg-gray-200"
@@ -186,8 +169,9 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
             ))}
           </nav>
 
-          {/* Mobile Button */}
           <button
+            type="button"
+            aria-label={isMenuOpen ? "Close menu" : "Open menu"}
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             className="lg:hidden"
           >
@@ -200,7 +184,3 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
     </>
   );
 }
-<<<<<<< HEAD
-=======
-
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786

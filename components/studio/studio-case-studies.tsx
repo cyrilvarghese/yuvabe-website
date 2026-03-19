@@ -23,18 +23,12 @@ export function StudioCaseStudies({
   const [activeCaseStudy, setActiveCaseStudy] =
     useState<StudioCaseStudySummary | null>(null);
   const [isCaseStudyDialogOpen, setIsCaseStudyDialogOpen] = useState(false);
-<<<<<<< HEAD
-  const featuredCaseStudies = homepageCaseStudies.slice(0, 2);
-  const threeCardStudies = [
-    homepageCaseStudies[2], // TVAM
-    homepageCaseStudies[4], // AgeShift
-    homepageCaseStudies[3], // KittyKat
-  ].filter(Boolean);
-=======
   const featuredCaseStudies = caseStudies.slice(0, 2);
-  const secondaryCaseStudies = caseStudies.slice(2, 4);
-  const spotlightCaseStudy = caseStudies[4];
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
+  const threeCardStudies = [
+    caseStudies[2], // TVAM
+    caseStudies[4], // AgeShift
+    caseStudies[3], // KittyKat
+  ].filter(Boolean);
 
   // Keeping the selected study in parent state lets the modal animate out before content is cleared.
   function handleOpenCaseStudy(caseStudy: StudioCaseStudySummary) {

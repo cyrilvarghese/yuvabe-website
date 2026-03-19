@@ -11,20 +11,12 @@
       "Content system"
     ],
     "mediaIconKey": "layoutGrid",
-<<<<<<< HEAD
     "mockImageSrc": "/assets/ga-image.png",
     "mockImageAlt": "General Aeronautics drone portfolio illustration",
     "heroImageSrc": "/assets/general-aeronautics/ga-home.png",
     "mockViewport": "landscape",
     "mockVariant": "aurora",
     "detailImageSrc": "/assets/general-aeronautics/case-breakdown.png",
-=======
-    "mockImageSrc": "/assets/GA_cover.png",
-    "mockImageAlt": "General Aeronautics mobile product mock",
-    "mockVariant": "aurora",
-    "mockViewport": "portrait",
-    "size": "feature",
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
     "modalIntro": "General Aeronautics builds drone systems across agriculture, defense, humanitarian response, and warehouse automation. As the business expanded, its digital presence needed to explain that breadth with more clarity, confidence, and usability.",
     "modalOutcomes": [
       "Reframed a broad product portfolio into a sharper market story.",

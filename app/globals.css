@@ -1,4 +1,4 @@
-﻿@import "tailwindcss";
+@import "tailwindcss";
 
 :root {
   /* Local fallback font variables keep the system buildable without network font fetches. */
@@ -83,16 +83,10 @@
     linear-gradient(180deg, #ffffff 0%, #ffffff 22%, #fdf9ff 48%, #f3eeff 100%);
   --gradient-premium-billing-prism:
     radial-gradient(120% 80% at 50% 15%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.96) 24%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.14) 62%, rgba(255, 255, 255, 0) 100%),
-<<<<<<< HEAD
     radial-gradient(82% 60% at 12% 82%, color-mix(in srgb, var(--lavender-200) 50%, white) 0%, color-mix(in srgb, var(--purple-500) 22%, white) 28%, rgba(88, 41, 199, 0.12) 54%, rgba(88, 41, 199, 0) 78%),
     radial-gradient(72% 58% at 52% 96%, color-mix(in srgb, var(--lavender-500) 38%, white) 0%, color-mix(in srgb, var(--purple-500) 26%, white) 30%, rgba(88, 41, 199, 0.13) 58%, rgba(88, 41, 199, 0) 80%),
     radial-gradient(76% 54% at 92% 84%, color-mix(in srgb, var(--lavender-200) 44%, white) 0%, color-mix(in srgb, var(--lavender-500) 30%, white) 26%, rgba(150, 136, 192, 0.10) 52%, rgba(150, 136, 192, 0) 76%),
     linear-gradient(180deg, #fbfaff 0%, #ffffff 22%, #f6f2ff 48%, #ede6ff 100%);
-=======
-    radial-gradient(82% 60% at 12% 82%, color-mix(in srgb, var(--cyan-200) 92%, white) 0%, color-mix(in srgb, var(--cyan-500) 52%, white) 28%, rgba(43, 183, 199, 0.32) 54%, rgba(43, 183, 199, 0) 78%),
-    radial-gradient(72% 58% at 52% 96%, color-mix(in srgb, var(--lavender-500) 68%, white) 0%, color-mix(in srgb, var(--purple-500) 58%, white) 30%, rgba(88, 41, 199, 0.34) 58%, rgba(88, 41, 199, 0) 80%),
-    radial-gradient(76% 54% at 92% 84%, color-mix(in srgb, var(--yellow-500) 72%, white) 0%, color-mix(in srgb, var(--orange-200) 80%, white) 26%, rgba(255, 202, 45, 0.24) 52%, rgba(255, 202, 45, 0) 76%),
-    linear-gradient(180deg, #fbfdff 0%, #ffffff 22%, #eef9ff 48%, #ede6ff 100%);
   --gradient-brand-night-section:
     radial-gradient(54% 42% at 88% 10%, rgb(150 136 192 / 0.24) 0%, rgb(150 136 192 / 0) 100%),
     radial-gradient(40% 28% at 52% 100%, rgb(255 202 45 / 0.08) 0%, rgb(255 202 45 / 0) 100%),
@@ -102,7 +96,6 @@
     linear-gradient(180deg, rgb(255 255 255 / 0.06) 0%, rgb(36 23 74 / 0.82) 100%);
   --pattern-brand-night-dots:
     radial-gradient(circle, rgb(150 136 192 / 0.24) 0 1px, transparent 1.3px);
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
   --color-border-default: var(--neutral-200);
   --color-border-strong: var(--neutral-300);
   --color-border-brand: var(--purple-500);

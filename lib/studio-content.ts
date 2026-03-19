@@ -390,6 +390,8 @@ function parseCaseStudySummary(value: unknown, label: string): StudioCaseStudySu
     ) as StudioCaseStudyIconKey,
     mockImageSrc: optionalString(value.mockImageSrc),
     mockImageAlt: optionalString(value.mockImageAlt),
+    heroImageSrc: optionalString(value.heroImageSrc),
+    detailImageSrc: optionalString(value.detailImageSrc),
     mockVariant: optionalString(value.mockVariant) as
       | StudioCaseStudySummary["mockVariant"]
       | undefined,

@@ -4,7 +4,8 @@
       "Bash(claude mcp:*)",
       "WebSearch",
       "mcp__figma-remote-mcp__get_screenshot",
-      "mcp__figma-remote-mcp__get_metadata"
+      "mcp__figma-remote-mcp__get_metadata",
+      "Bash(grep -n \"import.*StudioCaseStudyContent\\\\|from.*studio-case-study-content\" /d/work/yuvabe-website/components/studio/*.tsx)"
     ]
   }
 }

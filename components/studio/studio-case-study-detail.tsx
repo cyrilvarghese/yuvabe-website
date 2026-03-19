@@ -140,10 +140,9 @@ export function StudioCaseStudyDetail({
           radius="xl"
           className="min-h-128 overflow-visible border-white/42 bg-[linear-gradient(180deg,rgba(255,255,255,0.36),rgba(255,255,255,0.18))] p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] sm:min-h-168 sm:p-6 lg:sticky lg:top-6"
         >
-<<<<<<< HEAD
           <div className="relative flex h-full items-stretch justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:p-3">
             {caseStudy.detailImageSrc ? (
-              <div className="relative min-h-112 w-full overflow-hidden rounded-[0.75rem] sm:min-h-152">
+              <div className="relative h-112 w-full overflow-hidden rounded-[0.75rem] sm:h-152">
                 <Image
                   src={caseStudy.detailImageSrc}
                   alt={`${caseStudy.title} case breakdown`}
@@ -153,16 +152,10 @@ export function StudioCaseStudyDetail({
                 />
               </div>
             ) : (
-              <div className="relative flex h-full min-h-64 items-center justify-center p-8 text-(--neutral-700)">
+              <div className="relative flex h-full min-h-64 items-center justify-center p-8 text-[var(--neutral-700)]">
                 {caseStudy.media}
               </div>
             )}
-=======
-          <div className="relative flex h-full items-end justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:p-3">
-            <div className="relative flex h-full min-h-[16rem] items-center justify-center p-8 text-[var(--neutral-700)]">
-              <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
-            </div>
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
           </div>
         </PremiumSurface>
 

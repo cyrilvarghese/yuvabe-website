@@ -13,6 +13,8 @@ import type {
   StudioCaseStudyMockViewport,
 } from "@/components/studio/studio-case-study-mock-card";
 
+import rawStudioCaseStudies from "@/components/studio/data/studio-case-studies.json";
+
 export const studioCaseStudyIds = [
   "general-aeronautics",
   "bevolve",
@@ -123,12 +125,21 @@ const caseStudyIcons: Record<StudioCaseStudyIconKey, LucideIcon> = {
   sparkles: Sparkles,
 };
 
-<<<<<<< HEAD
-function CaseStudyIcon({ icon: Icon }: { icon: LucideIcon }) {
+function InternalCaseStudyIcon({ icon: Icon }: { icon: LucideIcon }) {
   return (
     <Icon className="size-24 stroke-[1.4] text-[color-mix(in_srgb,var(--neutral-700)_82%,var(--lavender-500)_18%)]" />
   );
 }
+
+type RawStudioCaseStudyProofPoint = {
+  title: string;
+  description: string;
+  iconKey?: StudioCaseStudyIconKey;
+};
+
+type RawStudioCaseStudySummary = Omit<StudioCaseStudySummary, "modalProofPoints"> & {
+  modalProofPoints?: RawStudioCaseStudyProofPoint[];
+};
 
 function resolveProofPoints(
   proofPoints?: RawStudioCaseStudyProofPoint[],
@@ -144,12 +155,10 @@ export const studioCaseStudies: StudioCaseStudySummary[] = (
   rawStudioCaseStudies as RawStudioCaseStudySummary[]
 ).map(({ mediaIconKey, modalProofPoints, ...caseStudy }) => ({
   ...caseStudy,
-  media: <CaseStudyIcon icon={caseStudyIcons[mediaIconKey]} />,
+  media: <InternalCaseStudyIcon icon={caseStudyIcons[mediaIconKey]} />,
   modalProofPoints: resolveProofPoints(modalProofPoints),
 }));
 
-=======
->>>>>>> 351fcf69ad5e5322e909a2f4fd528db27a0c4786
 export const homepageCaseStudyIds: StudioCaseStudyId[] = [
   "general-aeronautics",
   "bevolve",
@@ -169,12 +178,12 @@ export function getStudioCaseStudyHref(id: string) {
 export function getHomepageCaseStudies(caseStudies: StudioCaseStudySummary[]) {
   return homepageCaseStudyIds
     .map((id) => caseStudies.find((caseStudy) => caseStudy.id === id))
-    .filter((caseStudy): caseStudy is StudioCaseStudySummary => Boolean(caseStudy));
+    .filter((caseStudy): caseStudy is StudioCaseStudySummary =>
+      Boolean(caseStudy),
+    );
 }
 
-export function getCaseStudyIcon(
-  iconKey: StudioCaseStudyIconKey = "sparkles",
-) {
+export function getCaseStudyIcon(iconKey: StudioCaseStudyIconKey = "sparkles") {
   return caseStudyIcons[iconKey];
 }
 
@@ -251,15 +260,18 @@ export function resolveStudioCaseStudyDetail(
     proofPoints: caseStudy.modalProofPoints ?? [
       {
         title: "Sharpened the narrative",
-        description: "Brought the product story, interaction model, and supporting experience into one clearer point of view.",
+        description:
+          "Brought the product story, interaction model, and supporting experience into one clearer point of view.",
       },
       {
         title: "Reduced decision friction",
-        description: "Turned scattered workflows into a more understandable path for users, operators, or internal teams.",
+        description:
+          "Turned scattered workflows into a more understandable path for users, operators, or internal teams.",
       },
       {
         title: "Built for what comes next",
-        description: "Created a stronger base for future iteration instead of treating the engagement like a one-off delivery.",
+        description:
+          "Created a stronger base for future iteration instead of treating the engagement like a one-off delivery.",
       },
     ],
     galleryRows: caseStudy.modalGalleryRows ?? [
@@ -268,11 +280,13 @@ export function resolveStudioCaseStudyDetail(
         items: [
           {
             title: "Hero view placeholder",
-            description: "Reserved for the main case-study visual or landing screen.",
+            description:
+              "Reserved for the main case-study visual or landing screen.",
           },
           {
             title: "Workflow placeholder",
-            description: "Reserved for a supporting product or process screenshot.",
+            description:
+              "Reserved for a supporting product or process screenshot.",
           },
         ],
       },

@@ -36,8 +36,8 @@ export function StudioFooter() {
     <footer className="ds-surface-billing-aurora relative overflow-hidden border-t border-(--color-border-default)">
       {/* Ambient glows matching the hero section */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0">
-        <div className="absolute left-[-8%] top-[-10%] h-144 w-xl rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.18)_0%,rgba(249,169,31,0.08)_40%,transparent_70%)] blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-6%] h-120 w-120 rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.12)_0%,rgba(88,41,199,0.04)_40%,transparent_70%)] blur-3xl" />
+        <div className="absolute left-[-8%] top-[-10%] h-144 w-xl rounded-full bg-[radial-gradient(circle,rgba(150,136,192,0.22)_0%,rgba(150,136,192,0.08)_40%,transparent_70%)] blur-3xl" />
+        <div className="absolute bottom-[-10%] right-[-6%] h-120 w-120 rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.10)_0%,rgba(88,41,199,0.03)_40%,transparent_70%)] blur-3xl" />
       </div>
 
       <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-10">
@@ -58,7 +58,7 @@ export function StudioFooter() {
             </p>
             <Link
               href="/#process"
-              className="inline-flex items-center gap-2 rounded-full bg-[var(--purple-500)] px-5 py-2.5 text-label-md text-white transition-colors hover:bg-[#4c24ab]"
+              className="inline-flex items-center gap-2 rounded-full bg-brand px-5 py-2.5 text-label-md text-white transition-colors hover:bg-[#4c24ab]"
             >
               Start a project
               <ArrowUpRight className="size-4" />

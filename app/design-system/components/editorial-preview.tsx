@@ -12,10 +12,16 @@ export function EditorialCaseStudyPreview() {
     <section className="space-y-6">
       {/* The section intro makes it explicit that these are testable alternatives rather than silent production changes. */}
       <div className="max-w-4xl space-y-3">
-        <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">Components / Explorations</p>
-        <h2 className="text-heading-lg text-foreground">Editorial proof card</h2>
+        <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
+          Components / Explorations
+        </p>
+        <h2 className="text-heading-lg text-foreground">
+          Editorial proof card
+        </h2>
         <p className="text-body-lg text-muted-foreground">
-          A quieter poster-style case-study variant with a short summary headline, small brand logo, and one large artwork field over a subtle branded gradient.
+          A quieter poster-style case-study variant with a short summary
+          headline, small brand logo, and one large artwork field over a subtle
+          branded gradient.
         </p>
       </div>
 
@@ -28,7 +34,7 @@ export function EditorialCaseStudyPreview() {
           subtext={generalAeronauticsSummary}
           brandName="General Aeronautics"
           logoSrc="/assets/general-aeronautics.svg"
-          heroSrc="/assets/GA_cover.png"
+          heroSrc="/assets/general-aeronautics/ga-home.png"
           href="#"
         />
 

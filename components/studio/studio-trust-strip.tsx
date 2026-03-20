@@ -96,14 +96,7 @@ function TrustStripDivider({ side }: TrustStripDividerProps) {
 
 export function StudioTrustStrip() {
   return (
-    <div className="relative z-10 mt-10 border-y border-slate-200/70 bg-white/80 backdrop-blur-sm">
-      {/* Section title */}
-      <div className="pt-8 text-center">
-        <p className="text-label-sm uppercase tracking-[0.22em] text-(--color-text-tertiary)">
-          Clients We&rsquo;re Proud to Work With
-        </p>
-      </div>
-
+    <div className="relative z-10 mt-10 border-y border-slate-200/70 bg-white/80 py-2 backdrop-blur-sm">
       <div className="relative mx-auto max-w-7xl px-6 md:px-0">
         <div className="relative overflow-hidden">
           <TrustStripMask side="left" />

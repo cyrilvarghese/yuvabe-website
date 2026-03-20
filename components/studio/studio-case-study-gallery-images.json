@@ -28,7 +28,7 @@
         "alt": "General Aeronautics operations interface proof."
       },
       {
-        "src": "/assets/GA_cover.png",
+        "src": "/assets/general-aeronautics/ga-home.png",
         "alt": "General Aeronautics mobile proof card."
       },
       {
@@ -41,16 +41,20 @@
     "badgeLabel": "ESG AI",
     "images": [
       {
-        "src": "/assets/Bevolve_cover.png",
-        "alt": "Bevolve.ai product experience mock."
+        "src": "/assets/bevolve/case-study1.png",
+        "alt": "Bevolve.ai reporting workflow view."
       },
       {
-        "src": "/assets/bevolve-ai.svg",
-        "alt": "Bevolve.ai brand mark."
+        "src": "/assets/bevolve/case-study2.png",
+        "alt": "Bevolve.ai AI-assisted review interface."
       },
       {
-        "src": "/assets/illustration3.png",
-        "alt": "Abstract sustainability intelligence illustration."
+        "src": "/assets/bevolve/Case-study3.png",
+        "alt": "Bevolve.ai benchmarking engine view."
+      },
+      {
+        "src": "/assets/bevolve/path-to-net-zero.png",
+        "alt": "Bevolve.ai emissions summary dashboard."
       }
     ]
   },
@@ -75,11 +79,11 @@
     "badgeLabel": "Generative AI",
     "images": [
       {
-        "src": "/assets/kittykat.svg",
+        "src": "/assets/ageshift/web-ss1.png",
         "alt": "KittyKat brand mark."
       },
       {
-        "src": "/assets/illustration2.png",
+        "src": "/assets/ageshift/web-ss2.png",
         "alt": "KittyKat fashion image workflow illustration."
       },
       {
@@ -92,16 +96,20 @@
     "badgeLabel": "Wellness AI",
     "images": [
       {
-        "src": "/assets/illustration3.png",
-        "alt": "AgeShift wellness platform illustration."
+        "src": "/assets/ageshift/web-ss1.png",
+        "alt": "AgeShift web platform dashboard view."
       },
       {
-        "src": "/assets/illustration1.png",
-        "alt": "AgeShift mobile and backend systems illustration."
+        "src": "/assets/ageshift/web-ss2.png",
+        "alt": "AgeShift web platform secondary view."
       },
       {
-        "src": "/assets/illustration2.png",
-        "alt": "AgeShift AI recommendation platform illustration."
+        "src": "/assets/ageshift/web-ss4.png",
+        "alt": "AgeShift mobile onboarding flow."
+      },
+      {
+        "src": "/assets/ageshift/web-ss3.png",
+        "alt": "AgeShift mobile onboarding step two."
       }
     ]
   }

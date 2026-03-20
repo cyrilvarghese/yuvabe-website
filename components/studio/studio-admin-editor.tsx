@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useFormStatus } from "react-dom";
 
 import {
   saveCaseStudyContentAction,
@@ -17,6 +18,7 @@ import type {
 import type { StudioHomepageContent } from "@/components/studio/studio-homepage-content";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 type StudioAdminEditorProps = {
   homepageContent: StudioHomepageContent;
@@ -76,9 +78,23 @@ function StickySaveBar({
         >
           {previewHref}
         </Link>
-        <Button type="submit">{label}</Button>
+        <StickySaveButton label={label} />
       </div>
     </div>
+  );
+}
+
+function StickySaveButton({
+  label,
+}: {
+  label: string;
+}) {
+  const { pending } = useFormStatus();
+
+  return (
+    <Button type="submit" loading={pending} loadingText={`${label}`}>
+      {label}
+    </Button>
   );
 }
 
@@ -390,191 +406,189 @@ export function StudioAdminEditor({
         </div>
       ) : null}
 
-      <div className="flex flex-wrap gap-3">
-        <Button type="button" variant={activeTab === "homepage" ? "default" : "secondary"} onClick={() => setActiveTab("homepage")}>
-          Homepage
-        </Button>
-        <Button type="button" variant={activeTab === "case-studies" ? "default" : "secondary"} onClick={() => setActiveTab("case-studies")}>
-          Case studies
-        </Button>
-      </div>
+      <Tabs
+        value={activeTab}
+        onValueChange={(value) =>
+          setActiveTab(value as "homepage" | "case-studies")
+        }
+        className="space-y-6"
+      >
+        <TabsList variant="line">
+          <TabsTrigger value="homepage">Homepage</TabsTrigger>
+          <TabsTrigger value="case-studies">Case studies</TabsTrigger>
+        </TabsList>
 
-      {activeTab === "homepage" ? (
-        <form action={saveHomepageContentAction} className="space-y-6">
-          <input type="hidden" name="payload" value={JSON.stringify(homepageDraft)} readOnly />
-          <Card>
-            <CardHeader>
-              <CardTitle>Homepage content</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6 pb-6">
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="Hero intro">
-                  <input className={formControlClassName} value={homepageDraft.hero.headlineIntro} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineIntro: event.target.value } })} />
-                </Field>
-                <Field label="Hero highlight">
-                  <input className={formControlClassName} value={homepageDraft.hero.headlineHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineHighlight: event.target.value } })} />
-                </Field>
-              </div>
-              <Field label="Hero line two">
-                <input className={formControlClassName} value={homepageDraft.hero.headlineLineTwo} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineLineTwo: event.target.value } })} />
-              </Field>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="Hero support prefix">
-                  <textarea className={textareaClassName} value={homepageDraft.hero.supportPrefix} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, supportPrefix: event.target.value } })} />
-                </Field>
-                <Field label="Hero support highlight">
-                  <textarea className={textareaClassName} value={homepageDraft.hero.supportHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, supportHighlight: event.target.value } })} />
-                </Field>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="Hero CTA label">
-                  <input className={formControlClassName} value={homepageDraft.hero.ctaLabel} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, ctaLabel: event.target.value } })} />
-                </Field>
-                <Field label="Hero CTA href">
-                  <input className={formControlClassName} value={homepageDraft.hero.ctaHref} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, ctaHref: event.target.value } })} />
-                </Field>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="Work eyebrow">
-                  <input className={formControlClassName} value={homepageDraft.work.eyebrow} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, eyebrow: event.target.value } })} />
-                </Field>
-                <Field label="Work headline">
-                  <input className={formControlClassName} value={homepageDraft.work.headline} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, headline: event.target.value } })} />
-                </Field>
-              </div>
-              <div className="grid gap-6 lg:grid-cols-3">
-                <Field label="Work support prefix">
-                  <textarea className={textareaClassName} value={homepageDraft.work.supportPrefix} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportPrefix: event.target.value } })} />
-                </Field>
-                <Field label="Work support highlight">
-                  <textarea className={textareaClassName} value={homepageDraft.work.supportHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportHighlight: event.target.value } })} />
-                </Field>
-                <Field label="Work support suffix">
-                  <textarea className={textareaClassName} value={homepageDraft.work.supportSuffix} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportSuffix: event.target.value } })} />
-                </Field>
-              </div>
-              <div className="space-y-4">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">
-                    Navigation items
-                  </p>
-                  <Button type="button" variant="secondary" size="sm" onClick={() => setHomepageDraft({ ...homepageDraft, navigationItems: [...homepageDraft.navigationItems, { label: "", href: "" }] })}>
-                    Add nav item
-                  </Button>
+        <TabsContent value="homepage">
+          <form action={saveHomepageContentAction} className="space-y-6">
+            <input type="hidden" name="payload" value={JSON.stringify(homepageDraft)} readOnly />
+            <Card>
+              <CardHeader>
+                <CardTitle>Homepage content</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-6 pb-6">
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <Field label="Hero intro">
+                    <input className={formControlClassName} value={homepageDraft.hero.headlineIntro} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineIntro: event.target.value } })} />
+                  </Field>
+                  <Field label="Hero highlight">
+                    <input className={formControlClassName} value={homepageDraft.hero.headlineHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineHighlight: event.target.value } })} />
+                  </Field>
                 </div>
-                {homepageDraft.navigationItems.map((item, index) => (
-                  <Card key={`nav-item-${index}`}>
-                    <CardHeader className="flex flex-row items-center justify-between gap-3">
-                      <CardTitle className="text-body-lg">Nav item {index + 1}</CardTitle>
-                      <Button type="button" variant="secondary" size="sm" onClick={() => setHomepageDraft({ ...homepageDraft, navigationItems: removeAt(homepageDraft.navigationItems, index) })}>
-                        Remove
-                      </Button>
+                <Field label="Hero line two">
+                  <input className={formControlClassName} value={homepageDraft.hero.headlineLineTwo} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, headlineLineTwo: event.target.value } })} />
+                </Field>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <Field label="Hero support prefix">
+                    <textarea className={textareaClassName} value={homepageDraft.hero.supportPrefix} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, supportPrefix: event.target.value } })} />
+                  </Field>
+                  <Field label="Hero support highlight">
+                    <textarea className={textareaClassName} value={homepageDraft.hero.supportHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, supportHighlight: event.target.value } })} />
+                  </Field>
+                </div>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <Field label="Hero CTA label">
+                    <input className={formControlClassName} value={homepageDraft.hero.ctaLabel} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, ctaLabel: event.target.value } })} />
+                  </Field>
+                  <Field label="Hero CTA href">
+                    <input className={formControlClassName} value={homepageDraft.hero.ctaHref} onChange={(event) => setHomepageDraft({ ...homepageDraft, hero: { ...homepageDraft.hero, ctaHref: event.target.value } })} />
+                  </Field>
+                </div>
+                <div className="grid gap-6 lg:grid-cols-2">
+                  <Field label="Work eyebrow">
+                    <input className={formControlClassName} value={homepageDraft.work.eyebrow} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, eyebrow: event.target.value } })} />
+                  </Field>
+                  <Field label="Work headline">
+                    <input className={formControlClassName} value={homepageDraft.work.headline} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, headline: event.target.value } })} />
+                  </Field>
+                </div>
+                <div className="grid gap-6 lg:grid-cols-3">
+                  <Field label="Work support prefix">
+                    <textarea className={textareaClassName} value={homepageDraft.work.supportPrefix} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportPrefix: event.target.value } })} />
+                  </Field>
+                  <Field label="Work support highlight">
+                    <textarea className={textareaClassName} value={homepageDraft.work.supportHighlight} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportHighlight: event.target.value } })} />
+                  </Field>
+                  <Field label="Work support suffix">
+                    <textarea className={textareaClassName} value={homepageDraft.work.supportSuffix} onChange={(event) => setHomepageDraft({ ...homepageDraft, work: { ...homepageDraft.work, supportSuffix: event.target.value } })} />
+                  </Field>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">
+                      Navigation items
+                    </p>
+                    <Button type="button" variant="secondary" size="sm" onClick={() => setHomepageDraft({ ...homepageDraft, navigationItems: [...homepageDraft.navigationItems, { label: "", href: "" }] })}>
+                      Add nav item
+                    </Button>
+                  </div>
+                  {homepageDraft.navigationItems.map((item, index) => (
+                    <Card key={`nav-item-${index}`}>
+                      <CardHeader className="flex flex-row items-center justify-between gap-3">
+                        <CardTitle className="text-body-lg">Nav item {index + 1}</CardTitle>
+                        <Button type="button" variant="secondary" size="sm" onClick={() => setHomepageDraft({ ...homepageDraft, navigationItems: removeAt(homepageDraft.navigationItems, index) })}>
+                          Remove
+                        </Button>
+                      </CardHeader>
+                      <CardContent className="grid gap-4 pb-6 lg:grid-cols-2">
+                        <Field label="Label">
+                          <input className={formControlClassName} value={item.label} onChange={(event) => setHomepageDraft({ ...homepageDraft, navigationItems: replaceAt(homepageDraft.navigationItems, index, { ...item, label: event.target.value }) })} />
+                        </Field>
+                        <Field label="Href">
+                          <input className={formControlClassName} value={item.href} onChange={(event) => setHomepageDraft({ ...homepageDraft, navigationItems: replaceAt(homepageDraft.navigationItems, index, { ...item, href: event.target.value }) })} />
+                        </Field>
+                      </CardContent>
+                    </Card>
+                  ))}
+                </div>
+              </CardContent>
+            </Card>
+            {/* The sticky save bar keeps the primary action reachable without forcing long scrolls. */}
+            <StickySaveBar
+              label="Save homepage content"
+              previewHref="/"
+            />
+          </form>
+        </TabsContent>
+
+        <TabsContent value="case-studies">
+          {selectedCaseStudy ? (
+            <form action={saveCaseStudyContentAction} className="space-y-6">
+              <input type="hidden" name="caseStudyId" value={selectedCaseStudy.id} readOnly />
+              <input type="hidden" name="payload" value={JSON.stringify(selectedCaseStudy)} readOnly />
+              <Card>
+                <CardHeader className="space-y-4">
+                  <CardTitle>Case-study content</CardTitle>
+                  {/* The case-study switcher uses the shared shadcn tabs primitive so selection stays aligned with the system. */}
+                  <Tabs value={selectedCaseStudy.id} onValueChange={setSelectedCaseStudyId}>
+                    <div className="space-y-2">
+                      <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">
+                        Selected case study
+                      </p>
+                      <TabsList variant="line">
+                        {caseStudyDrafts.map((caseStudy) => (
+                          <TabsTrigger key={caseStudy.id} value={caseStudy.id}>
+                            {caseStudy.title}
+                          </TabsTrigger>
+                        ))}
+                      </TabsList>
+                    </div>
+                  </Tabs>
+                </CardHeader>
+                <CardContent className="space-y-6 pb-6">
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <Field label="Title">
+                      <input className={formControlClassName} value={selectedCaseStudy.title} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, title: event.target.value }))} />
+                    </Field>
+                    <Field label="Sector">
+                      <input className={formControlClassName} value={selectedCaseStudy.sector} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, sector: event.target.value }))} />
+                    </Field>
+                  </div>
+                  <Field label="Homepage summary">
+                    <textarea className={textareaClassName} value={selectedCaseStudy.summary} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, summary: event.target.value }))} />
+                  </Field>
+                  <Field label="Hero mock headline">
+                    <input className={formControlClassName} value={selectedCaseStudy.heroMockHeadline ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, heroMockHeadline: event.target.value }))} />
+                  </Field>
+                  <StringListEditor label="Services" items={selectedCaseStudy.services} addLabel="Add service" onChange={(services) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, services }))} />
+                  <Field label="Modal intro">
+                    <textarea className={textareaClassName} value={selectedCaseStudy.modalIntro ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalIntro: event.target.value }))} />
+                  </Field>
+                  <StringListEditor label="Outcomes" items={selectedCaseStudy.modalOutcomes ?? []} addLabel="Add outcome" onChange={(modalOutcomes) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalOutcomes }))} />
+                  <SectionsEditor items={selectedCaseStudy.modalSections ?? []} onChange={(modalSections) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalSections }))} />
+                  <ProofPointsEditor items={selectedCaseStudy.modalProofPoints ?? []} onChange={(modalProofPoints) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalProofPoints }))} />
+                  <GalleryRowsEditor items={selectedCaseStudy.modalGalleryRows ?? []} onChange={(modalGalleryRows) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalGalleryRows }))} />
+                  <Card>
+                    <CardHeader>
+                      <CardTitle className="text-body-lg">Testimonial</CardTitle>
                     </CardHeader>
-                    <CardContent className="grid gap-4 pb-6 lg:grid-cols-2">
-                      <Field label="Label">
-                        <input className={formControlClassName} value={item.label} onChange={(event) => setHomepageDraft({ ...homepageDraft, navigationItems: replaceAt(homepageDraft.navigationItems, index, { ...item, label: event.target.value }) })} />
+                    <CardContent className="space-y-4 pb-6">
+                      <Field label="Quote">
+                        <textarea className={textareaClassName} value={selectedCaseStudy.modalTestimonial?.quote ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalTestimonial: { ...caseStudy.modalTestimonial, quote: event.target.value, attribution: caseStudy.modalTestimonial?.attribution ?? "" } }))} />
                       </Field>
-                      <Field label="Href">
-                        <input className={formControlClassName} value={item.href} onChange={(event) => setHomepageDraft({ ...homepageDraft, navigationItems: replaceAt(homepageDraft.navigationItems, index, { ...item, href: event.target.value }) })} />
+                      <Field label="Attribution">
+                        <input className={formControlClassName} value={selectedCaseStudy.modalTestimonial?.attribution ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalTestimonial: { ...caseStudy.modalTestimonial, quote: caseStudy.modalTestimonial?.quote ?? "", attribution: event.target.value } }))} />
                       </Field>
                     </CardContent>
                   </Card>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
-          {/* The sticky save bar keeps the primary action reachable without forcing long scrolls. */}
-          <StickySaveBar
-            label="Save homepage content"
-            previewHref="/"
-          />
-        </form>
-      ) : null}
-
-      {activeTab === "case-studies" && selectedCaseStudy ? (
-        <form action={saveCaseStudyContentAction} className="space-y-6">
-          <input type="hidden" name="caseStudyId" value={selectedCaseStudy.id} readOnly />
-          <input type="hidden" name="payload" value={JSON.stringify(selectedCaseStudy)} readOnly />
-          <Card>
-            <CardHeader className="space-y-4">
-              <CardTitle>Case-study content</CardTitle>
-              {/* The case-study switcher uses tabs so writers can jump between narratives without opening a select menu. */}
-              <div className="space-y-2">
-                <p className="text-label-sm uppercase tracking-[0.16em] text-[var(--color-text-tertiary)]">
-                  Selected case study
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  {caseStudyDrafts.map((caseStudy) => (
-                    <Button
-                      key={caseStudy.id}
-                      type="button"
-                      variant={
-                        selectedCaseStudy.id === caseStudy.id
-                          ? "default"
-                          : "secondary"
-                      }
-                      size="sm"
-                      onClick={() => setSelectedCaseStudyId(caseStudy.id)}
-                    >
-                      {caseStudy.title}
-                    </Button>
-                  ))}
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-6 pb-6">
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="Title">
-                  <input className={formControlClassName} value={selectedCaseStudy.title} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, title: event.target.value }))} />
-                </Field>
-                <Field label="Sector">
-                  <input className={formControlClassName} value={selectedCaseStudy.sector} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, sector: event.target.value }))} />
-                </Field>
-              </div>
-              <Field label="Homepage summary">
-                <textarea className={textareaClassName} value={selectedCaseStudy.summary} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, summary: event.target.value }))} />
-              </Field>
-              <Field label="Hero mock headline">
-                <input className={formControlClassName} value={selectedCaseStudy.heroMockHeadline ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, heroMockHeadline: event.target.value }))} />
-              </Field>
-              <StringListEditor label="Services" items={selectedCaseStudy.services} addLabel="Add service" onChange={(services) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, services }))} />
-              <Field label="Modal intro">
-                <textarea className={textareaClassName} value={selectedCaseStudy.modalIntro ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalIntro: event.target.value }))} />
-              </Field>
-              <StringListEditor label="Outcomes" items={selectedCaseStudy.modalOutcomes ?? []} addLabel="Add outcome" onChange={(modalOutcomes) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalOutcomes }))} />
-              <SectionsEditor items={selectedCaseStudy.modalSections ?? []} onChange={(modalSections) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalSections }))} />
-              <ProofPointsEditor items={selectedCaseStudy.modalProofPoints ?? []} onChange={(modalProofPoints) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalProofPoints }))} />
-              <GalleryRowsEditor items={selectedCaseStudy.modalGalleryRows ?? []} onChange={(modalGalleryRows) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalGalleryRows }))} />
-              <Card>
-                <CardHeader>
-                  <CardTitle className="text-body-lg">Testimonial</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4 pb-6">
-                  <Field label="Quote">
-                    <textarea className={textareaClassName} value={selectedCaseStudy.modalTestimonial?.quote ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalTestimonial: { ...caseStudy.modalTestimonial, quote: event.target.value, attribution: caseStudy.modalTestimonial?.attribution ?? "" } }))} />
-                  </Field>
-                  <Field label="Attribution">
-                    <input className={formControlClassName} value={selectedCaseStudy.modalTestimonial?.attribution ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, modalTestimonial: { ...caseStudy.modalTestimonial, quote: caseStudy.modalTestimonial?.quote ?? "", attribution: event.target.value } }))} />
-                  </Field>
+                  <div className="grid gap-6 lg:grid-cols-2">
+                    <Field label="SEO title">
+                      <input className={formControlClassName} value={selectedCaseStudy.seoTitle ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, seoTitle: event.target.value }))} />
+                    </Field>
+                    <Field label="SEO description">
+                      <textarea className={textareaClassName} value={selectedCaseStudy.seoDescription ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, seoDescription: event.target.value }))} />
+                    </Field>
+                  </div>
                 </CardContent>
               </Card>
-              <div className="grid gap-6 lg:grid-cols-2">
-                <Field label="SEO title">
-                  <input className={formControlClassName} value={selectedCaseStudy.seoTitle ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, seoTitle: event.target.value }))} />
-                </Field>
-                <Field label="SEO description">
-                  <textarea className={textareaClassName} value={selectedCaseStudy.seoDescription ?? ""} onChange={(event) => updateSelectedCaseStudy((caseStudy) => ({ ...caseStudy, seoDescription: event.target.value }))} />
-                </Field>
-              </div>
-            </CardContent>
-          </Card>
-          {/* The sticky save bar mirrors the homepage editor so the action remains visible on long case-study forms. */}
-          <StickySaveBar
-            label={`Save ${selectedCaseStudy.title}`}
-            previewHref={getCaseStudyPreviewHref(selectedCaseStudy.id)}
-          />
-        </form>
-      ) : null}
+              {/* The sticky save bar mirrors the homepage editor so the action remains visible on long case-study forms. */}
+              <StickySaveBar
+                label={`Save ${selectedCaseStudy.title}`}
+                previewHref={getCaseStudyPreviewHref(selectedCaseStudy.id)}
+              />
+            </form>
+          ) : null}
+        </TabsContent>
+      </Tabs>
     </div>
   );
 }

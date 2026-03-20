@@ -81,6 +81,7 @@ export function StudioCaseStudies({
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={caseStudy.mockImageSrc ?? "/assets/ga-image.png"}
+                  videoSrc={caseStudy.mockVideoSrc}
                   imageAlt={
                     caseStudy.mockImageAlt ??
                     `${caseStudy.title} case study mock`
@@ -103,7 +104,11 @@ export function StudioCaseStudies({
                   title={caseStudy.title}
                   summary={caseStudy.summary}
                   services={caseStudy.services}
-                  imageSrc={caseStudy.mockImageSrc ?? "/assets/GA_cover.png"}
+                  imageSrc={
+                    caseStudy.mockImageSrc ??
+                    "/assets/general-aeronautics/ga-home.png"
+                  }
+                  videoSrc={caseStudy.mockVideoSrc}
                   imageAlt={
                     caseStudy.mockImageAlt ??
                     `${caseStudy.title} case study mock`

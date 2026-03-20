@@ -1,0 +1,23 @@
+{
+  "navigationItems": [
+    { "label": "About", "href": "#about" },
+    { "label": "Work", "href": "#work" },
+    { "label": "AI-first DNA", "href": "#ai-first-dna" }
+  ],
+  "hero": {
+    "headlineIntro": "Build the",
+    "headlineHighlight": "right",
+    "headlineLineTwo": "product faster.",
+    "supportPrefix": "Clarity for startups moving fast. AI-first execution across",
+    "supportHighlight": "strategy, design, engineering, and growth marketing.",
+    "ctaLabel": "Talk Through Your Roadmap",
+    "ctaHref": "#"
+  },
+  "work": {
+    "eyebrow": "Work",
+    "headline": "Make better bets. Ship faster.",
+    "supportPrefix": "Turn roadmap bets into",
+    "supportHighlight": "shipped product",
+    "supportSuffix": ", sharper positioning, and faster learning with one AI-first execution partner."
+  }
+}

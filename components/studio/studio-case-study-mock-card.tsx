@@ -86,18 +86,18 @@ const mockCardLayoutStyles: Record<
     // Mobile uses natural height to avoid dead space, while desktop restores equal card heights for balanced rows.
     shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[760px] md:p-6 lg:p-7",
     summaryClassName: "max-w-[34ch] text-body-sm text-[var(--color-text-secondary)]",
-    titleClassName: "text-heading-md text-foreground",
+    titleClassName: "text-heading-md font-sans text-foreground",
   },
   compact: {
-    bodyClassName: "gap-3 md:gap-4",
+    bodyClassName: "gap-3",
     footerClassName: "max-w-none",
     imageClassName: "h-[11rem] sm:h-[12rem]",
     imageStageClassName:
-      "min-h-[260px] px-2 pb-0 pt-2 sm:min-h-[290px] sm:px-3 sm:pt-3 sm:pb-0 md:min-h-[320px] md:px-3 md:pt-5 md:pb-0 lg:px-4",
-    mediaGroupClassName: "space-y-3 md:mt-auto md:space-y-4",
-    shellClassName: "h-full min-h-[500px] overflow-visible px-5 pt-5 pb-0 sm:px-5 sm:pt-5 sm:pb-0 md:px-5 md:pt-5 md:pb-0 lg:px-6 lg:pt-6 lg:pb-0",
+      "px-3 pb-0 pt-2 sm:px-4 sm:pt-3 sm:pb-0 md:px-4 md:pt-3 md:pb-0 lg:px-5",
+    mediaGroupClassName: "space-y-3",
+    shellClassName: "h-full min-h-[400px] overflow-hidden px-5 pt-5 pb-0 sm:px-5 sm:pt-5 sm:pb-0 md:px-5 md:pt-5 md:pb-0 lg:px-5 lg:pt-5 lg:pb-0",
     summaryClassName:
-      "max-w-[30ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
+      "max-w-[30ch] text-body-sm leading-[1.5] text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-sm text-foreground",
   },
   wide: {
@@ -110,7 +110,7 @@ const mockCardLayoutStyles: Record<
     shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[560px] md:p-6 lg:p-7",
     summaryClassName:
       "max-w-[56ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
-    titleClassName: "text-heading-md text-foreground",
+    titleClassName: "text-heading-md font-sans text-foreground",
   },
 };
 
@@ -127,7 +127,7 @@ const mockViewportStyles: Record<
   landscape: {
     frameClassName:
       "h-[210px] w-[300px] sm:h-[240px] sm:w-[360px] lg:h-[280px] lg:w-[440px]",
-    imageClassName: "object-cover object-center",
+    imageClassName: "object-cover object-top",
   },
 };
 
@@ -151,9 +151,13 @@ const fullSpanViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
 // Compact cards are ~1/3 of the container width.
 // Portrait fills the card bottom edge; landscape stays contained with glass frame visible.
 const compactViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
-  portrait: "h-[360px] w-[224px] sm:h-[390px] sm:w-[242px] lg:h-[420px] lg:w-[260px]",
-  landscape: "h-[160px] w-[240px] sm:h-[178px] sm:w-[268px] lg:h-[196px] lg:w-[294px]",
+  portrait: "h-[270px] w-[168px] sm:h-[290px] sm:w-[180px] lg:h-[310px] lg:w-[193px]",
+  landscape: "h-[150px] w-[220px] sm:h-[162px] sm:w-[238px] lg:h-[178px] lg:w-[260px]",
 };
+
+// Feature landscape: image fills the full card width edge-to-edge.
+const featureLandscapeViewportOverride =
+  "h-[220px] w-full sm:h-[260px] lg:h-[310px]";
 
 function normalizeServiceLabel(service: string) {
   if (service === "Brand system") {
@@ -171,6 +175,7 @@ export type StudioCaseStudyMockCardProps = {
   imageSrc: string;
   imageAlt: string;
   imageClassName?: string;
+  videoSrc?: string;
   mockViewport?: StudioCaseStudyMockViewport;
   variant?: StudioCaseStudyMockVariant;
   layout?: StudioCaseStudyMockCardLayout;
@@ -187,6 +192,7 @@ export function StudioCaseStudyMockCard({
   imageAlt,
   imageClassName,
   imageSrc,
+  videoSrc,
   layout = "feature",
   mockViewport = "portrait",
   onOpenDetails,
@@ -327,11 +333,11 @@ export function StudioCaseStudyMockCard({
             ))}
           </div>
 
-          {/* Image stage: compact flows right after tags; feature/wide pushes to card bottom */}
+          {/* Image stage: always pushes to card bottom via mt-auto; compact clips at card edge via overflow-hidden shell */}
           <div
             className={cn(
               "flex items-end justify-center perspective-[1400px]",
-              layout !== "compact" && "mt-auto",
+              "mt-auto",
               layoutStyles.imageStageClassName,
               span === "full" && fullSpanImageStageOverrides[layout],
             )}
@@ -350,8 +356,12 @@ export function StudioCaseStudyMockCard({
                   ? "relative w-fit max-w-full rounded-[1.8rem] shadow-[0_20px_50px_rgba(11,15,25,0.20)] transition-shadow duration-300 ease-out group-hover:shadow-[0_28px_70px_rgba(11,15,25,0.28)]"
                   : cn(
                       variantStyles.mockFrameClassName,
-                      "relative max-w-140 transition-shadow duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
-                      span === "full" && "max-w-170",
+                      "relative transition-shadow duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
+                      layout === "feature" && mockViewport === "landscape"
+                        ? "w-full max-w-full"
+                        : span === "full"
+                          ? "max-w-170"
+                          : "max-w-140",
                     ),
               )}
             >
@@ -360,29 +370,47 @@ export function StudioCaseStudyMockCard({
                   "relative overflow-hidden rounded-[1.6rem] bg-[rgba(17,24,39,0.05)]",
                   viewportStyles.frameClassName,
                   layout === "compact" && compactViewportOverrides[mockViewport],
-                  span === "full" && fullSpanViewportOverrides[mockViewport],
+                  layout === "feature" && mockViewport === "landscape"
+                    ? featureLandscapeViewportOverride
+                    : span === "full" && fullSpanViewportOverrides[mockViewport],
                 )}
               >
-                <Image
-                  src={imageSrc}
-                  alt={imageAlt}
-                  fill
-                  sizes={
-                    mockViewport === "portrait"
-                      ? span === "full"
-                        ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
-                        : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
-                      : span === "full"
-                        ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
-                        : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
-                  }
-                  className={cn(
-                    viewportStyles.imageClassName,
-                    variantStyles.mockImageClassName,
-                    imageClassName,
-                  )}
-                  priority={false}
-                />
+                {videoSrc ? (
+                  <video
+                    src={videoSrc}
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    className={cn(
+                      "absolute inset-0 h-full w-full",
+                      viewportStyles.imageClassName,
+                      variantStyles.mockImageClassName,
+                      imageClassName,
+                    )}
+                  />
+                ) : (
+                  <Image
+                    src={imageSrc}
+                    alt={imageAlt}
+                    fill
+                    sizes={
+                      mockViewport === "portrait"
+                        ? span === "full"
+                          ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
+                          : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
+                        : span === "full"
+                          ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
+                          : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
+                    }
+                    className={cn(
+                      viewportStyles.imageClassName,
+                      variantStyles.mockImageClassName,
+                      imageClassName,
+                    )}
+                    priority={false}
+                  />
+                )}
               </div>
             </motion.div>
           </div>

@@ -44,9 +44,9 @@ export default async function StudioAdminPage({
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
             Internal / Content editor
           </p>
-          <h1 className="text-heading-xl text-foreground">Minimal JSON-backed CMS</h1>
+          <h1 className="text-heading-xl text-foreground">Minimal content CMS</h1>
           <p className="max-w-3xl text-body-lg text-muted-foreground">
-            Edit homepage copy and case-study narrative content, save to JSON,
+            Edit homepage copy and case-study narrative content, save to Supabase,
             then refresh the site to review the change immediately.
           </p>
         </section>

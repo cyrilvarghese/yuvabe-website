@@ -97,7 +97,7 @@
   {
     "id": "bevolve",
     "sector": "ESG intelligence",
-    "title": "Bevolve.aia",
+    "title": "Bevolve.ai",
     "summary": "Turned fragmented sustainability reporting into an AI-guided system teams could trust for faster, evidence-based decisions.",
     "heroMockHeadline": "AI-guided ESG reporting workflow",
     "services": [
@@ -106,8 +106,12 @@
       "Decision support"
     ],
     "mediaIconKey": "bot",
-    "mockImageSrc": "/assets/Bevolve_cover.png",
-    "mockImageAlt": "Bevolve.ai product experience mock",
+    "mockImageSrc": "/assets/bevolve/platform-banner.png",
+    "mockVideoSrc": "/assets/bevolve/bevolve-AI-page.mp4",
+    "mockImageAlt": "Bevolve.ai AI-powered ESG platform",
+    "heroImageSrc": "/assets/bevolve/platform-banner.png",
+    "heroVideoSrc": "/assets/bevolve/report-design.mp4",
+    "detailImageSrc": "/assets/bevolve/emissions-Summary.png",
     "mockVariant": "sunrise",
     "mockViewport": "landscape",
     "modalIntro": "Bevolve.ai needed a product experience that could bring together fragmented ESG and sustainability data, automate reporting workflows, and make decision support easier for teams navigating compliance pressure.",
@@ -312,6 +316,8 @@
     "mediaIconKey": "barChart3",
     "mockImageSrc": "/assets/ageshift/ageshift_cover.png",
     "mockImageAlt": "AgeShift wellness platform interface",
+    "heroImageSrc": "/assets/ageshift/ageshift_cover.png",
+    "detailImageSrc": "/assets/ageshift/onboarding1.png",
     "mockVariant": "prism",
     "mockViewport": "landscape",
     "modalIntro": "AgeShift needed a connected wellness product ecosystem that could guide users through routines, protocol tracking, and AI-powered recommendations while also giving administrators stronger operational visibility.",

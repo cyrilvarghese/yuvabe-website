@@ -1,3 +1,4 @@
+import React from "react";
 import {
   BarChart3,
   Bot,
@@ -68,9 +69,12 @@ export type StudioCaseStudySummary = {
   heroMockHeadline?: string;
   services: string[];
   mediaIconKey: StudioCaseStudyIconKey;
+  media?: React.JSX.Element;
   mockImageSrc?: string;
+  mockVideoSrc?: string;
   mockImageAlt?: string;
   heroImageSrc?: string;
+  heroVideoSrc?: string;
   detailImageSrc?: string;
   mockVariant?: StudioCaseStudyMockVariant;
   mockLayout?: StudioCaseStudyMockCardLayout;
@@ -155,6 +159,7 @@ export const studioCaseStudies: StudioCaseStudySummary[] = (
   rawStudioCaseStudies as RawStudioCaseStudySummary[]
 ).map(({ mediaIconKey, modalProofPoints, ...caseStudy }) => ({
   ...caseStudy,
+  mediaIconKey,
   media: <InternalCaseStudyIcon icon={caseStudyIcons[mediaIconKey]} />,
   modalProofPoints: resolveProofPoints(modalProofPoints),
 }));

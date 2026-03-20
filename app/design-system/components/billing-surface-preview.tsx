@@ -4,9 +4,10 @@ const caseStudyPreviewCards = [
   {
     sector: "Aviation technology",
     title: "General Aeronautics",
-    summary: "Turned a complex drone portfolio into a clearer digital story buyers, partners, and operators could trust faster.",
+    summary:
+      "Turned a complex drone portfolio into a clearer digital story buyers, partners, and operators could trust faster.",
     services: ["Positioning", "UX/UI", "Brand system"],
-    imageSrc: "/assets/GA_cover.png",
+    imageSrc: "/assets/general-aeronautics/ga-home.png",
     imageAlt: "General Aeronautics mobile product mock",
     mockViewport: "portrait" as const,
     variant: "aurora" as const,
@@ -14,7 +15,8 @@ const caseStudyPreviewCards = [
   {
     sector: "ESG intelligence",
     title: "Bevolve.ai",
-    summary: "Turned fragmented sustainability reporting into an AI-guided system teams could trust for faster, evidence-based decisions.",
+    summary:
+      "Turned fragmented sustainability reporting into an AI-guided system teams could trust for faster, evidence-based decisions.",
     services: ["AI integration", "ML", "ESG reporting"],
     imageSrc: "/assets/Bevolve_cover.png",
     imageAlt: "Bevolve.ai product experience mock",
@@ -24,7 +26,8 @@ const caseStudyPreviewCards = [
   {
     sector: "Aviation technology",
     title: "General Aeronautics Ops",
-    summary: "Extended the case-study system into clearer interface and proof layers that made the product story feel more tangible and scalable.",
+    summary:
+      "Extended the case-study system into clearer interface and proof layers that made the product story feel more tangible and scalable.",
     services: ["Product UX", "Interface direction", "Campaign assets"],
     imageSrc: "/assets/GA_bg.png",
     imageAlt: "General Aeronautics interface and proof layer mock",

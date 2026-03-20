@@ -93,9 +93,9 @@ const mockCardLayoutStyles: Record<
     footerClassName: "max-w-none",
     imageClassName: "h-[11rem] sm:h-[12rem]",
     imageStageClassName:
-      "min-h-[280px] px-1 pb-1 pt-1 sm:min-h-[320px] sm:px-2 sm:pt-2 md:min-h-[340px] md:px-2 md:pt-4 lg:px-3",
+      "min-h-[260px] px-2 pb-0 pt-2 sm:min-h-[290px] sm:px-3 sm:pt-3 sm:pb-0 md:min-h-[320px] md:px-3 md:pt-5 md:pb-0 lg:px-4",
     mediaGroupClassName: "space-y-3 md:mt-auto md:space-y-4",
-    shellClassName: "h-full min-h-[560px] px-5 py-5 sm:p-5 md:p-5 lg:p-6",
+    shellClassName: "h-full min-h-[500px] overflow-visible px-5 pt-5 pb-0 sm:px-5 sm:pt-5 sm:pb-0 md:px-5 md:pt-5 md:pb-0 lg:px-6 lg:pt-6 lg:pb-0",
     summaryClassName:
       "max-w-[30ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-sm text-foreground",
@@ -146,6 +146,13 @@ const fullSpanImageStageOverrides: Record<StudioCaseStudyMockCardLayout, string>
 const fullSpanViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
   portrait: "md:h-[400px] md:w-[250px] lg:h-[440px] lg:w-[275px]",
   landscape: "md:h-[260px] md:w-[420px] lg:h-[320px] lg:w-[540px]",
+};
+
+// Compact cards are ~1/3 of the container width.
+// Portrait fills the card bottom edge; landscape stays contained with glass frame visible.
+const compactViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
+  portrait: "h-[360px] w-[224px] sm:h-[390px] sm:w-[242px] lg:h-[420px] lg:w-[260px]",
+  landscape: "h-[160px] w-[240px] sm:h-[178px] sm:w-[268px] lg:h-[196px] lg:w-[294px]",
 };
 
 function normalizeServiceLabel(service: string) {
@@ -320,10 +327,11 @@ export function StudioCaseStudyMockCard({
             ))}
           </div>
 
-          {/* Image stage pushed to the bottom of the card */}
+          {/* Image stage: compact flows right after tags; feature/wide pushes to card bottom */}
           <div
             className={cn(
-              "mt-auto flex items-end justify-center [perspective:1400px]",
+              "flex items-end justify-center perspective-[1400px]",
+              layout !== "compact" && "mt-auto",
               layoutStyles.imageStageClassName,
               span === "full" && fullSpanImageStageOverrides[layout],
             )}
@@ -338,15 +346,20 @@ export function StudioCaseStudyMockCard({
                   : { transformStyle: "preserve-3d", transform }
               }
               className={cn(
-                variantStyles.mockFrameClassName,
-                "relative max-w-[560px] transition-[box-shadow] duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
-                span === "full" && "max-w-[680px]",
+                layout === "compact"
+                  ? "relative w-fit max-w-full rounded-[1.8rem] shadow-[0_20px_50px_rgba(11,15,25,0.20)] transition-shadow duration-300 ease-out group-hover:shadow-[0_28px_70px_rgba(11,15,25,0.28)]"
+                  : cn(
+                      variantStyles.mockFrameClassName,
+                      "relative max-w-140 transition-shadow duration-300 ease-out group-hover:shadow-[0_34px_110px_rgba(11,15,25,0.22)]",
+                      span === "full" && "max-w-170",
+                    ),
               )}
             >
               <div
                 className={cn(
                   "relative overflow-hidden rounded-[1.6rem] bg-[rgba(17,24,39,0.05)]",
                   viewportStyles.frameClassName,
+                  layout === "compact" && compactViewportOverrides[mockViewport],
                   span === "full" && fullSpanViewportOverrides[mockViewport],
                 )}
               >

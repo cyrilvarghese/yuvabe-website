@@ -199,10 +199,9 @@
       "RAG workflows"
     ],
     "mediaIconKey": "bot",
-    "mockImageSrc": "/assets/tvam_cover.jpeg",
-    "mockImageAlt": "TVAM case study cover",
+    "mockImageSrc": "/assets/tvam/tvam-cover.png",
+    "mockImageAlt": "TVAM product interface",
     "mockVariant": "aurora",
-    "mockLayout": "feature",
     "mockViewport": "portrait",
     "modalIntro": "TVAM focused on simplifying health, policy, and exam-prep workflows through advisor-style AI tools. The opportunity was to turn multiple AI capabilities into one product experience that felt useful, reliable, and easy to navigate.",
     "modalOutcomes": [
@@ -248,9 +247,8 @@
     ],
     "mediaIconKey": "sparkles",
     "mockImageSrc": "/assets/KK-cover.png",
-    "mockImageAlt": "KittyKat AI fashion workflow cover",
+    "mockImageAlt": "KittyKat AI fashion visuals",
     "mockVariant": "sunrise",
-    "mockLayout": "feature",
     "mockViewport": "landscape",
     "modalIntro": "KittyKat needed a way to generate realistic fashion imagery at scale without the delay and cost of repeated production shoots. The work focused on turning product-to-model image generation into a more reliable AI workflow with the quality required for premium brand presentation.",
     "modalOutcomes": [
@@ -312,10 +310,9 @@
       "AI recommendations"
     ],
     "mediaIconKey": "barChart3",
-    "mockImageSrc": "/assets/ageShift_logo.svg",
-    "mockImageAlt": "AgeShift logo",
+    "mockImageSrc": "/assets/ageshift/ageshift_cover.png",
+    "mockImageAlt": "AgeShift wellness platform interface",
     "mockVariant": "prism",
-    "mockLayout": "feature",
     "mockViewport": "landscape",
     "modalIntro": "AgeShift needed a connected wellness product ecosystem that could guide users through routines, protocol tracking, and AI-powered recommendations while also giving administrators stronger operational visibility.",
     "modalOutcomes": [

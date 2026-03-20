@@ -1,0 +1,3 @@
+display_name: Supabase Content Writeback
+short_description: Write approved homepage and case-study content directly to Supabase via MCP.
+default_prompt: Use this skill only when explicitly asked to persist content changes to Supabase through MCP.

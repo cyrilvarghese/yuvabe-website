@@ -75,6 +75,23 @@ Before finalizing copy:
 4. Are CTAs clear, distinct, and conversion-oriented?
 5. Is every sentence necessary?
 6. Does the copy fit the intended component or section without creating layout bloat?
+7. Is the benefit obvious?
+8. Is the copy short and focused?
+9. Are the words specific and concrete?
+10. Do buttons use clear action verbs?
+11. Have you anticipated doubts and reassured people?
+12. Is anything unnecessary or repeated?
+13. Does it sound like a real person?
+14. Have you checked for typos, grammar issues, or factual mistakes?
+
+Use these prompts when reviewing:
+- Can someone quickly see why this screen matters to them?
+- Have you removed any words or sentences that do not impact the overall understanding?
+- Did you replace vague or generic terms with concrete outcomes or actions?
+- Can people tell exactly what will happen when they click each button?
+- Do you answer likely "what if" questions?
+- Does everything still work if you remove this line?
+- When you read it out loud, does it feel natural, like something you would say to a friend?
 
 ## F-Pattern Scannability
 - Lead with the strongest value sentence first.

@@ -5,49 +5,49 @@ import {
   Sparkles,
 } from "lucide-react";
 
+import type {
+  StudioHomepageServiceItem,
+  StudioHomepageServicesContent,
+} from "@/components/studio/studio-homepage-content";
 import { PremiumSurface } from "@/components/ui/premium-surface";
 
-type StudioServiceItem = {
-  title: string;
-  shortLabel: string;
-  description: string;
+type StudioServiceItem = StudioHomepageServiceItem & {
   icon: LucideIcon;
   accentClassName: string;
-  value: string;
 };
 
-const studioServices: StudioServiceItem[] = [
+const serviceDecorators: Array<
+  Pick<StudioServiceItem, "icon" | "accentClassName">
+> = [
   {
-    title: "Product Engineering",
-    shortLabel: "From product conception to GTM and scale",
-    description:
-      "We help founders shape the product, plan the roadmap, launch with clarity, and scale what starts working.",
     icon: Sparkles,
     accentClassName: "text-[var(--purple-500)]",
-    value: "01",
   },
   {
-    title: "AI-Native Apps",
-    shortLabel: "AI-native apps and workflows",
-    description:
-      "We design and build AI-native apps, copilots, and workflows that turn frontier capabilities into useful products.",
     icon: Bot,
     accentClassName: "text-[var(--orange-500)]",
-    value: "02",
   },
   {
-    title: "Digital Marketing",
-    shortLabel: "Campaigns built to create traction",
-    description:
-      "We run positioning, landing pages, campaigns, and analytics that turn launches into users, pipeline, and learning.",
     icon: LineChart,
     accentClassName: "text-[var(--lavender-500)]",
-    value: "03",
   },
 ];
 
+function getDecoratedServices(items: StudioHomepageServiceItem[]) {
+  return items.map((item, index) => ({
+    ...item,
+    ...serviceDecorators[index % serviceDecorators.length],
+  }));
+}
+
+type StudioServicesProps = {
+  content: StudioHomepageServicesContent;
+};
+
 // The services grid adapts the cleaner Stripe-style backbone layout into Yuvabe's light premium system.
-export function StudioServices() {
+export function StudioServices({ content }: StudioServicesProps) {
+  const studioServices = getDecoratedServices(content.items);
+
   return (
     <section
       id="services"
@@ -68,22 +68,22 @@ export function StudioServices() {
         {/* The intro now mirrors the work section's editorial hierarchy so both homepage sections feel cut from the same system. */}
         <div className="max-w-6xl space-y-5 lg:pl-10 xl:pl-14">
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
-            Services
+            {content.eyebrow}
           </p>
           <h2 className="text-hero-support max-w-5xl text-[var(--neutral-950)]">
-            <strong>The operating system for startup traction.</strong>
+            <strong>{content.headline}</strong>
           </h2>
           <p className="text-display-muted-editorial max-w-6xl">
-            Turn roadmap bets into{" "}
+            {content.supportPrefix}{" "}
             <span className="text-[var(--color-text-brand)]">
-              sharper strategy, shipped product,
+              {content.supportHighlight}
             </span>{" "}
-            and faster learning with one AI-first execution partner.
+            {content.supportSuffix}
           </p>
         </div>
 
         {/* The bordered frame mirrors the reference more closely while the cards stay on Yuvabe's lighter premium surface contract. */}
-        <div className="px-4 sm:px-0 lg:px-10 xl:px-14">
+        <div className="lg:px-10 xl:px-14">
           <div className="overflow-hidden border-y border-slate-200/80">
             <div className="grid md:grid-cols-3">
               {studioServices.map((service, index) => {
@@ -98,16 +98,16 @@ export function StudioServices() {
                     blur="sm"
                     radius="md"
                     className={[
-                      "relative min-h-[18rem] rounded-none border-0 px-6 py-8 md:min-h-[19rem] md:px-8 md:py-10",
+                      "relative min-h-[18rem] rounded-none border-0 px-5 py-5 sm:p-5 md:min-h-[19rem] md:p-6 lg:p-7",
                       "border-b border-slate-200/80 md:border-b-0",
                       showDesktopDivider ? "md:border-r md:border-slate-200/80" : "",
                     ].join(" ")}
                   >
                     {/* Each column now reads more like an editorial metric block than a standard feature card. */}
-                    <div className="space-y-6 text-center md:text-left">
-                      <div className="flex items-center justify-center gap-3 md:justify-between">
+                    <div className="space-y-5 text-left">
+                      <div className="flex items-center justify-between gap-4">
                         <p className="font-display text-[clamp(3.1rem,5vw,4.3rem)] leading-none tracking-[-0.08em] text-[color:color-mix(in_srgb,var(--neutral-700)_68%,white)]">
-                          {service.value}
+                          {`${index + 1}`.padStart(2, "0")}
                         </p>
                         <div className="flex size-11 items-center justify-center rounded-full border border-white/70 bg-white/88 shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
                           <Icon className={["size-5", service.accentClassName].join(" ")} />
@@ -115,13 +115,13 @@ export function StudioServices() {
                       </div>
 
                       <div className="space-y-3">
-                        <h3 className="mx-auto max-w-[10ch] font-display text-[clamp(1.8rem,3vw,2.7rem)] font-medium leading-[0.94] tracking-[-0.055em] text-[var(--neutral-950)] md:mx-0">
+                        <h3 className="max-w-[10ch] font-display text-[clamp(1.8rem,3vw,2.7rem)] font-medium leading-[0.94] tracking-[-0.055em] text-[var(--neutral-950)]">
                           {service.title}
                         </h3>
-                        <p className="mx-auto max-w-[20ch] text-heading-sm font-medium text-[var(--neutral-700)] md:mx-0">
+                        <p className="max-w-[20ch] text-heading-sm font-medium text-[var(--neutral-700)]">
                           {service.shortLabel}
                         </p>
-                        <p className="mx-auto max-w-[24ch] text-body-md text-[var(--color-text-secondary)] md:mx-0">
+                        <p className="max-w-[30ch] text-body-md text-[var(--color-text-secondary)]">
                           {service.description}
                         </p>
                       </div>

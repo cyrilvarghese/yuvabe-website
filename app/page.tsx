@@ -33,7 +33,7 @@ export default async function Home() {
       {/* The homepage starts with the Stripe-inspired hero and flows into proof. */}
       <StudioHeader navigationItems={homepageContent.navigationItems} />
       <StudioHero content={homepageContent.hero} />
-      <StudioServices />
+      <StudioServices content={homepageContent.services} />
       <StudioCaseStudies
         caseStudies={homepageCaseStudies}
         workContent={homepageContent.work}

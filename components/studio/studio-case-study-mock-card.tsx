@@ -19,6 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
+const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 
 export type StudioCaseStudyMockVariant = "aurora" | "sunrise" | "prism";
 export type StudioCaseStudyMockCardLayout = "feature" | "compact" | "wide";
@@ -366,6 +367,7 @@ export function StudioCaseStudyMockCard({
                       imageClassName,
                     )}
                     priority={false}
+                    unoptimized={shouldSkipImageOptimization}
                   />
                 </div>
               </motion.div>

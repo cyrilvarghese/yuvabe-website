@@ -34,6 +34,7 @@ type StudioCaseStudyGalleryImageLibrary = Record<
 
 const caseStudyGalleryImageLibrary =
   galleryImageLibrary as StudioCaseStudyGalleryImageLibrary;
+const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 
 // Alternate wide and narrow gallery items so the proof rows keep a clean editorial rhythm.
 function getGalleryItemClasses(rowIndex: number, itemIndex: number) {
@@ -206,6 +207,7 @@ export function StudioCaseStudyDetail({
                         fill
                         sizes="(min-width: 768px) 50vw, 100vw"
                         className="object-cover"
+                        unoptimized={shouldSkipImageOptimization}
                       />
                       <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(11,15,25,0.08),rgba(11,15,25,0.02)_24%,rgba(255,255,255,0)_56%)]" />
                       <div className="absolute left-5 top-5 inline-flex h-10 items-center gap-2 rounded-full border border-white/44 bg-white/42 px-3 text-[0.66rem] uppercase tracking-[0.16em] text-[var(--color-text-tertiary)] shadow-[0_6px_12px_rgba(15,23,42,0.028)] backdrop-blur-md">

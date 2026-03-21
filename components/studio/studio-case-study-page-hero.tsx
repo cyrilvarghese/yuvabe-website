@@ -10,6 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { PremiumSurface } from "@/components/ui/premium-surface";
 
+const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
+
 type StudioCaseStudyPageHeroProps = {
   caseStudy: StudioCaseStudySummary;
 };
@@ -120,6 +122,7 @@ export function StudioCaseStudyPageHero({
                           fill
                           sizes="(min-width: 1280px) 36vw, (min-width: 768px) 48vw, 100vw"
                           className="object-cover"
+                          unoptimized={shouldSkipImageOptimization}
                         />
                       ) : (
                         <div className="flex h-full items-center justify-center text-[var(--neutral-700)]">

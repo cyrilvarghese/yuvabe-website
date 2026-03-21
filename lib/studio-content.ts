@@ -29,6 +29,13 @@ const caseStudiesFilePath = path.join(dataDirectory, "studio-case-studies.json")
 const homepageFilePath = path.join(dataDirectory, "studio-homepage-content.json");
 const contentDocumentsTable = "content_documents";
 
+const legacyStudioAssetPathAliases: Record<string, string> = {
+  "/assets/ga-image.png": "/assets/GA_cover.png",
+  "/assets/bevolve/platform-banner.png": "/assets/Bevolve_cover.png",
+  "/assets/tvam/tvam-cover.png": "/assets/tvam_cover.jpeg",
+  "/assets/ageshift/ageshift_cover.png": "/assets/ageShift_logo.svg",
+};
+
 function assertRecord(
   value: unknown,
   label: string,
@@ -48,6 +55,16 @@ function expectString(value: unknown, label: string) {
 
 function optionalString(value: unknown) {
   return typeof value === "string" ? value : undefined;
+}
+
+function resolveStudioAssetPath(value: unknown) {
+  const pathValue = optionalString(value);
+
+  if (!pathValue) {
+    return undefined;
+  }
+
+  return legacyStudioAssetPathAliases[pathValue] ?? pathValue;
 }
 
 function normalizeOptionalString(value: unknown) {
@@ -390,8 +407,12 @@ function parseCaseStudySummary(value: unknown, label: string): StudioCaseStudySu
       value.mediaIconKey,
       `${label}.mediaIconKey`,
     ) as StudioCaseStudyIconKey,
-    mockImageSrc: optionalString(value.mockImageSrc),
+    // Normalize legacy Supabase asset paths so local preview stays aligned with the checked-in public bundle.
+    mockImageSrc: resolveStudioAssetPath(value.mockImageSrc),
+    mockVideoSrc: optionalString(value.mockVideoSrc),
     mockImageAlt: optionalString(value.mockImageAlt),
+    heroImageSrc: optionalString(value.heroImageSrc),
+    detailImageSrc: optionalString(value.detailImageSrc),
     mockVariant: optionalString(value.mockVariant) as
       | StudioCaseStudySummary["mockVariant"]
       | undefined,

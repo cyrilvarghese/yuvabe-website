@@ -67,7 +67,10 @@ export type StudioCaseStudySummary = {
   services: string[];
   mediaIconKey: StudioCaseStudyIconKey;
   mockImageSrc?: string;
+  mockVideoSrc?: string;
   mockImageAlt?: string;
+  heroImageSrc?: string;
+  detailImageSrc?: string;
   mockVariant?: StudioCaseStudyMockVariant;
   mockLayout?: StudioCaseStudyMockCardLayout;
   mockViewport?: StudioCaseStudyMockViewport;

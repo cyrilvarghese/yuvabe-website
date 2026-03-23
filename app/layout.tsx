@@ -90,9 +90,55 @@ const clashDisplay = localFont({
 
 export const metadata: Metadata = {
   metadataBase: siteMetadataBase,
-  title: "Yuvabe Studios",
+  title: {
+    default: "Yuvabe Studios",
+    template: "%s | Yuvabe Studios",
+  },
   description:
     "AI-first strategy, design, engineering, and growth marketing studio for startups.",
+  keywords: [
+    "AI-first studio",
+    "startup studio",
+    "product engineering",
+    "AI-native apps",
+    "digital marketing",
+    "growth marketing",
+    "product design",
+    "SaaS design",
+    "startup consulting",
+  ],
+  authors: [{ name: "Yuvabe Studios", url: "https://www.yuvabestudios.com" }],
+  creator: "Yuvabe Studios",
+  publisher: "Yuvabe Studios",
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://www.yuvabestudios.com",
+    siteName: "Yuvabe Studios",
+    title: "Yuvabe Studios — AI-first strategy, design & engineering for startups",
+    description:
+      "One execution partner for product engineering, AI-native apps, and growth marketing. Built for founders who need to move fast.",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Yuvabe Studios — AI-first strategy, design & engineering for startups",
+    description:
+      "One execution partner for product engineering, AI-native apps, and growth marketing. Built for founders who need to move fast.",
+    creator: "@yuvabestudios",
+  },
+  alternates: {
+    canonical: "https://www.yuvabestudios.com",
+  },
 };
 
 export default function RootLayout({

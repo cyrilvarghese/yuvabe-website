@@ -10,6 +10,7 @@ import { StudioCaseStudyExpandButton } from "@/components/studio/studio-case-stu
 import { cn } from "@/lib/utils";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
+const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 
 const editorialCardVariants = cva(
   "relative flex h-full flex-col overflow-hidden rounded-[1.75rem] border border-[color:color-mix(in_srgb,var(--lavender-200)_55%,white)] bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(252,252,253,0.96))] shadow-[0_18px_48px_rgba(11,15,25,0.08)]",
@@ -161,7 +162,14 @@ export function StudioCaseStudyEditorialCard({
       {/* The logo row anchors brand recognition high in the layout before the larger visual takes over. */}
       <div className="relative z-10 px-5 pt-5 sm:px-6 sm:pt-6">
         <div className="relative h-10 w-[9.5rem] sm:h-11 sm:w-[10.5rem]">
-          <Image src={logoSrc} alt={`${brandName} logo`} fill sizes="168px" className="object-contain object-left" />
+          <Image
+            src={logoSrc}
+            alt={`${brandName} logo`}
+            fill
+            sizes="168px"
+            className="object-contain object-left"
+            unoptimized={shouldSkipImageOptimization}
+          />
         </div>
       </div>
 
@@ -186,6 +194,7 @@ export function StudioCaseStudyEditorialCard({
                 fill
                 sizes="(min-width: 1280px) 320px, (min-width: 768px) 45vw, 80vw"
                 className="object-contain drop-shadow-[0_20px_44px_rgba(15,23,42,0.12)]"
+                unoptimized={shouldSkipImageOptimization}
               />
             </div>
           </motion.div>

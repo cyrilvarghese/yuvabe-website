@@ -19,11 +19,13 @@ import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 
 const easeOut = [0.22, 1, 0.36, 1] as const;
+const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 
 export type StudioCaseStudyMockVariant = "aurora" | "sunrise" | "prism";
 export type StudioCaseStudyMockCardLayout = "feature" | "compact" | "wide";
 export type StudioCaseStudyMockViewport = "portrait" | "landscape";
 export type StudioCaseStudyMockCardSpan = "grid" | "full";
+export type StudioCaseStudyMockPresentation = "framed" | "fullImage";
 
 const mockCardVariantStyles: Record<
   StudioCaseStudyMockVariant,
@@ -174,9 +176,11 @@ export type StudioCaseStudyMockCardProps = {
   services: string[];
   imageSrc: string;
   imageAlt: string;
+  imageAspectRatio?: string;
   imageClassName?: string;
   videoSrc?: string;
   mockViewport?: StudioCaseStudyMockViewport;
+  mockPresentation?: StudioCaseStudyMockPresentation;
   variant?: StudioCaseStudyMockVariant;
   layout?: StudioCaseStudyMockCardLayout;
   span?: StudioCaseStudyMockCardSpan;
@@ -190,10 +194,12 @@ export function StudioCaseStudyMockCard({
   className,
   detailHref,
   imageAlt,
+  imageAspectRatio,
   imageClassName,
   imageSrc,
   videoSrc,
   layout = "feature",
+  mockPresentation = "framed",
   mockViewport = "portrait",
   onOpenDetails,
   sector,
@@ -221,6 +227,9 @@ export function StudioCaseStudyMockCard({
   const variantStyles = mockCardVariantStyles[variant];
   const layoutStyles = mockCardLayoutStyles[layout];
   const viewportStyles = mockViewportStyles[mockViewport];
+  const isFullImagePresentation = mockPresentation === "fullImage";
+  const fullImageAspectRatio =
+    imageAspectRatio ?? (mockViewport === "portrait" ? "1310 / 2708" : "16 / 10");
   const serviceTags = services.map(normalizeServiceLabel);
   const canOpenDetails = Boolean(onOpenDetails);
 
@@ -257,11 +266,11 @@ export function StudioCaseStudyMockCard({
       onKeyDown={
         canOpenDetails
           ? (event) => {
-              if (event.key === "Enter" || event.key === " ") {
-                event.preventDefault();
-                handleOpenDetails();
-              }
+            if (event.key === "Enter" || event.key === " ") {
+              event.preventDefault();
+              handleOpenDetails();
             }
+          }
           : undefined
       }
       role={canOpenDetails ? "button" : undefined}
@@ -404,11 +413,14 @@ export function StudioCaseStudyMockCard({
                           : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
                     }
                     className={cn(
-                      viewportStyles.imageClassName,
-                      variantStyles.mockImageClassName,
+                      isFullImagePresentation
+                        ? "object-contain object-center"
+                        : viewportStyles.imageClassName,
+                      !isFullImagePresentation && variantStyles.mockImageClassName,
                       imageClassName,
                     )}
                     priority={false}
+                    unoptimized={shouldSkipImageOptimization}
                   />
                 )}
               </div>

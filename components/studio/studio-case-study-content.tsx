@@ -10,6 +10,7 @@ import {
 
 import type {
   StudioCaseStudyMockCardLayout,
+  StudioCaseStudyMockPresentation,
   StudioCaseStudyMockVariant,
   StudioCaseStudyMockViewport,
 } from "@/components/studio/studio-case-study-mock-card";
@@ -79,6 +80,8 @@ export type StudioCaseStudySummary = {
   mockVariant?: StudioCaseStudyMockVariant;
   mockLayout?: StudioCaseStudyMockCardLayout;
   mockViewport?: StudioCaseStudyMockViewport;
+  mockPresentation?: StudioCaseStudyMockPresentation;
+  mockImageAspectRatio?: string;
   mockImageClassName?: string;
   size?: "default" | "feature";
   modalIntro?: string;

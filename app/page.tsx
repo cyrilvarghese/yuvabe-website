@@ -3,6 +3,7 @@ import { StudioCaseStudies } from "@/components/studio/studio-case-studies";
 import { StudioFooter } from "@/components/studio/studio-footer";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { StudioHero } from "@/components/studio/studio-hero";
+import { StudioServices } from "@/components/studio/studio-services";
 import {
   getStudioCaseStudies,
   getStudioHomepageContent,
@@ -35,6 +36,7 @@ export default async function Home() {
 
       <StudioHeader navigationItems={homepageContent.navigationItems} />
       <StudioHero content={homepageContent.hero} />
+      <StudioServices content={homepageContent.services} />
       <StudioCaseStudies
         caseStudies={homepageCaseStudies}
         workContent={homepageContent.work}

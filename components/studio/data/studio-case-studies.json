@@ -11,11 +11,12 @@
       "Content system"
     ],
     "mediaIconKey": "layoutGrid",
-    "mockImageSrc": "/assets/general-aeronautics/ga-cover.png",
+    "mockImageSrc": "/assets/general-aeronautics/cover-home.png",
     "mockImageAlt": "General Aeronautics cover",
     "mockVariant": "aurora",
     "mockViewport": "landscape",
     "mockPresentation": "fullImage",
+    "mockImageAspectRatio": "2048 / 1228",
     "size": "feature",
     "modalIntro": "General Aeronautics builds drone systems across agriculture, defense, humanitarian response, and warehouse automation. As the business expanded, its digital presence needed to explain that breadth with more clarity, confidence, and usability.",
     "modalOutcomes": [

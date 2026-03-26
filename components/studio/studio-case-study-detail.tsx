@@ -22,10 +22,19 @@ const caseStudyImageOverrides: Partial<Record<string, string>> = {
   ageshift: "/assets/ageshift/ageshift_cover.png",
 };
 
+const caseStudyDetailImageOverrides: Partial<Record<string, string>> = {
+  "general-aeronautics": "/assets/general-aeronautics/cover-detail.jpeg",
+};
+
+const caseStudyDetailModalImageClassOverrides: Partial<Record<string, string>> = {
+  "general-aeronautics": "scale-[1.16] object-[center_18%]",
+};
+
 type StudioCaseStudyDetailProps = {
   caseStudy: StudioCaseStudySummary;
   variant?: "modal" | "page";
   showHero?: boolean;
+  showGalleryCardFooter?: boolean;
 };
 
 type StudioCaseStudyGalleryImageAsset = {
@@ -112,17 +121,39 @@ function getGalleryImageSizes({
   return isModal ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw";
 }
 
+// The gallery uses one clearer section label when rows are really just different visual cuts of the same work.
+function getGalleryRowTitle(title: string) {
+  switch (title.toLowerCase()) {
+    case "brand and product views":
+    case "product views":
+    case "platform story":
+      return "Work Gallery";
+    default:
+      return title;
+  }
+}
+
 // This shared detail body keeps the modal summary and SEO page aligned around the same case-study narrative.
 export function StudioCaseStudyDetail({
   caseStudy,
   variant = "page",
   showHero = true,
+  showGalleryCardFooter = true,
 }: StudioCaseStudyDetailProps) {
   const detail = resolveStudioCaseStudyDetail(caseStudy);
   const galleryAssets =
     caseStudyGalleryImageLibrary[caseStudy.id] ??
     caseStudyGalleryImageLibrary.bevolve;
   const isModal = variant === "modal";
+  const detailVisualSrc =
+    caseStudy.detailImageSrc ??
+    caseStudyDetailImageOverrides[caseStudy.id] ??
+    caseStudyImageOverrides[caseStudy.id] ??
+    caseStudy.mockImageSrc;
+  const detailVideoSrc =
+    caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id];
+  const detailModalImageClassName =
+    caseStudyDetailModalImageClassOverrides[caseStudy.id];
   const contactHref = "/#process";
   const returnHref = "/#work";
 
@@ -197,82 +228,149 @@ export function StudioCaseStudyDetail({
         </div>
       ) : null}
 
-      {/* The middle section keeps the visual proof and case breakdown side by side. */}
-      <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
-        <PremiumSurface
-          tone="glass"
-          elevation="sm"
-          blur="lg"
-          radius="xl"
-          className="self-start min-h-72 overflow-visible border-white/42 bg-[linear-gradient(180deg,rgba(255,255,255,0.36),rgba(255,255,255,0.18))] p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] sm:min-h-96 sm:p-6 lg:sticky lg:top-6"
-        >
-          <div className="relative flex h-full items-end justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:p-3">
-            <div className="relative flex h-full min-h-64 w-full items-center justify-center overflow-hidden rounded-[0.85rem] text-(--neutral-700)">
-              {(caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id]) ? (
-                <video
-                  src={caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id]}
-                  autoPlay
-                  muted
-                  loop
-                  playsInline
-                  className="absolute inset-0 h-full w-full object-cover"
-                />
-              ) : (caseStudyImageOverrides[caseStudy.id] ?? caseStudy.mockImageSrc) ? (
-                <Image
-                  src={caseStudyImageOverrides[caseStudy.id] ?? caseStudy.mockImageSrc!}
-                  alt={caseStudy.mockImageAlt ?? caseStudy.title}
-                  fill
-                  className="object-cover object-center"
-                  unoptimized={shouldSkipImageOptimization}
-                />
-              ) : (
+      {/* The modal shifts this section to a full-width cover image, while the page keeps the side-by-side proof layout. */}
+      {isModal ? (
+        <div className="relative z-10 space-y-8 border-b border-(--color-border-default)/80 py-8">
+          <div className="relative flex min-h-[21.5rem] items-center justify-center overflow-hidden sm:min-h-[29.5rem] lg:min-h-[43.5rem]">
+            {detailVideoSrc ? (
+              <video
+                src={detailVideoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : detailVisualSrc ? (
+              <Image
+                src={detailVisualSrc}
+                alt={caseStudy.mockImageAlt ?? caseStudy.title}
+                fill
+                sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
+                className={cn(
+                  "object-cover object-top",
+                  detailModalImageClassName,
+                )}
+                unoptimized={shouldSkipImageOptimization}
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-(--neutral-700)">
                 <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
-              )}
-            </div>
+              </div>
+            )}
           </div>
-        </PremiumSurface>
 
-        <div className="relative min-h-72 px-4 py-5 sm:min-h-96 sm:p-6">
-          <div className="relative space-y-5">
-            <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
-              Case breakdown
-            </p>
-            <div className="space-y-6">
-              {detail.sections.map((section, index) => (
-                <section key={section.title} className="pt-1">
-                  <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
-                    {String(index + 1).padStart(2, "0")}
-                  </p>
-                  <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
-                    {section.title}
-                  </h2>
-                  <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
-                    {section.body}
-                  </p>
-                </section>
-              ))}
+          <div className="relative px-2 py-1 sm:px-3">
+            <div className="relative space-y-5">
+              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
+                Case breakdown
+              </p>
+              <div className="grid gap-0 border-t border-(--color-border-default)/80 sm:grid-cols-2 xl:grid-cols-4">
+                {detail.sections.map((section, index) => (
+                  <section
+                    key={section.title}
+                    className="border-b border-(--color-border-default)/80 px-0 py-5 sm:border-b-0 sm:px-5 sm:first:pl-0 xl:border-l xl:px-6 xl:first:border-l-0 xl:first:pl-0"
+                  >
+                    <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
+                      {section.title}
+                    </h2>
+                    <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
+                      {section.body}
+                    </p>
+                  </section>
+                ))}
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
+          <PremiumSurface
+            tone="glass"
+            elevation="sm"
+            blur="lg"
+            radius="xl"
+            className="min-h-72 overflow-visible border-white/42 bg-[linear-gradient(180deg,rgba(255,255,255,0.36),rgba(255,255,255,0.18))] p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] sm:min-h-96 sm:p-6 lg:sticky lg:top-6 lg:min-h-[42rem]"
+          >
+            <div className="relative flex h-full min-h-[16rem] items-end justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:min-h-[22rem] sm:p-3 lg:min-h-[calc(42rem-3rem)]">
+              <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[0.85rem] text-(--neutral-700)">
+                {detailVideoSrc ? (
+                  <video
+                    src={detailVideoSrc}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    className="absolute inset-0 h-full w-full object-cover"
+                  />
+                ) : detailVisualSrc ? (
+                  <Image
+                    src={detailVisualSrc}
+                    alt={caseStudy.mockImageAlt ?? caseStudy.title}
+                    fill
+                    className="object-cover object-center"
+                    unoptimized={shouldSkipImageOptimization}
+                  />
+                ) : (
+                  <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
+                )}
+              </div>
+            </div>
+          </PremiumSurface>
+
+          <div className="relative min-h-72 px-4 py-5 sm:min-h-96 sm:p-6">
+            <div className="relative space-y-5">
+              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
+                Case breakdown
+              </p>
+              <div className="space-y-6">
+                {detail.sections.map((section, index) => (
+                  <section key={section.title} className="pt-1">
+                    <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
+                      {String(index + 1).padStart(2, "0")}
+                    </p>
+                    <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
+                      {section.title}
+                    </h2>
+                    <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
+                      {section.body}
+                    </p>
+                  </section>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* The gallery rows switch between a wider page showcase and a denser modal proof grid. */}
       <div className="relative z-10 space-y-6 border-b border-(--color-border-default)/80 py-8">
         {detail.galleryRows.map((row, rowIndex) => (
           <section key={row.title} className="space-y-4">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
-                {row.title}
-              </p>
-              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
-                Proof layer
-              </p>
-            </div>
+            {(() => {
+              const currentRowTitle = getGalleryRowTitle(row.title);
+              const previousRowTitle =
+                rowIndex > 0
+                  ? getGalleryRowTitle(detail.galleryRows[rowIndex - 1]?.title ?? "")
+                  : null;
+              const shouldShowRowTitle = currentRowTitle !== previousRowTitle;
+
+              return shouldShowRowTitle ? (
+                <div className="flex items-center gap-3">
+                  <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
+                    {currentRowTitle}
+                  </p>
+                </div>
+              ) : null;
+            })()}
             <div className="grid gap-6 md:grid-cols-12 md:items-stretch">
               {row.items.map((item, itemIndex) => {
                 const galleryImage =
                   galleryAssets.images[
-                    (rowIndex * 2 + itemIndex) % galleryAssets.images.length
+                  (rowIndex * 2 + itemIndex) % galleryAssets.images.length
                   ];
 
                 return (
@@ -283,51 +381,53 @@ export function StudioCaseStudyDetail({
                       getGalleryItemSpan(row.items.length),
                     )}
                   >
-                    {/* The modal now reuses the same framed showcase language so both contexts tell the same visual story. */}
-                    <div className="relative border-b border-(--color-border-default)/70 bg-[linear-gradient(180deg,rgba(252,252,253,0.96),rgba(248,248,250,0.92))] p-3 sm:p-4">
-                      <div className="absolute left-8 top-8 z-10 inline-flex items-center gap-2 rounded-full border border-(--color-border-default)/90 bg-white/94 px-3 py-2 text-[0.66rem] uppercase tracking-[0.16em] text-(--color-text-tertiary) shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
+                    {/* The gallery visual stays cleaner now: one image stage, one badge, and no extra inset frame. */}
+                    <div className="relative overflow-hidden border-b border-(--color-border-default)/70 bg-[linear-gradient(180deg,rgba(252,252,253,0.96),rgba(248,248,250,0.9))]">
+                      <div className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-full border border-(--color-border-default)/90 bg-white/94 px-3 py-2 text-[0.66rem] uppercase tracking-[0.16em] text-(--color-text-tertiary) shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
                         <ImageIcon className="size-3.5" strokeWidth={1.9} />
                         {galleryAssets.badgeLabel}
                       </div>
-                      <div className="relative overflow-hidden rounded-[1.05rem] border border-(--color-border-default)/75 bg-card shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
-                        <div
-                          className={cn(
-                            "relative w-full",
-                            getGalleryStageClass({
-                              isModal,
-                              mockViewport: caseStudy.mockViewport,
-                              itemCount: row.items.length,
-                            }),
-                          )}
-                        >
-                          <Image
-                            src={galleryImage.src}
-                            alt={galleryImage.alt}
-                            fill
-                            sizes={getGalleryImageSizes({
-                              isModal,
-                              itemCount: row.items.length,
-                            })}
-                            className="object-contain"
-                            unoptimized={shouldSkipImageOptimization}
-                          />
-                          <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0)_28%,rgba(11,15,25,0.045)_100%)]" />
-                        </div>
+                      <div
+                        className={cn(
+                          "relative w-full",
+                          getGalleryStageClass({
+                            isModal,
+                            mockViewport: caseStudy.mockViewport,
+                            itemCount: row.items.length,
+                          }),
+                        )}
+                      >
+                        <Image
+                          src={galleryImage.src}
+                          alt={galleryImage.alt}
+                          fill
+                          sizes={getGalleryImageSizes({
+                            isModal,
+                            itemCount: row.items.length,
+                          })}
+                          className="object-contain"
+                          unoptimized={shouldSkipImageOptimization}
+                        />
+                        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0)_28%,rgba(11,15,25,0.045)_100%)]" />
                       </div>
                     </div>
 
-                    {/* The caption bar stays consistent so the page and modal use the same proof-panel contract. */}
-                    <div className="grid flex-1 items-start gap-4 bg-white px-5 py-5 sm:px-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-7">
-                      <div className="flex flex-col items-start justify-start gap-2">
-                        <p className="text-[1.35rem] font-semibold leading-[1.04] tracking-[-0.035em] text-(--neutral-950)">
-                          {item.title}
-                        </p>
-                        <div className="h-px w-12 bg-(--color-text-brand)/70" />
-                      </div>
-                      <p className="max-w-3xl pt-0.5 text-body-sm leading-7 text-(--color-text-secondary)">
-                        {item.description}
-                      </p>
-                    </div>
+                    {showGalleryCardFooter ? (
+                      <>
+                        {/* The caption bar stays consistent so the page and modal use the same proof-panel contract. */}
+                        <div className="grid flex-1 items-start gap-4 bg-white px-5 py-5 sm:px-6 lg:grid-cols-[minmax(0,18rem)_minmax(0,1fr)] lg:gap-7">
+                          <div className="flex flex-col items-start justify-start gap-2">
+                            <p className="text-[1.35rem] font-semibold leading-[1.04] tracking-[-0.035em] text-(--neutral-950)">
+                              {item.title}
+                            </p>
+                            <div className="h-px w-12 bg-(--color-text-brand)/70" />
+                          </div>
+                          <p className="max-w-3xl pt-0.5 text-body-sm leading-7 text-(--color-text-secondary)">
+                            {item.description}
+                          </p>
+                        </div>
+                      </>
+                    ) : null}
                   </article>
                 );
               })}

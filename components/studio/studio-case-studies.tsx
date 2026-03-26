@@ -24,7 +24,7 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {
 // Hard-coded image overrides — take priority over whatever Supabase returns so real
 // assets are always shown even when the remote record still points to placeholders.
 const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/ga-cover.png",
+  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
   ageshift: "/assets/ageshift/ageshift_cover.png",
 };
 

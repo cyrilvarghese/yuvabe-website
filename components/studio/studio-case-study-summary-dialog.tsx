@@ -31,7 +31,11 @@ export function StudioCaseStudySummaryDialog({
       title={`${caseStudy.title} case study summary`}
       contentClassName="px-5 pb-8 pt-16 sm:px-8 lg:px-10 lg:pb-10"
     >
-      <StudioCaseStudyDetail caseStudy={caseStudy} variant="modal" />
+      <StudioCaseStudyDetail
+        caseStudy={caseStudy}
+        variant="modal"
+        showGalleryCardFooter={false}
+      />
     </ModalShell>
   );
 }

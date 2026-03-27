@@ -1,8 +1,17 @@
 {
   "navigationItems": [
-    { "label": "About", "href": "#about" },
-    { "label": "Work", "href": "#work" },
-    { "label": "AI-first DNA", "href": "#ai-first-dna" }
+    {
+      "label": "About",
+      "href": "about"
+    },
+    {
+      "label": "Work",
+      "href": "#work"
+    },
+    {
+      "label": "AI-first DNA",
+      "href": "#ai-first-dna"
+    }
   ],
   "hero": {
     "headlineIntro": "Build the",

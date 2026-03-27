@@ -18,7 +18,6 @@ import {
   type StudioAboutValuesContent,
   type StudioAboutWorkflowContent,
 } from "@/components/studio/studio-about-content";
-import { StudioHandDrawnUnderline } from "@/components/studio/studio-hand-drawn-underline";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { Button } from "@/components/ui/button";
 import { PremiumSurface } from "@/components/ui/premium-surface";
@@ -94,6 +93,8 @@ function SectionIntro({
 // The hero reframes the legacy About story into the sharper AI-first founder promise.
 function AboutHero() {
   const { hero } = studioAboutPageContent;
+  const descriptionHighlight = "AI-first studio from Auroville";
+  const descriptionParts = hero.description.split(descriptionHighlight);
 
   return (
     <section className="relative overflow-hidden border-b border-slate-200/80 bg-white px-6 pb-14 pt-14 md:px-10 md:pb-20 md:pt-16">
@@ -116,11 +117,25 @@ function AboutHero() {
               <span className="text-[var(--color-text-brand)]">{hero.highlight}</span>
             </h1>
             <p className="max-w-4xl text-hero-support text-[var(--color-text-secondary)]">
-              {hero.description}
+              {descriptionParts.length === 2 ? (
+                <>
+                  {descriptionParts[0]}
+                  <span className="font-semibold text-[var(--neutral-950)]">
+                    {descriptionHighlight}
+                  </span>
+                  {descriptionParts[1]}
+                </>
+              ) : (
+                hero.description
+              )}
             </p>
-            <p className="text-label-lg text-[var(--color-text-brand)]">
-              {hero.supportingLine}
-            </p>
+
+            {hero.supportingLine ? (
+              /* This optional identity line only renders when the content model needs a second supporting statement. */
+              <p className="max-w-4xl text-hero-support text-[var(--color-text-brand)]">
+                {hero.supportingLine}
+              </p>
+            ) : null}
           </div>
 
           {/* The CTA pair reuses the shared button contract so this route matches the rest of the site. */}
@@ -137,30 +152,44 @@ function AboutHero() {
           </div>
         </div>
 
-        {/* The right column turns the positioning into a compact set of proof-oriented callout cards. */}
-        <div className="grid gap-4 lg:pt-6">
-          {hero.callouts.map((callout) => (
-            <PremiumSurface
-              key={callout.label}
-              tone="glassSubtle"
-              elevation="md"
-              blur="md"
-              radius="xl"
-              className="p-5 md:p-6"
-            >
-              <div className="space-y-3">
-                <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
-                  {callout.label}
-                </p>
-                <p className="text-heading-lg text-[var(--neutral-950)]">
-                  {callout.value}
-                </p>
-                <p className="text-body-md text-[var(--color-text-secondary)]">
-                  {callout.description}
-                </p>
+        {/* The right column becomes a quieter editorial timeline so the three positioning points can breathe. */}
+        <div className="relative lg:pt-6">
+          <div
+            aria-hidden="true"
+            className="absolute bottom-6 left-[0.6875rem] top-6 w-px bg-[linear-gradient(180deg,rgba(150,136,192,0.14)_0%,rgba(150,136,192,0.5)_12%,rgba(150,136,192,0.5)_88%,rgba(150,136,192,0.14)_100%)]"
+          />
+
+          <div className="space-y-10 md:space-y-12">
+            {hero.callouts.map((callout) => (
+              <div
+                key={callout.label}
+                className="grid grid-cols-[1.375rem_minmax(0,1fr)] items-start gap-x-5 md:gap-x-6"
+              >
+                <div className="flex justify-center pt-[calc(0.5rem-7px)]">
+                  <div
+                    aria-hidden="true"
+                    className="flex size-5 items-center justify-center rounded-full border border-[color:color-mix(in_srgb,var(--lavender-200)_74%,white)] bg-white shadow-[0_8px_20px_rgba(15,23,42,0.06)]"
+                  >
+                    <div className="size-2 rounded-full bg-[var(--purple-500)]" />
+                  </div>
+                </div>
+
+                <div className="space-y-3">
+                  <div className="flex min-h-5 items-center pt-[2px]">
+                    <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
+                      {callout.label}
+                    </p>
+                  </div>
+                  <p className="text-heading-lg text-[var(--neutral-950)]">
+                    {callout.value}
+                  </p>
+                  <p className="max-w-[30rem] text-body-md text-[var(--color-text-secondary)]">
+                    {callout.description}
+                  </p>
+                </div>
               </div>
-            </PremiumSurface>
-          ))}
+            ))}
+          </div>
         </div>
       </div>
     </section>
@@ -181,23 +210,12 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
           </div>
 
-          <h2 className="text-hero-display text-[var(--neutral-950)]">
-            <span className="block">More than execution.</span>
-            <span className="mt-[0.06em] block text-[var(--color-text-brand)]">
-              Better judgment.
-            </span>
+          <h2 className="max-w-4xl text-section-display text-[var(--neutral-950)]">
+            {content.title}
           </h2>
 
-          <p className="max-w-4xl text-hero-support text-[var(--color-text-secondary)]">
-            <span>Yuvabe began in 2020 with </span>
-            <span className="relative inline-block text-[var(--neutral-950)]">
-              roots in Auroville
-              <StudioHandDrawnUnderline className="-left-[0.06em] -translate-y-[0.14em] w-[calc(100%+0.12rem)]" />
-            </span>
-            <span>
-              . That origin still shapes how we work today: with care,
-              curiosity, and long-term responsibility.
-            </span>
+          <p className="max-w-4xl text-body-lg text-[var(--color-text-secondary)]">
+            {content.paragraphs[0]}
           </p>
         </div>
 
@@ -220,13 +238,27 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             </div>
           </PremiumSurface>
 
-          {/* The secondary block keeps one short strategic takeaway without another heavy paragraph slab. */}
-          <div className="flex items-start gap-4 rounded-[1.25rem] border border-slate-200/80 bg-[var(--color-background-canvas)] px-5 py-4 md:px-6">
-            <div className="mt-1 h-10 w-px bg-[linear-gradient(180deg,var(--purple-500),rgba(88,41,199,0.08))]" />
-            <p className="max-w-3xl text-body-lg text-[var(--color-text-secondary)]">
-              {content.paragraphs[2]}
-            </p>
-          </div>
+          {/* The secondary block now uses the shared aurora surface so the strategic takeaway feels like a system callout, not a one-off panel. */}
+          <PremiumSurface
+            tone="neutral"
+            elevation="md"
+            blur="lg"
+            radius="xl"
+            className="overflow-hidden p-5 md:p-6"
+          >
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute inset-0 bg-[radial-gradient(88%_82%_at_15%_88%,rgba(255,202,45,0.69)_0%,rgba(249,169,31,0.36)_24%,rgba(240,78,40,0.21)_42%,rgba(150,136,192,0.15)_58%,rgba(255,255,255,0)_74%)] opacity-100 [mask-image:linear-gradient(180deg,transparent_0%,rgba(0,0,0,0.05)_26%,rgba(0,0,0,0.9)_56%,rgba(0,0,0,1)_100%),linear-gradient(90deg,rgba(0,0,0,1)_0%,rgba(0,0,0,0.98)_30%,rgba(0,0,0,0.42)_50%,transparent_66%)]"
+            />
+            <div className="max-w-4xl space-y-3">
+              <p className="text-label-sm uppercase tracking-[0.18em] text-[color:color-mix(in_srgb,var(--neutral-700)_88%,var(--lavender-500)_12%)]">
+                What we care about now
+              </p>
+              <p className="max-w-3xl text-body-lg text-[var(--color-text-secondary)]">
+                {content.paragraphs[2]}
+              </p>
+            </div>
+          </PremiumSurface>
 
           {/* The operating-principle cards become a lighter, shorter scan row instead of mini article cards. */}
           <div className="grid gap-4 md:grid-cols-3">
@@ -278,11 +310,11 @@ function AboutWorkflowSection({
           eyebrow={content.eyebrow}
           title={content.title}
           description={content.description}
-          className="lg:pl-10 xl:pl-14"
+          className="lg:pl-4 xl:pl-6"
         />
 
         {/* The workflow grid gives each discipline a clear role while preserving the one-loop story. */}
-        <div className="grid gap-4 lg:grid-cols-4 lg:px-10 xl:px-14">
+        <div className="grid gap-4 lg:grid-cols-4 lg:pl-4 xl:pl-6">
           {content.stages.map((stage, index) => {
             const Icon = workflowIcons[index % workflowIcons.length];
             const workflowCardStyle =
@@ -346,33 +378,47 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
           eyebrow={content.eyebrow}
           title={content.title}
           description={content.description}
-          className="lg:pl-10 xl:pl-14"
+          className="lg:pl-4 xl:pl-6"
         />
 
-        {/* The proof cards preserve the named-client specifics while staying lighter than the homepage work grid. */}
-        <div className="grid gap-4 lg:grid-cols-2 lg:px-10 xl:px-14">
-          {content.entries.map((entry) => (
-            <PremiumSurface
-              key={entry.client}
-              tone="neutral"
-              elevation="sm"
-              blur="none"
-              radius="xl"
-              className="p-6"
-            >
-              <div className="space-y-3">
-                <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
-                  {entry.sector}
-                </p>
-                <h3 className="text-heading-lg text-[var(--neutral-950)]">
-                  {entry.client}
-                </h3>
-                <p className="text-body-md text-[var(--color-text-secondary)]">
-                  {entry.summary}
-                </p>
-              </div>
-            </PremiumSurface>
-          ))}
+        {/* The proof module trades isolated cards for a dotted grid so the project notes feel lighter and more editorial. */}
+        <div className="relative overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white lg:ml-4 xl:ml-6">
+          <div aria-hidden="true" className="absolute inset-0">
+            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(88,41,199,0.16)_1px,transparent_1.4px)] bg-[size:20px_20px] opacity-75 [mask-image:linear-gradient(90deg,rgba(0,0,0,1)_0%,rgba(0,0,0,0.92)_34%,rgba(0,0,0,0.18)_64%,transparent_100%)]" />
+            <div className="absolute inset-0 bg-[radial-gradient(circle,rgba(255,202,45,0.22)_1px,transparent_1.45px)] bg-[size:20px_20px] opacity-70 [mask-image:linear-gradient(90deg,transparent_0%,rgba(0,0,0,0.16)_36%,rgba(0,0,0,0.88)_68%,rgba(0,0,0,1)_100%)]" />
+          </div>
+
+          <div className="relative grid lg:grid-cols-2">
+            {content.entries.map((entry, index) => {
+              const totalRows = Math.ceil(content.entries.length / 2);
+              const rowIndex = Math.floor(index / 2);
+              const isLeftColumn = index % 2 === 0;
+              const hasBottomBorder = rowIndex < totalRows - 1;
+
+              return (
+                <article
+                  key={entry.client}
+                  className={[
+                    "min-h-[15rem] space-y-4 px-6 py-7 md:px-8 md:py-8",
+                    hasBottomBorder ? "border-b border-slate-200/80" : "",
+                    isLeftColumn ? "lg:border-r lg:border-slate-200/80" : "",
+                  ]
+                    .filter(Boolean)
+                    .join(" ")}
+                >
+                  <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
+                    {entry.sector}
+                  </p>
+                  <h3 className="text-heading-lg text-[var(--neutral-950)]">
+                    {entry.client}
+                  </h3>
+                  <p className="max-w-[32rem] text-body-md text-[var(--color-text-secondary)]">
+                    {entry.summary}
+                  </p>
+                </article>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
@@ -429,12 +475,12 @@ function AboutValuesAndTeamSection({
             })}
           </div>
 
-          <div className="flex flex-wrap gap-x-5 gap-y-3">
+          <div className="flex flex-nowrap items-center gap-4 overflow-x-auto pb-1">
             {values.principles.map((principle, index) => (
               <span
                 key={principle}
                 className={[
-                  "text-label-xl font-semibold",
+                  "shrink-0 whitespace-nowrap text-label-lg font-semibold md:text-label-xl",
                   principleHashtagClasses[index % principleHashtagClasses.length],
                 ].join(" ")}
               >
@@ -468,9 +514,9 @@ function AboutValuesAndTeamSection({
               {teamTeaser.points.map((point) => (
                 <div
                   key={point}
-                  className="flex items-start gap-3 rounded-[1rem] border border-slate-200/80 bg-white/80 px-4 py-4"
+                  className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-[1rem] border border-slate-200/80 bg-white/80 px-4 py-4"
                 >
-                  <span className="mt-1 flex size-2.5 shrink-0 rounded-full bg-[var(--purple-500)]" />
+                  <span className="flex size-2.5 shrink-0 rounded-full bg-[var(--purple-500)]" />
                   <p className="text-body-md text-[var(--color-text-secondary)]">
                     {point}
                   </p>
@@ -496,7 +542,7 @@ function AboutFinalCta() {
           elevation="lg"
           blur="lg"
           radius="xl"
-          className="overflow-hidden p-8 md:p-10"
+          className="overflow-hidden p-8 transition-transform duration-300 ease-out hover:[transform:perspective(1600px)_rotateX(0.8deg)_rotateY(-1.8deg)] md:p-10"
         >
           <div aria-hidden="true" className="absolute inset-0">
             <div className="absolute right-[-8rem] top-[-8rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.18)_0%,rgba(255,202,45,0)_72%)] blur-3xl" />
@@ -516,15 +562,12 @@ function AboutFinalCta() {
                 {cta.description}
               </p>
             </div>
-            <div className="flex flex-col items-start gap-4 sm:flex-row lg:flex-col">
+            <div className="flex items-start">
               <Button asChild size="lg" className="min-w-[220px]">
                 <Link href={cta.primaryCtaHref}>
                   {cta.primaryCtaLabel}
                   <ArrowRight className="size-4" />
                 </Link>
-              </Button>
-              <Button asChild variant="secondary" size="lg" className="min-w-[180px]">
-                <Link href={cta.secondaryCtaHref}>{cta.secondaryCtaLabel}</Link>
               </Button>
             </div>
           </div>

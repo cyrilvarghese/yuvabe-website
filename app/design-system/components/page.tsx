@@ -175,6 +175,30 @@ export default function ComponentsPage() {
         {/* This specimen captures the brighter aurora-style product backdrop as a reusable premium surface. */}
         <BillingSurfacePreview />
 
+        {/* This specimen documents the warmer editorial callout surface used for highlighted strategy copy. */}
+        <section className="grid gap-6 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+          <PremiumSurface
+            tone="billingSunrise"
+            elevation="md"
+            blur="lg"
+            radius="xl"
+            className="space-y-4 p-6"
+          >
+            <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">Premium / Editorial sunrise</p>
+            <h2 className="text-heading-md text-foreground">Gradient callout surface</h2>
+            <p className="max-w-3xl text-body-md text-muted-foreground">
+              Use for highlighted editorial statements, strategic takeaways, or about-page copy moments that need more warmth and lift than a neutral panel.
+            </p>
+          </PremiumSurface>
+
+          <div className="space-y-3 rounded-[var(--ds-radius-xl)] border bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(248,248,250,0.94))] p-[var(--space-400)] shadow-sm">
+            <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">Usage notes</p>
+            <p className="text-body-md text-muted-foreground">
+              Keep this surface for short, high-signal copy blocks. Do not use it for dense multi-card layouts or utility UI.
+            </p>
+          </div>
+        </section>
+
         {/* The preview grid shows the feature and standard sizes together so their rhythm can be reviewed side by side. */}
         <section className="grid gap-6 xl:grid-cols-[minmax(0,1.15fr)_minmax(320px,0.85fr)]">
           <StudioCaseStudyCard

@@ -10,7 +10,7 @@ Use this reference when writing homepage or case-study content through the scrip
 ## Homepage Document Shape
 ```json
 {
-  "navigationItems": [{ "label": "About", "href": "#about" }],
+  "navigationItems": [{ "label": "About", "href": "about" }],
   "hero": {
     "headlineIntro": "Build the",
     "headlineHighlight": "right",

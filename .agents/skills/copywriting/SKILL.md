@@ -39,6 +39,35 @@ Write premium, founder-focused copy that sounds decisive, useful, and conversion
 - Proof: turn credibility into concrete signals, not vague praise.
 - CTA blocks: reduce friction and make the next step obvious.
 
+## About Page Copy Principles
+- Treat the About page as an introduction to Yuvabe, not a pitch deck or capability dump.
+- Default to a personal, founder-close voice: conversational, grounded, human, and calm.
+- Lead with who we are and how we work, then connect that to why founders trust us.
+- Keep the page useful to a founder evaluating fit, not just expressive of brand personality.
+- Use simple, direct language over polished strategy-speak or agency phrasing.
+- Mention Auroville as real context that shaped how Yuvabe works, not as decorative brand language.
+- Keep AI-first framing practical and light; mention it early, but do not repeat it across every section.
+- Prefer observable signals such as working style, decision-making, proof, fit, and standards over self-praise.
+- Let values sound lived-in and behavioral, not like manifesto lines or slogan blocks.
+- Keep sections short enough that the page feels intimate and scannable rather than dense.
+
+## About Page Writing Pattern
+- Hero: a short founder-relevant promise with one conversational supporting paragraph.
+- Story: explain where Yuvabe came from, what changed, and what kind of work matters now.
+- How we work: describe the operating style in plain language, especially how strategy, design, engineering, and growth stay connected.
+- Proof: show a few concrete places Yuvabe has done this work without turning the page into a case-study index.
+- Values: describe standards through behavior and choices, not abstract culture language.
+- Team: make it clear what it feels like to work with Yuvabe and why proximity matters.
+- Final CTA: sound like an invitation to work together, not a hard sell.
+
+## About Page Anti-Patterns
+- Do not make the page sound like an agency credentials deck.
+- Do not repeat the same positioning line in the hero, story, timeline, and CTA.
+- Do not overuse `AI-first` as a label when the meaning can be shown through how Yuvabe works.
+- Do not use vague words like `innovation`, `transformation`, or `full-service` unless something concrete follows immediately.
+- Do not make the page all personality and no proof, or all proof and no personality.
+- Do not write values that sound impressive but do not translate into recognizable behavior.
+
 ## Design-System-Aware Copy Rules
 - Write for scannable components and sections, not long-form page blobs.
 - Keep labels, helper text, card headings, and CTA text concise enough to work inside reusable UI patterns.

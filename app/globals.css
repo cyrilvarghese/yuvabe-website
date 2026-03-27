@@ -307,11 +307,11 @@
     radial-gradient(76% 58% at 90% 92%, color-mix(in srgb, var(--purple-500) 46%, white) 0%, color-mix(in srgb, var(--cyan-200) 64%, var(--purple-500)) 30%, rgba(43, 183, 199, 0.24) 56%, rgba(43, 183, 199, 0) 78%),
     linear-gradient(180deg, #fffdfa 0%, #ffffff 22%, #fff9ef 50%, #efe7ff 100%);
   --gradient-premium-billing-sunrise:
-    radial-gradient(118% 78% at 50% 14%, rgba(255, 255, 255, 0.99) 0%, rgba(255, 255, 255, 0.96) 24%, rgba(255, 255, 255, 0.8) 42%, rgba(255, 255, 255, 0.12) 62%, rgba(255, 255, 255, 0) 100%),
-    radial-gradient(88% 64% at 14% 84%, color-mix(in srgb, var(--yellow-500) 88%, white) 0%, color-mix(in srgb, var(--orange-500) 78%, white) 24%, rgba(240, 78, 40, 0.34) 52%, rgba(240, 78, 40, 0) 76%),
-    radial-gradient(72% 56% at 52% 96%, color-mix(in srgb, var(--orange-200) 90%, white) 0%, color-mix(in srgb, var(--peach-200) 82%, white) 30%, rgba(247, 167, 147, 0.32) 56%, rgba(247, 167, 147, 0) 78%),
-    radial-gradient(72% 56% at 92% 92%, color-mix(in srgb, var(--lavender-500) 52%, white) 0%, color-mix(in srgb, var(--purple-500) 34%, white) 32%, rgba(88, 41, 199, 0.22) 58%, rgba(88, 41, 199, 0) 80%),
-    linear-gradient(180deg, #fffefb 0%, #fffdf9 22%, #fff5e6 48%, #f7eaff 100%);
+    radial-gradient(118% 76% at 50% 14%, rgba(255, 255, 255, 0.99) 0%, rgba(255, 255, 255, 0.97) 24%, rgba(255, 255, 255, 0.86) 42%, rgba(255, 255, 255, 0.1) 62%, rgba(255, 255, 255, 0) 100%),
+    radial-gradient(88% 64% at 12% 92%, color-mix(in srgb, var(--yellow-500) 44%, white) 0%, color-mix(in srgb, var(--orange-500) 39%, white) 24%, rgba(240, 78, 40, 0.17) 52%, rgba(240, 78, 40, 0) 76%),
+    radial-gradient(72% 56% at 40% 88%, color-mix(in srgb, var(--orange-200) 45%, white) 0%, color-mix(in srgb, var(--peach-200) 41%, white) 30%, rgba(247, 167, 147, 0.16) 56%, rgba(247, 167, 147, 0) 78%),
+    radial-gradient(76% 58% at 92% 34%, color-mix(in srgb, var(--lavender-500) 26%, white) 0%, color-mix(in srgb, var(--purple-500) 17%, white) 32%, rgba(88, 41, 199, 0.11) 58%, rgba(88, 41, 199, 0) 80%),
+    linear-gradient(135deg, #fffdf8 0%, #fffdf9 34%, #fff8ec 58%, #f6ebff 100%);
   --gradient-premium-billing-prism:
     radial-gradient(120% 80% at 50% 15%, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.96) 24%, rgba(255, 255, 255, 0.82) 42%, rgba(255, 255, 255, 0.14) 62%, rgba(255, 255, 255, 0) 100%),
     radial-gradient(82% 60% at 12% 82%, color-mix(in srgb, var(--cyan-200) 92%, white) 0%, color-mix(in srgb, var(--cyan-500) 52%, white) 28%, rgba(43, 183, 199, 0.32) 54%, rgba(43, 183, 199, 0) 78%),

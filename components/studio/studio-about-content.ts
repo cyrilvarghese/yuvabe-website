@@ -91,8 +91,8 @@ export const studioAboutPageContent: StudioAboutPageContent = {
     title: "We help founders make better",
     highlight: "bets.",
     description:
-      "Yuvabe is an AI-first studio spanning strategy, design, engineering, and growth. We work with startups that need clarity on what to build, speed in how they build it, and a partner who can help turn momentum into traction.",
-    supportingLine: "Rooted in Auroville. Built for ambitious teams moving fast.",
+      "We're an AI-first studio from Auroville. We work across strategy, design, engineering, and growth, helping ambitious teams figure out what matters, build with focus, and keep momentum.",
+    supportingLine: "",
     primaryCtaLabel: "Start Your Project",
     primaryCtaHref: "/#process",
     secondaryCtaLabel: "See Our Work",
@@ -101,153 +101,150 @@ export const studioAboutPageContent: StudioAboutPageContent = {
       {
         label: "Founded",
         value: "2020",
-        description: "Started in Auroville with a human-centered, long-horizon way of working.",
+        description:
+          "We started in Auroville, and that still shapes how we work: thoughtful, human, and in it for the long term.",
       },
       {
         label: "Today",
-        value: "AI-first studio",
-        description: "Strategy, design, engineering, and growth operating as one founder-facing loop.",
+        value: "Product engineering studio",
+        description:
+          "Product, design, engineering, and growth working together instead of in handoffs.",
       },
       {
         label: "Best fit",
         value: "0-to-1 and traction-stage startups",
-        description: "Teams that need sharper decisions, faster execution, and tighter feedback loops.",
+        description:
+          "Teams that need clarity, speed, and a partner who can stay close as things change.",
       },
     ],
   },
   story: {
     eyebrow: "Our story",
-    title: "More than execution. Better judgment.",
+    title: "We didn't set out to be an agency.",
     paragraphs: [
-      "Yuvabe began in 2020 with roots in Auroville. That origin still shapes how we work today: with care, curiosity, and long-term responsibility.",
-      "What changed is our focus. As building got easier, deciding what is actually worth building became the harder problem. That is where we do our best work now.",
-      "We help startups narrow the signal, choose the right next move, and reconnect strategy, design, engineering, and growth into one tighter loop.",
+      "We started in 2020 in Auroville with a human-centered way of working and a bias toward thoughtful decisions.",
+      "Over time, one thing became obvious: building got easier, but choosing the right thing to build got harder.",
+      "That's the work we care about now. We help founders cut through noise, make better calls, and keep strategy, design, engineering, and growth connected.",
     ],
     operatingPrinciples: [
       {
         title: "Decide faster",
-        description:
-          "Clarify the best next move before the roadmap drifts.",
+        description: "Get to the real priority before the roadmap fills up.",
       },
       {
         title: "Build smarter",
-        description:
-          "Use AI-native workflows and product depth without losing focus.",
+        description: "Use AI and strong product judgment to ship without drifting.",
       },
       {
         title: "Learn sooner",
-        description:
-          "Tie launches back to signals so the next decision is better.",
+        description: "Stay close to the signal so the next move gets clearer.",
       },
     ],
   },
   workflow: {
     eyebrow: "How we work",
-    title: "One team across the full loop.",
+    title: "One team, close to the work.",
     description:
-      "The strongest products are not built by isolated departments. They come from tight loops between strategy, design, engineering, and growth. That is how we work too.",
+      "We don't like long handoffs or teams working in isolation. We stay close across strategy, design, engineering, and growth so decisions get made faster and the work stays coherent.",
     stages: [
       {
         label: "Strategy",
-        description: "Product shaping, prioritization, opportunity framing, and roadmap clarity.",
+        description: "Clarify the problem, pressure-test the bet, and decide what matters now.",
       },
       {
         label: "Design",
-        description: "User experience, interfaces, prototypes, and product communication systems.",
+        description: "Shape the product, the experience, and the story people actually interact with.",
       },
       {
         label: "Engineering",
-        description: "AI-native apps, backend systems, cloud deployment, and operational tooling.",
+        description: "Build the product, the systems, and the AI workflows that make it real.",
       },
       {
         label: "Growth",
-        description: "Launch support, landing pages, campaigns, analytics, and iteration around what converts.",
+        description: "Launch, learn, and improve based on what people actually do.",
       },
     ],
   },
   proof: {
-    eyebrow: "Proof",
-    title: "Built across AI, product, and growth.",
+    eyebrow: "Selected work",
+    title: "A few places we've done this.",
     description:
-      "Our work spans founder problems that require more than one discipline. From AI advisors and RAG-based products to wellness platforms, visual-generation workflows, and digital systems for deep-tech companies, we build where strategy and execution need to stay tightly connected.",
+      "We've worked on AI products, wellness platforms, ecommerce image systems, ESG tools, and deep-tech websites. Different domains, same job: help teams move from idea to traction with clear thinking and strong execution.",
     entries: [
       {
         client: "TVAM",
         sector: "Health, insurance, and AI advisory tools",
         summary:
-          "Built AI-powered advisor workflows with RAG, cloud deployment, secure conversation storage, vector search, and multimodal support.",
+          "Built AI advisor workflows with RAG, cloud deployment, vector search, file handling, and secure chat history.",
       },
       {
         client: "Bevolve",
         sector: "ESG intelligence and compliance automation",
         summary:
-          "Created an AI sustainability platform for ESG reporting, compliance monitoring, and benchmarking across complex data sources.",
+          "Built an ESG platform that brings complex data together for reporting, compliance, and benchmarking.",
       },
       {
         client: "KittyKat",
         sector: "Fashion ecommerce and generative AI",
         summary:
-          "Developed a product-to-model image workflow that improved output quality and scaled branded fashion visual production.",
+          "Built a product-to-model image workflow to help generate fashion visuals faster and at scale.",
       },
       {
         client: "AgeShift",
         sector: "AI wellness platform",
         summary:
-          "Delivered a cross-platform product spanning mobile, backend, admin tooling, cloud infrastructure, and AI recommendations.",
+          "Delivered the mobile app, backend, admin tooling, cloud setup, and AI recommendations for a wellness product.",
       },
       {
         client: "General Aeronautics",
         sector: "Agricultural and defence drone technology",
         summary:
-          "Supported digital experience, product UI/UX, branding, content, and marketing for a deep-tech company in motion.",
+          "Worked across website, product UX, branding, and content for a deep-tech drone company.",
       },
     ],
   },
   values: {
-    eyebrow: "Values",
-    title: "The way we work still matters.",
+    eyebrow: "How we work",
+    title: "How we work.",
     description:
-      "Our roots shaped the standards we still hold onto. The language is sharper now, but the principles remain.",
+      "These are not slogans for us. They are the standards we try to keep with clients and with each other.",
     values: [
       {
         title: "Care",
-        description:
-          "Human-centered decisions, thoughtful collaboration, and respect for the people behind the product.",
+        description: "Be thoughtful with people, product decisions, and the work itself.",
       },
       {
         title: "Courage",
-        description:
-          "Questioning assumptions, making sharper choices, and being honest about what matters most.",
+        description: "Say the hard thing early, make the sharper call, and avoid drift.",
       },
       {
         title: "Creativity",
-        description:
-          "Finding original ways to solve hard problems across product, AI, design, and storytelling.",
+        description: "Find simpler, better ways through hard product and technical problems.",
       },
     ],
     principles: [
-      "People first",
-      "Partners in progress",
-      "Attention to detail",
-      "Innovation with purpose",
+      "Stay useful",
+      "Stay honest",
+      "Stay close to the work",
+      "Care about the details",
     ],
   },
   teamTeaser: {
     eyebrow: "Team",
-    title: "Small enough to stay close. Broad enough to ship the full loop.",
+    title: "Small team. Close collaboration.",
     description:
-      "We are structured like a tight operating partner, not a layered agency. That means founders work closer to the people shaping the product, building the system, and interpreting the signals that come back from the market.",
+      "We're set up to work closely with founders, not hide behind layers. The people shaping the product are part of the conversation, and that keeps the work faster, clearer, and more grounded.",
     points: [
-      "Founder-facing collaboration instead of long handoff chains.",
-      "Cross-disciplinary thinking from product strategy through launch.",
-      "A studio culture shaped by curiosity, responsibility, and momentum.",
+      "Fewer handoffs. More direct conversations.",
+      "Strategy, design, engineering, and growth in one room.",
+      "A working style shaped by curiosity, responsibility, and care.",
     ],
   },
   cta: {
     eyebrow: "Start the conversation",
-    title: "If you need more than a vendor, talk to us.",
+    title: "If you want more than a vendor, talk to us.",
     description:
-      "We work best with founders and teams who need clarity, momentum, and a partner who can move from strategy into execution without losing the thread.",
+      "We work best with founders who want a close partner, honest thinking, and people who can move from idea to execution without losing context.",
     primaryCtaLabel: "Start Your Project",
     primaryCtaHref: "/#process",
     secondaryCtaLabel: "See Our Work",

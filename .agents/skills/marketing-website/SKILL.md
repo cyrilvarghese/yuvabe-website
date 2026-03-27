@@ -37,6 +37,12 @@ Build Yuvabe's marketing website as a premium, founder-focused, AI-first studio 
 - When describing the offer, keep growth marketing explicit enough that the site does not read like a product-only studio.
 - Each page should have one dominant CTA path and minimal decision noise.
 
+## About Page Direction
+- The About page should answer four things clearly: who Yuvabe is, how Yuvabe works, why founders trust the team, and who Yuvabe is best suited to help.
+- Keep the page more personal and conversational than the homepage, while staying concise and founder-relevant.
+- Use proof and operating style to build trust; avoid turning the page into either a manifesto or a services page.
+- Route About-page wording, tone, and section-level writing decisions through `../copywriting/SKILL.md`.
+
 ## Surface Guidance
 - Use premium surfaces to support conversion-critical layers like mobile navigation, hero proof, featured case studies, and final CTA framing when they need stronger focus than the page canvas.
 - Keep premium surface usage selective; too many frosted or elevated panels reduce hierarchy and make the page feel busy instead of high-trust.

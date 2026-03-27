@@ -10,7 +10,6 @@ import {
 } from "@/components/studio/studio-case-study-content";
 import galleryImageLibrary from "@/components/studio/studio-case-study-gallery-images.json";
 import { Button, buttonVariants } from "@/components/ui/button";
-import { PremiumSurface } from "@/components/ui/premium-surface";
 import { cn } from "@/lib/utils";
 
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {
@@ -18,7 +17,7 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {
 };
 
 const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/ga-home.png",
+  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
   ageshift: "/assets/ageshift/ageshift_cover.png",
 };
 
@@ -26,7 +25,7 @@ const caseStudyDetailImageOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "/assets/general-aeronautics/cover-detail.jpeg",
 };
 
-const caseStudyDetailModalImageClassOverrides: Partial<Record<string, string>> = {
+const caseStudyDetailImageClassOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "scale-[1.16] object-[center_18%]",
 };
 
@@ -57,6 +56,7 @@ type StudioCaseStudyDetailProps = {
   caseStudy: StudioCaseStudySummary;
   variant?: "modal" | "page";
   showHero?: boolean;
+  showCaseBreakdown?: boolean;
   showGalleryCardFooter?: boolean;
 };
 
@@ -70,6 +70,9 @@ type StudioCaseStudyGalleryImageLibrary = Record<
   {
     badgeLabel: string;
     images: readonly StudioCaseStudyGalleryImageAsset[];
+    itemImages?: Partial<
+      Record<string, readonly StudioCaseStudyGalleryImageAsset[]>
+    >;
   }
 >;
 
@@ -98,11 +101,11 @@ const detailGalleryStageClassMap: Record<
   },
   modal: {
     portrait: {
-      full: "aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/9]",
-      split: "aspect-[4/3] sm:aspect-[16/10] lg:aspect-[16/10]",
+      full: "aspect-[4/3] sm:aspect-[16/9] lg:aspect-[16/9]",
+      split: "aspect-[4/3] sm:aspect-[16/9] lg:aspect-[16/9]",
     },
     landscape: {
-      full: "aspect-[16/9] sm:aspect-[16/8] lg:aspect-[16/8]",
+      full: "aspect-[16/9] sm:aspect-[16/9] lg:aspect-[16/9]",
       split: "aspect-[16/9] sm:aspect-[16/9] lg:aspect-[16/9]",
     },
   },
@@ -158,11 +161,33 @@ function getGalleryRowTitle(title: string) {
   }
 }
 
+type StudioCaseStudyHeroMedia = {
+  visualSrc?: string;
+  videoSrc?: string;
+  imageClassName?: string;
+};
+
+// The page hero and detail view share one media resolver so case-study art direction stays consistent across both entry points.
+export function resolveStudioCaseStudyHeroMedia(
+  caseStudy: StudioCaseStudySummary,
+): StudioCaseStudyHeroMedia {
+  return {
+    visualSrc:
+      caseStudy.detailImageSrc ??
+      caseStudyDetailImageOverrides[caseStudy.id] ??
+      caseStudyImageOverrides[caseStudy.id] ??
+      caseStudy.mockImageSrc,
+    videoSrc: caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id],
+    imageClassName: caseStudyDetailImageClassOverrides[caseStudy.id],
+  };
+}
+
 // This shared detail body keeps the modal summary and SEO page aligned around the same case-study narrative.
 export function StudioCaseStudyDetail({
   caseStudy,
   variant = "page",
   showHero = true,
+  showCaseBreakdown = true,
   showGalleryCardFooter = true,
 }: StudioCaseStudyDetailProps) {
   const detail = resolveStudioCaseStudyDetail(caseStudy);
@@ -170,15 +195,10 @@ export function StudioCaseStudyDetail({
     caseStudyGalleryImageLibrary[caseStudy.id] ??
     caseStudyGalleryImageLibrary.bevolve;
   const isModal = variant === "modal";
-  const detailVisualSrc =
-    caseStudy.detailImageSrc ??
-    caseStudyDetailImageOverrides[caseStudy.id] ??
-    caseStudyImageOverrides[caseStudy.id] ??
-    caseStudy.mockImageSrc;
-  const detailVideoSrc =
-    caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id];
-  const detailModalImageClassName =
-    caseStudyDetailModalImageClassOverrides[caseStudy.id];
+  const heroMedia = resolveStudioCaseStudyHeroMedia(caseStudy);
+  const detailVisualSrc = heroMedia.visualSrc;
+  const detailVideoSrc = heroMedia.videoSrc;
+  const detailImageClassName = heroMedia.imageClassName;
   const caseBreakdownSections =
     shouldUseLocalCaseBreakdownOverrides
       ? caseStudyBreakdownSectionOverrides[caseStudy.id] ?? detail.sections
@@ -257,75 +277,69 @@ export function StudioCaseStudyDetail({
         </div>
       ) : null}
 
-      {/* The modal shifts this section to a full-width cover image, while the page keeps the side-by-side proof layout. */}
-      {isModal ? (
-        <div className="relative z-10 space-y-8 border-b border-(--color-border-default)/80 py-8">
-          <div className="relative flex min-h-[21.5rem] items-center justify-center overflow-hidden sm:min-h-[29.5rem] lg:min-h-[43.5rem]">
-            {detailVideoSrc ? (
-              <video
-                src={detailVideoSrc}
-                autoPlay
-                muted
-                loop
-                playsInline
-                className="absolute inset-0 h-full w-full object-cover"
-              />
-            ) : detailVisualSrc ? (
-              <Image
-                src={detailVisualSrc}
-                alt={caseStudy.mockImageAlt ?? caseStudy.title}
-                fill
-                sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
-                className={cn(
-                  "object-cover object-top",
-                  detailModalImageClassName,
-                )}
-                unoptimized={shouldSkipImageOptimization}
-              />
-            ) : (
-              <div className="flex h-full w-full items-center justify-center text-(--neutral-700)">
-                <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
-              </div>
-            )}
-          </div>
+      {/* The case breakdown is optional in modal summaries, but it stays on the full page where the longer narrative needs more structure. */}
+      {showCaseBreakdown ? (
+        isModal ? (
+          <div className="relative z-10 space-y-8 border-b border-(--color-border-default)/80 py-8">
+            <div className="relative flex min-h-[21.5rem] items-center justify-center overflow-hidden sm:min-h-[29.5rem] lg:min-h-[43.5rem]">
+              {detailVideoSrc ? (
+                <video
+                  src={detailVideoSrc}
+                  autoPlay
+                  muted
+                  loop
+                  playsInline
+                  className="absolute inset-0 h-full w-full object-cover"
+                />
+              ) : detailVisualSrc ? (
+                <Image
+                  src={detailVisualSrc}
+                  alt={caseStudy.mockImageAlt ?? caseStudy.title}
+                  fill
+                  sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
+                  className={cn(
+                    "object-cover object-top",
+                    detailImageClassName,
+                  )}
+                  unoptimized={shouldSkipImageOptimization}
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-(--neutral-700)">
+                  <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
+                </div>
+              )}
+            </div>
 
-          <div className="relative px-2 py-1 sm:px-3">
-            <div className="relative space-y-5">
-              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
-                Case breakdown
-              </p>
-              <div className="grid gap-0 border-t border-(--color-border-default)/80 sm:grid-cols-2 xl:grid-cols-4">
-                {caseBreakdownSections.map((section, index) => (
-                  <section
-                    key={section.title}
-                    className="border-b border-(--color-border-default)/80 px-0 py-5 sm:border-b-0 sm:px-5 sm:first:pl-0 xl:border-l xl:px-6 xl:first:border-l-0 xl:first:pl-0"
-                  >
-                    <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
-                      {section.title}
-                    </h2>
-                    <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
-                      {section.body}
-                    </p>
-                  </section>
-                ))}
+            <div className="relative px-2 py-1 sm:px-3">
+              <div className="relative space-y-5">
+                <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
+                  Case breakdown
+                </p>
+                <div className="grid gap-0 border-t border-(--color-border-default)/80 sm:grid-cols-2 xl:grid-cols-4">
+                  {caseBreakdownSections.map((section, index) => (
+                    <section
+                      key={section.title}
+                      className="border-b border-(--color-border-default)/80 px-0 py-5 sm:border-b-0 sm:px-5 sm:first:pl-0 xl:border-l xl:px-6 xl:first:border-l-0 xl:first:pl-0"
+                    >
+                      <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
+                        {section.title}
+                      </h2>
+                      <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
+                        {section.body}
+                      </p>
+                    </section>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
-        </div>
-      ) : (
-        <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
-          <PremiumSurface
-            tone="glass"
-            elevation="sm"
-            blur="lg"
-            radius="xl"
-            className="min-h-72 overflow-visible border-white/42 bg-[linear-gradient(180deg,rgba(255,255,255,0.36),rgba(255,255,255,0.18))] p-5 shadow-[0_12px_28px_rgba(15,23,42,0.04)] sm:min-h-96 sm:p-6 lg:sticky lg:top-6 lg:min-h-[42rem]"
-          >
-            <div className="relative flex h-full min-h-[16rem] items-end justify-center overflow-hidden rounded-[1.1rem] border border-white/46 bg-[radial-gradient(circle_at_28%_72%,rgba(129,103,255,0.16),rgba(129,103,255,0.03)_34%,rgba(129,103,255,0)_62%),linear-gradient(160deg,rgba(255,255,255,0.34),rgba(255,255,255,0.14))] p-2 backdrop-blur-md sm:min-h-[22rem] sm:p-3 lg:min-h-[calc(42rem-3rem)]">
-              <div className="relative flex h-full w-full items-center justify-center overflow-hidden rounded-[0.85rem] text-(--neutral-700)">
+        ) : (
+          <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
+            <div className="min-h-72 overflow-hidden rounded-[1.65rem] bg-white sm:min-h-96 lg:sticky lg:top-6 lg:min-h-[42rem]">
+              <div className="relative flex h-full min-h-[16rem] items-center justify-center overflow-hidden text-(--neutral-700) sm:min-h-[22rem] lg:min-h-[42rem]">
                 {detailVideoSrc ? (
                   <video
                     src={detailVideoSrc}
@@ -348,29 +362,60 @@ export function StudioCaseStudyDetail({
                 )}
               </div>
             </div>
-          </PremiumSurface>
 
-          <div className="relative min-h-72 px-4 py-5 sm:min-h-96 sm:p-6">
-            <div className="relative space-y-5">
-              <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
-                Case breakdown
-              </p>
-              <div className="space-y-6">
-                {caseBreakdownSections.map((section, index) => (
-                  <section key={section.title} className="pt-1">
-                    <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
-                      {String(index + 1).padStart(2, "0")}
-                    </p>
-                    <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
-                      {section.title}
-                    </h2>
-                    <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
-                      {section.body}
-                    </p>
-                  </section>
-                ))}
+            <div className="relative min-h-72 px-4 py-5 sm:min-h-96 sm:p-6">
+              <div className="relative space-y-5">
+                <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-tertiary)">
+                  Case breakdown
+                </p>
+                <div className="space-y-6">
+                  {caseBreakdownSections.map((section, index) => (
+                    <section key={section.title} className="pt-1">
+                      <p className="text-label-sm uppercase tracking-[0.16em] text-(--color-text-brand)">
+                        {String(index + 1).padStart(2, "0")}
+                      </p>
+                      <h2 className="mt-2 text-heading-sm text-(--neutral-950)">
+                        {section.title}
+                      </h2>
+                      <p className="mt-2 text-body-sm leading-7 text-(--color-text-secondary)">
+                        {section.body}
+                      </p>
+                    </section>
+                  ))}
+                </div>
               </div>
             </div>
+          </div>
+        )
+      ) : (
+        <div className="relative z-10 border-b border-(--color-border-default)/80 py-8">
+          <div className="relative flex min-h-[21.5rem] items-center justify-center overflow-hidden sm:min-h-[29.5rem] lg:min-h-[43.5rem]">
+            {detailVideoSrc ? (
+              <video
+                src={detailVideoSrc}
+                autoPlay
+                muted
+                loop
+                playsInline
+                className="absolute inset-0 h-full w-full object-cover"
+              />
+            ) : detailVisualSrc ? (
+              <Image
+                src={detailVisualSrc}
+                alt={caseStudy.mockImageAlt ?? caseStudy.title}
+                fill
+                sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
+                className={cn(
+                  "object-cover object-top",
+                  detailImageClassName,
+                )}
+                unoptimized={shouldSkipImageOptimization}
+              />
+            ) : (
+              <div className="flex h-full w-full items-center justify-center text-(--neutral-700)">
+                <CaseStudyIcon iconKey={caseStudy.mediaIconKey} />
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -397,22 +442,28 @@ export function StudioCaseStudyDetail({
             })()}
             <div className="grid gap-6 md:grid-cols-12 md:items-stretch">
               {row.items.map((item, itemIndex) => {
+                const fallbackImageIndex =
+                  detail.galleryRows
+                    .slice(0, rowIndex)
+                    .reduce((count, currentRow) => count + currentRow.items.length, 0) +
+                  itemIndex;
                 const galleryImage =
+                  galleryAssets.itemImages?.[item.title]?.[0] ??
                   galleryAssets.images[
-                  (rowIndex * 2 + itemIndex) % galleryAssets.images.length
+                    fallbackImageIndex % galleryAssets.images.length
                   ];
 
                 return (
                   <article
                     key={item.title}
                     className={cn(
-                      "flex h-full flex-col overflow-hidden rounded-[1.35rem] border border-(--color-border-default)/80 bg-white shadow-[0_18px_42px_rgba(15,23,42,0.055)]",
+                      "flex h-full flex-col overflow-hidden rounded-[1.35rem] border border-white/85 bg-white/96 shadow-[0_18px_40px_rgba(15,23,42,0.09),0_4px_14px_rgba(15,23,42,0.05)]",
                       getGalleryItemSpan(row.items.length),
                     )}
                   >
                     {/* The gallery visual stays cleaner now: one image stage, one badge, and no extra inset frame. */}
-                    <div className="relative overflow-hidden border-b border-(--color-border-default)/70 bg-[linear-gradient(180deg,rgba(252,252,253,0.96),rgba(248,248,250,0.9))]">
-                      <div className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-full border border-(--color-border-default)/90 bg-white/94 px-3 py-2 text-[0.66rem] uppercase tracking-[0.16em] text-(--color-text-tertiary) shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
+                    <div className="relative overflow-hidden border-b border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.985),rgba(248,248,250,0.95))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:ring-1 before:ring-white/55 before:content-['']">
+                      <div className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-full border border-(--color-border-default) bg-white/96 px-3 py-2 text-[0.66rem] uppercase tracking-[0.16em] text-(--color-text-tertiary) shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
                         <ImageIcon className="size-3.5" strokeWidth={1.9} />
                         {galleryAssets.badgeLabel}
                       </div>
@@ -434,7 +485,7 @@ export function StudioCaseStudyDetail({
                             isModal,
                             itemCount: row.items.length,
                           })}
-                          className="object-contain"
+                          className="object-cover"
                           unoptimized={shouldSkipImageOptimization}
                         />
                         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0)_28%,rgba(11,15,25,0.045)_100%)]" />

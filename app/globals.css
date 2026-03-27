@@ -8,6 +8,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display/ClashDisplayLight.woff2") format("woff2");
@@ -15,6 +16,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display/ClashDisplayRegular.woff2") format("woff2");
@@ -22,6 +24,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display/ClashDisplayMedium.woff2") format("woff2");
@@ -29,6 +32,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display/ClashDisplaySemibold.woff2") format("woff2");
@@ -36,6 +40,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Clash Display";
   src: url("/fonts/clash-display/ClashDisplayBold.woff2") format("woff2");
@@ -52,6 +57,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-ThinItalic.ttf") format("truetype");
@@ -59,6 +65,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-UltraLight.ttf") format("truetype");
@@ -66,6 +73,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-UltraLightItalic.ttf") format("truetype");
@@ -73,6 +81,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Light.ttf") format("truetype");
@@ -80,6 +89,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-LightItalic.ttf") format("truetype");
@@ -87,6 +97,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Regular.ttf") format("truetype");
@@ -94,6 +105,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-RegularItalic.ttf") format("truetype");
@@ -101,6 +113,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Medium.ttf") format("truetype");
@@ -108,6 +121,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-MediumItalic.ttf") format("truetype");
@@ -115,6 +129,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-SemiBold.ttf") format("truetype");
@@ -122,6 +137,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-SemiBoldItalic.ttf") format("truetype");
@@ -129,6 +145,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Bold.ttf") format("truetype");
@@ -136,6 +153,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-BoldItalic.ttf") format("truetype");
@@ -143,6 +161,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-ExtraBold.ttf") format("truetype");
@@ -150,6 +169,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-ExtraBoldItalic.ttf") format("truetype");
@@ -157,6 +177,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Heavy.ttf") format("truetype");
@@ -164,6 +185,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-HeavyItalic.ttf") format("truetype");
@@ -171,6 +193,7 @@
   font-style: italic;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-Black.ttf") format("truetype");
@@ -178,6 +201,7 @@
   font-style: normal;
   font-display: swap;
 }
+
 @font-face {
   font-family: "Gilroy";
   src: url("/fonts/gilroy/Gilroy-BlackItalic.ttf") format("truetype");
@@ -234,7 +258,7 @@
   /* Semantic background and border tokens define the core surface system. */
   --color-background-canvas: var(--neutral-25);
   --color-background-surface: var(--neutral-0);
-  --color-background-surface-subtle: var(--neutral-50);
+  --color-background-surface-subtle: var(--neutral-0);
   --color-background-brand: var(--purple-500);
   --color-background-brand-subtle: var(--lavender-200);
   --color-background-warm: var(--yellow-500);
@@ -394,7 +418,12 @@ body {
 }
 
 /* Clash Display for all heading levels — overrides browser default and any inherited body font. */
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: var(--font-display-family);
 }
 

@@ -1,18 +1,21 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
-import { ArrowUpRight } from "lucide-react";
 
 import { StudioCaseStudyDetail } from "@/components/studio/studio-case-study-detail";
 import { StudioCaseStudyOutcomesStrip } from "@/components/studio/studio-case-study-outcomes-strip";
 import { StudioCaseStudyPageHero } from "@/components/studio/studio-case-study-page-hero";
+import { StudioHeader } from "@/components/studio/studio-header";
 import {
+  applyStudioCaseStudyDisplayOverrides,
   getStudioCaseStudyHref,
   resolveStudioCaseStudyDetail,
 } from "@/components/studio/studio-case-study-content";
-import { Button } from "@/components/ui/button";
 import { getAbsoluteUrl } from "@/lib/site";
-import { getStudioCaseStudyById } from "@/lib/studio-content";
+import {
+  getStudioCaseStudyById,
+  getStudioHomepageContent,
+} from "@/lib/studio-content";
 
 export const dynamic = "force-dynamic";
 
@@ -71,12 +74,16 @@ export async function generateMetadata({
 
 export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const { slug } = await params;
-  const caseStudy = await getStudioCaseStudyById(slug);
+  const [caseStudy, homepageContent] = await Promise.all([
+    getStudioCaseStudyById(slug),
+    getStudioHomepageContent(),
+  ]);
 
   if (!caseStudy) {
     notFound();
   }
 
+  const displayCaseStudy = applyStudioCaseStudyDisplayOverrides(caseStudy);
   const detail = resolveStudioCaseStudyDetail(caseStudy);
   const href = getStudioCaseStudyHref(caseStudy.id);
   const structuredData = {
@@ -102,7 +109,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   };
 
   return (
-    <main className="relative min-h-screen overflow-hidden bg-white text-foreground">
+    <main className="relative min-h-screen overflow-visible bg-white text-foreground">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
@@ -117,34 +124,8 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
         <div className="absolute inset-x-0 top-0 h-[24rem] bg-[radial-gradient(circle_at_18%_10%,rgba(88,41,199,0.07),rgba(255,255,255,0)_34%),radial-gradient(circle_at_82%_0%,rgba(255,202,45,0.08),rgba(255,255,255,0)_32%)]" />
       </div>
 
-      {/* The route header keeps the user close to home and the primary founder CTA. */}
-      <section className="relative z-10 border-b border-slate-200/80 bg-white/82 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4 px-6 py-4 md:px-10">
-          <div className="space-y-1">
-            <Link
-              href="/"
-              className="font-display text-[1.9rem] leading-none tracking-[-0.04em] text-[var(--neutral-950)]"
-            >
-              Yuvabe
-            </Link>
-            <p className="text-body-sm text-[var(--color-text-secondary)]">
-              AI-first strategy, design, engineering, and growth marketing for startups.
-            </p>
-          </div>
-
-          <div className="flex flex-wrap items-center gap-3">
-            <Button asChild variant="secondary" className="rounded-full px-5">
-              <Link href="/#work">All case studies</Link>
-            </Button>
-            <Button asChild className="rounded-full px-5">
-              <Link href="/#process">
-                Start a project
-                <ArrowUpRight className="size-4" />
-              </Link>
-            </Button>
-          </div>
-        </div>
-      </section>
+      {/* The detail route now reuses the homepage navbar so navigation stays on one shared contract. */}
+      <StudioHeader navigationItems={homepageContent.navigationItems} />
 
       <article className="relative z-10">
         <nav
@@ -158,14 +139,14 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
           <span className="text-[var(--color-text-brand)]">{caseStudy.title}</span>
         </nav>
 
-        <StudioCaseStudyPageHero caseStudy={caseStudy} />
-        <StudioCaseStudyOutcomesStrip caseStudy={caseStudy} />
+        <StudioCaseStudyPageHero caseStudy={displayCaseStudy} />
+        <StudioCaseStudyOutcomesStrip caseStudy={displayCaseStudy} />
 
         {/* The rest of the page keeps the deeper proof content, but it now starts below a dedicated landing-style hero. */}
         <section className="px-6 py-10 md:px-10 md:py-12">
           <div className="mx-auto max-w-7xl px-2 sm:px-4 lg:px-6">
             <StudioCaseStudyDetail
-              caseStudy={caseStudy}
+              caseStudy={displayCaseStudy}
               variant="page"
               showHero={false}
             />

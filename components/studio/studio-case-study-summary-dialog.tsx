@@ -1,7 +1,10 @@
 "use client";
 
 import { StudioCaseStudyDetail } from "@/components/studio/studio-case-study-detail";
-import type { StudioCaseStudySummary } from "@/components/studio/studio-case-study-content";
+import {
+  applyStudioCaseStudyDisplayOverrides,
+  type StudioCaseStudySummary,
+} from "@/components/studio/studio-case-study-content";
 import { ModalShell } from "@/components/ui/modal-shell";
 
 type StudioCaseStudySummaryDialogProps = {
@@ -22,18 +25,22 @@ export function StudioCaseStudySummaryDialog({
     return null;
   }
 
+  // Shared display overrides keep the modal summary and detail page in sync for curated mock sets.
+  const dialogCaseStudy = applyStudioCaseStudyDisplayOverrides(caseStudy);
+
   return (
     <ModalShell
       open={open}
       onOpenChange={onOpenChange}
       closeVariant="case-study"
       onAfterClose={onAfterClose}
-      title={`${caseStudy.title} case study summary`}
+      title={`${dialogCaseStudy.title} case study summary`}
       contentClassName="px-5 pb-8 pt-16 sm:px-8 lg:px-10 lg:pb-10"
     >
       <StudioCaseStudyDetail
-        caseStudy={caseStudy}
+        caseStudy={dialogCaseStudy}
         variant="modal"
+        showCaseBreakdown={false}
         showGalleryCardFooter={false}
       />
     </ModalShell>

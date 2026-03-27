@@ -91,7 +91,7 @@ export const studioAboutPageContent: StudioAboutPageContent = {
     title: "We help founders make better",
     highlight: "bets.",
     description:
-      "We're an AI-first studio from Auroville. We work across strategy, design, engineering, and growth, helping ambitious teams figure out what matters, build with focus, and keep momentum.",
+      "Rooted in Auroville. Built to help ambitious teams moving fast figure out what matters, build with focus, and keep momentum.",
     supportingLine: "",
     primaryCtaLabel: "Start Your Project",
     primaryCtaHref: "/#process",

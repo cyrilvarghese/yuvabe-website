@@ -18,6 +18,7 @@ import {
   type StudioAboutValuesContent,
   type StudioAboutWorkflowContent,
 } from "@/components/studio/studio-about-content";
+import { StudioHandDrawnUnderline } from "@/components/studio/studio-hand-drawn-underline";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { Button } from "@/components/ui/button";
 import { PremiumSurface } from "@/components/ui/premium-surface";
@@ -45,10 +46,10 @@ const principleHashtagClasses = [
 const workflowCardStyles = [
   {
     backgroundClassName:
-      "border-[color:color-mix(in_srgb,var(--lavender-200)_90%,white)] bg-[color:color-mix(in_srgb,var(--lavender-200)_68%,white)]",
+      "border-[color:color-mix(in_srgb,var(--lavender-200)_72%,white)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--purple-500)_10%,white)_0%,color-mix(in_srgb,var(--lavender-200)_34%,white)_100%)]",
     numberClassName: "text-[var(--lavender-500)]",
     iconShellClassName:
-      "border-[color:color-mix(in_srgb,var(--lavender-200)_82%,white)] bg-[color:color-mix(in_srgb,var(--lavender-200)_30%,white)] text-[var(--purple-500)]",
+      "border-[color:color-mix(in_srgb,var(--lavender-200)_68%,white)] bg-[color:color-mix(in_srgb,var(--purple-500)_6%,white)] text-[var(--purple-500)]",
   },
   {
     backgroundClassName:
@@ -170,31 +171,64 @@ function AboutHero() {
 function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
   return (
     <section className="border-b border-slate-200/80 bg-white px-6 py-14 md:px-10 md:py-20">
-      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-12">
-        {/* The left rail keeps the editorial section intro anchored as the cards scroll beside it. */}
-        <SectionIntro
-          eyebrow={content.eyebrow}
-          title={content.title}
-          description={content.paragraphs[0]}
-          className="lg:pl-4 xl:pl-6"
-        />
+      <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:gap-12">
+        {/* The left column becomes the narrative anchor with one strong headline and one tight origin paragraph. */}
+        <div className="max-w-4xl space-y-5 lg:pl-4 xl:pl-6">
+          <div className="space-y-3">
+            <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
+              {content.eyebrow}
+            </p>
+            <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
+          </div>
 
-        <div className="space-y-6">
-          {/* The copy block carries the longer story without collapsing into one oversized paragraph. */}
-          <PremiumSurface tone="neutral" elevation="sm" blur="none" radius="xl" className="p-6 md:p-7">
-            <div className="space-y-4">
-              {content.paragraphs.slice(1).map((paragraph) => (
-                <p
-                  key={paragraph}
-                  className="text-body-lg text-[var(--color-text-secondary)]"
-                >
-                  {paragraph}
-                </p>
-              ))}
+          <h2 className="text-hero-display text-[var(--neutral-950)]">
+            <span className="block">More than execution.</span>
+            <span className="mt-[0.06em] block text-[var(--color-text-brand)]">
+              Better judgment.
+            </span>
+          </h2>
+
+          <p className="max-w-4xl text-hero-support text-[var(--color-text-secondary)]">
+            <span>Yuvabe began in 2020 with </span>
+            <span className="relative inline-block text-[var(--neutral-950)]">
+              roots in Auroville
+              <StudioHandDrawnUnderline className="-left-[0.06em] -translate-y-[0.14em] w-[calc(100%+0.12rem)]" />
+            </span>
+            <span>
+              . That origin still shapes how we work today: with care,
+              curiosity, and long-term responsibility.
+            </span>
+          </p>
+        </div>
+
+        <div className="space-y-5">
+          {/* The primary support card carries the one key shift in a tighter editorial block. */}
+          <PremiumSurface
+            tone="neutral"
+            elevation="sm"
+            blur="none"
+            radius="xl"
+            className="p-5 md:p-6"
+          >
+            <div className="max-w-4xl space-y-3">
+              <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-brand)]">
+                What changed
+              </p>
+              <p className="text-body-lg text-[var(--color-text-secondary)]">
+                {content.paragraphs[1]}
+              </p>
             </div>
           </PremiumSurface>
 
-          {/* The operating-principle cards keep the judgment story scannable for fast founder reading. */}
+          {/* The secondary block keeps one short strategic takeaway without another heavy paragraph slab. */}
+          <div className="flex items-start gap-4 rounded-[1.25rem] border border-slate-200/80 bg-[var(--color-background-canvas)] px-5 py-4 md:px-6">
+            <div className="mt-1 h-10 w-px bg-[linear-gradient(180deg,var(--purple-500),rgba(88,41,199,0.08))]" />
+            <p className="max-w-3xl text-body-lg text-[var(--color-text-secondary)]">
+              {content.paragraphs[2]}
+            </p>
+          </div>
+
+          {/* The operating-principle cards become a lighter, shorter scan row instead of mini article cards. */}
           <div className="grid gap-4 md:grid-cols-3">
             {content.operatingPrinciples.map((principle, index) => {
               const Icon = storyIcons[index % storyIcons.length];
@@ -206,13 +240,13 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
                   elevation="sm"
                   blur="sm"
                   radius="xl"
-                  className="p-5"
+                  className="p-4 md:p-5"
                 >
-                  <div className="space-y-4">
-                    <div className="flex size-11 items-center justify-center rounded-full border border-white/80 bg-white/80 text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
-                      <Icon className="size-5" />
+                  <div className="space-y-3">
+                    <div className="flex size-10 items-center justify-center rounded-full border border-white/80 bg-white/80 text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
+                      <Icon className="size-4.5" />
                     </div>
-                    <div className="space-y-2">
+                    <div className="space-y-1.5">
                       <h3 className="text-heading-md text-[var(--neutral-950)]">
                         {principle.title}
                       </h3>

@@ -119,25 +119,25 @@ export const studioAboutPageContent: StudioAboutPageContent = {
     eyebrow: "Our story",
     title: "More than execution. Better judgment.",
     paragraphs: [
-      "Yuvabe began in 2020 with roots in Auroville and an early mission shaped by learning, community, and personal growth. Those roots still define how we work: with care, curiosity, and long-term responsibility.",
-      "What changed is our focus. As the constraints around building have fallen, the harder problem has become deciding what is actually worth building. That is where we do our best work now: helping startups narrow the signal, choose the right next move, and execute quickly with AI as leverage.",
-      "Most teams do not struggle because they lack ideas. They struggle because product decisions are being made under pressure while strategy, design, engineering, and growth drift apart. We bring those loops back together so founders can move with more confidence and less noise.",
+      "Yuvabe began in 2020 with roots in Auroville. That origin still shapes how we work today: with care, curiosity, and long-term responsibility.",
+      "What changed is our focus. As building got easier, deciding what is actually worth building became the harder problem. That is where we do our best work now.",
+      "We help startups narrow the signal, choose the right next move, and reconnect strategy, design, engineering, and growth into one tighter loop.",
     ],
     operatingPrinciples: [
       {
         title: "Decide faster",
         description:
-          "Clarify the opportunity, the user problem, and the highest-value next move before the roadmap grows in the wrong direction.",
+          "Clarify the best next move before the roadmap drifts.",
       },
       {
         title: "Build smarter",
         description:
-          "Use AI-native workflows, product thinking, and technical depth to accelerate execution without losing quality or focus.",
+          "Use AI-native workflows and product depth without losing focus.",
       },
       {
         title: "Learn sooner",
         description:
-          "Tie launches back to signals, feedback, and traction so the next decision is better than the last one.",
+          "Tie launches back to signals so the next decision is better.",
       },
     ],
   },

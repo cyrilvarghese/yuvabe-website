@@ -22,6 +22,8 @@ type StudioCaseStudyPageHeroProps = {
 const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 const caseStudyHeroLogoOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "/logos/general-aeronautics.svg",
+  bevolve: "/assets/bevolve/logo.svg",
+  tvam: "/logos/tvam.svg",
 };
 
 // This page-only hero gives the SEO route a landing-style opening with one focused narrative instead of a hero mock card.

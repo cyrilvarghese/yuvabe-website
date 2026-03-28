@@ -79,7 +79,9 @@ const defaultServicesContent: StudioHomepageServicesContent = {
 const legacyStudioAssetPathAliases: Record<string, string> = {
   "/assets/ga-image.png": "/assets/GA_cover.png",
   "/assets/bevolve/platform-banner.png": "/assets/Bevolve_cover.png",
-  "/assets/tvam/tvam-cover.png": "/assets/tvam_cover.jpeg",
+  "/assets/tvam/tvam_cover.jpg": "/assets/tvam/mockups-5.png",
+  "/assets/tvam/tvam-cover.png": "/assets/tvam/mockups-5.png",
+  "/assets/tvam/tvam_cover.jpeg": "/assets/tvam/mockups-5.png",
   "/assets/ageshift/ageshift_cover.png": "/assets/ageShift_logo.svg",
 };
 

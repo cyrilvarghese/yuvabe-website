@@ -87,28 +87,36 @@
     "badgeLabel": "ESG AI",
     "images": [
       {
-        "src": "/assets/bevolve/case-study1.png",
-        "alt": "Bevolve.ai reporting workflow interface."
+        "src": "/assets/bevolve/mockups-1.webp",
+        "alt": "Bevolve.ai platform mockup overview."
       },
       {
-        "src": "/assets/bevolve/case-study2.png",
-        "alt": "Bevolve.ai AI-assisted review interface."
+        "src": "/assets/bevolve/mockups-2.webp",
+        "alt": "Bevolve.ai reporting workflow mockup."
       },
       {
-        "src": "/assets/bevolve/Case-study3.png",
-        "alt": "Bevolve.ai benchmarking engine view."
+        "src": "/assets/bevolve/mockups-3.webp",
+        "alt": "Bevolve.ai AI-assisted review mockup."
       },
       {
-        "src": "/assets/bevolve/emissions-Summary.png",
-        "alt": "Bevolve.ai emissions summary dashboard."
+        "src": "/assets/bevolve/mockups-4.webp",
+        "alt": "Bevolve.ai emissions dashboard mockup."
       },
       {
-        "src": "/assets/bevolve/path-to-net-zero.png",
-        "alt": "Bevolve.ai path to net zero planning view."
+        "src": "/assets/bevolve/mockups-5.webp",
+        "alt": "Bevolve.ai benchmarking engine mockup."
       },
       {
-        "src": "/assets/bevolve/platform-banner.png",
-        "alt": "Bevolve.ai integrated platform overview."
+        "src": "/assets/bevolve/mockups-6.webp",
+        "alt": "Bevolve.ai path to net zero mockup."
+      },
+      {
+        "src": "/assets/bevolve/mockups-7.webp",
+        "alt": "Bevolve.ai platform interface mockup."
+      },
+      {
+        "src": "/assets/bevolve/mockups-8.webp",
+        "alt": "Bevolve.ai integrated platform mockup."
       }
     ]
   },
@@ -116,16 +124,28 @@
     "badgeLabel": "AI Advisors",
     "images": [
       {
-        "src": "/assets/illustration1.png",
-        "alt": "TVAM AI workflow illustration."
+        "src": "/assets/tvam/mockups-1.png",
+        "alt": "TVAM AI advisor platform mockup."
       },
       {
-        "src": "/assets/illustration2.png",
-        "alt": "TVAM advisor-style product visual."
+        "src": "/assets/tvam/mockups-2.png",
+        "alt": "TVAM workflow interface mockup."
       },
       {
-        "src": "/assets/illustration3.png",
-        "alt": "TVAM platform systems illustration."
+        "src": "/assets/tvam/mockups-3.png",
+        "alt": "TVAM advisor product mockup."
+      },
+      {
+        "src": "/assets/tvam/mockups-4.png",
+        "alt": "TVAM platform systems mockup."
+      },
+      {
+        "src": "/assets/tvam/mockups-5.png",
+        "alt": "TVAM AI decision support mockup."
+      },
+      {
+        "src": "/assets/tvam/mockups-6.png",
+        "alt": "TVAM platform overview mockup."
       }
     ]
   },

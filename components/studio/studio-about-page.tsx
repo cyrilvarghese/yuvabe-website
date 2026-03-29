@@ -13,7 +13,7 @@ import {
 
 import type { StudioHomepageNavItem } from "@/components/studio/studio-homepage-content";
 import {
-  studioAboutPageContent,
+  type StudioAboutPageContent,
   type StudioAboutProofContent,
   type StudioAboutStoryContent,
   type StudioAboutValuesContent,
@@ -29,6 +29,7 @@ import { PremiumSurface } from "@/components/ui/premium-surface";
 
 type StudioAboutPageProps = {
   navigationItems: StudioHomepageNavItem[];
+  content: StudioAboutPageContent;
 };
 
 type SectionIntroProps = {
@@ -157,8 +158,8 @@ function AboutMediaCard({
 }
 
 // The hero reframes the legacy About story into the sharper AI-first founder promise.
-function AboutHero() {
-  const { hero } = studioAboutPageContent;
+function AboutHero({ content }: { content: StudioAboutPageContent["hero"] }) {
+  const hero = content;
   const descriptionHighlight = "AI-first studio from Auroville";
   const descriptionParts = hero.description.split(descriptionHighlight);
 
@@ -264,11 +265,13 @@ function AboutHero() {
 
 // This section pairs the studio origin story with the practical differentiators founders should remember.
 function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
+  const [storyTitleLead, storyTitleRest] = content.title.split(". ");
+
   return (
     <section className="border-b border-slate-200/80 bg-white py-14 md:py-20">
-      <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:gap-12">
+      <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(0,1.02fr)] lg:gap-12">
         {/* The left column becomes the narrative anchor with one strong headline and one tight origin paragraph. */}
-        <div className="max-w-4xl space-y-5 lg:pl-4 xl:pl-6">
+        <div className="space-y-5 lg:pl-4 xl:pl-6">
           <div className="space-y-3">
             <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
               {content.eyebrow}
@@ -276,11 +279,19 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
           </div>
 
-          <h2 className="max-w-4xl text-section-display text-[var(--neutral-950)]">
-            {content.title}
+          <h2 className="max-w-[13ch] text-section-display text-[var(--neutral-950)]">
+            {storyTitleRest ? (
+              <>
+                <span>{`${storyTitleLead}.`}</span>
+                <br />
+                <span>{storyTitleRest}</span>
+              </>
+            ) : (
+              content.title
+            )}
           </h2>
 
-          <p className="max-w-4xl text-body-lg text-[var(--color-text-secondary)]">
+          <p className="max-w-[38rem] text-body-lg text-[var(--color-text-secondary)]">
             {content.paragraphs[0]}
           </p>
 
@@ -525,11 +536,11 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
 // The closing mid-page section combines enduring values with a lightweight team/culture teaser.
 function AboutValuesAndTeamSection({
   values,
+  teamTeaser,
 }: {
   values: StudioAboutValuesContent;
+  teamTeaser: StudioAboutPageContent["teamTeaser"];
 }) {
-  const { teamTeaser } = studioAboutPageContent;
-
   return (
     <section className="border-b border-slate-200/80 bg-[var(--color-background-canvas)] py-14 md:py-20">
       <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:gap-12">
@@ -628,8 +639,8 @@ function AboutValuesAndTeamSection({
 }
 
 // The final CTA closes the page on one clear next step while preserving a lower-friction proof path.
-function AboutFinalCta() {
-  const { cta } = studioAboutPageContent;
+function AboutFinalCta({ content }: { content: StudioAboutPageContent["cta"] }) {
+  const cta = content;
 
   return (
     <section className="bg-white py-16 md:py-20">
@@ -674,8 +685,8 @@ function AboutFinalCta() {
   );
 }
 
-export function StudioAboutPage({ navigationItems }: StudioAboutPageProps) {
-  const { story, workflow, proof, values } = studioAboutPageContent;
+export function StudioAboutPage({ navigationItems, content }: StudioAboutPageProps) {
+  const { hero, story, workflow, proof, values, teamTeaser, cta } = content;
 
   return (
     <main
@@ -691,13 +702,13 @@ export function StudioAboutPage({ navigationItems }: StudioAboutPageProps) {
       <StudioHeader navigationItems={navigationItems} />
 
       <article className="relative z-10">
-        <AboutHero />
+        <AboutHero content={hero} />
         <AboutStorySection content={story} />
         <AboutTeamBandSection />
         <AboutWorkflowSection content={workflow} />
         <AboutProofSection content={proof} />
-        <AboutValuesAndTeamSection values={values} />
-        <AboutFinalCta />
+        <AboutValuesAndTeamSection values={values} teamTeaser={teamTeaser} />
+        <AboutFinalCta content={cta} />
       </article>
     </main>
   );

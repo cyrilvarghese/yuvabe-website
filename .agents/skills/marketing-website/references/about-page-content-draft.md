@@ -48,8 +48,11 @@ Use these proof signals to support the page without turning it into a case-study
 ### Positioning statement
 Yuvabe is an AI-first studio for startups that need sharper product decisions and faster execution. We work across strategy, design, engineering, and growth to help founders figure out what matters, build it well, and learn quickly from the market.
 
+### Internal narrative theme
+Rooted in care. Sharpened by judgment.
+
 ### Short brand story
-We started in Auroville with a strong belief in human-centered work, creativity, and meaningful progress. That foundation still matters. What has evolved is the way we apply it: today, Yuvabe helps startups use AI, product thinking, engineering, and growth execution to move from uncertainty to traction.
+We started in Auroville with a strong belief in human-centered work, creativity, and meaningful progress. That foundation still matters. What changed was the problem we chose to solve. As building became easier, deciding what was actually worth building became harder. Today, Yuvabe helps startups turn that same care into sharper judgment through AI, product thinking, engineering, and growth execution.
 
 ### About-page promise
 This page should answer:
@@ -82,7 +85,13 @@ Yuvabe was built to close that gap. We bring product thinking, AI-native executi
 ### Our story
 Yuvabe began in 2020 with roots in Auroville and an early mission shaped by learning, community, and personal growth. Those roots still define how we work: with care, curiosity, and long-term responsibility.
 
-What changed is our focus. As the constraints around building have fallen, the harder problem has become deciding what is actually worth building. That is where we do our best work now helping startups narrow the signal, choose the right next move, and execute quickly with AI as leverage.
+The roots stayed the same. What changed was the problem. As the constraints around building fell, the harder challenge became deciding what is actually worth building in the first place. That is where we do our best work now: helping startups narrow the signal, choose the right next move, and execute quickly with AI as leverage.
+
+Optional warmer story line:
+Rooted in care. Built for clearer bets.
+
+Optional sharper headline:
+We didn't set out to be an agency.
 
 ### What makes us different
 Headline:
@@ -118,10 +127,10 @@ Our work spans founder problems that require more than one discipline. From AI a
 
 Proof bullets:
 - TVAM: AI-powered advisory tools with RAG workflows, cloud deployment, and secure multi-tool coordination.
-- Bevolve: an AI sustainability platform built for ESG reporting, compliance monitoring, and benchmarking.
-- KittyKat: a generative AI visual workflow that scaled fashion image production.
-- AgeShift: a wellness platform spanning mobile, backend, admin, cloud, and AI recommendations.
 - General Aeronautics: digital experience, product UI/UX, branding, and marketing support for a drone technology company.
+- AgeShift: a wellness platform spanning mobile, backend, admin, cloud, and AI recommendations.
+- Bevolve: lighter-proof reference unless re-verified before heavier public-facing use.
+- KittyKat: lighter-proof reference unless re-verified before heavier public-facing use.
 
 ### Values block
 Headline:
@@ -160,3 +169,6 @@ See Our Work
 - Use proof from named projects instead of broad claims like "we do everything."
 - Avoid a big services dump; the About page should explain who Yuvabe is and how it works.
 - If we want a team section, confirm the current roster before publishing because the public About page team list may be stale.
+- Treat `TVAM` and `General Aeronautics` as the strongest public proof anchors, with `AgeShift` close behind.
+- Use `Bevolve` and `KittyKat` more lightly until their public project pages are re-verified for heavier claims.
+- The story illustration should express selection, direction, or discernment rather than generic growth or sustainability symbolism.

@@ -4,8 +4,10 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import {
+  parseStudioAboutPageContentInput,
   parseStudioEditableCaseStudyInput,
   parseStudioHomepageContentInput,
+  saveStudioAboutPageContent,
   saveStudioCaseStudy,
   saveStudioHomepageContent,
 } from "@/lib/studio-content";
@@ -27,6 +29,17 @@ export async function saveHomepageContentAction(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/studio-admin");
   redirect("/studio-admin?tab=homepage&saved=homepage");
+}
+
+export async function saveAboutContentAction(formData: FormData) {
+  const payload = expectString(formData.get("payload"), "About payload");
+  const parsedPayload = parseStudioAboutPageContentInput(JSON.parse(payload));
+
+  await saveStudioAboutPageContent(parsedPayload);
+
+  revalidatePath("/about");
+  revalidatePath("/studio-admin");
+  redirect("/studio-admin?tab=about&saved=about");
 }
 
 export async function saveCaseStudyContentAction(formData: FormData) {

@@ -24,11 +24,22 @@ import type {
   StudioHomepageServicesContent,
   StudioHomepageWorkContent,
 } from "@/components/studio/studio-homepage-content";
+import type {
+  StudioAboutCtaContent,
+  StudioAboutHeroContent,
+  StudioAboutPageContent,
+  StudioAboutProofContent,
+  StudioAboutStoryContent,
+  StudioAboutTeamTeaserContent,
+  StudioAboutValuesContent,
+  StudioAboutWorkflowContent,
+} from "@/components/studio/studio-about-content";
 import { getSupabaseAdminClient } from "@/lib/supabase-admin";
 
 const dataDirectory = path.join(process.cwd(), "components", "studio", "data");
 const caseStudiesFilePath = path.join(dataDirectory, "studio-case-studies.json");
 const homepageFilePath = path.join(dataDirectory, "studio-homepage-content.json");
+const aboutFilePath = path.join(dataDirectory, "studio-about-content.json");
 const approvedContentDirectory = path.join(
   process.cwd(),
   ".agents",
@@ -43,6 +54,10 @@ const approvedCaseStudiesFilePath = path.join(
 const approvedHomepageFilePath = path.join(
   approvedContentDirectory,
   "homepage-approved.json",
+);
+const approvedAboutFilePath = path.join(
+  approvedContentDirectory,
+  "about-approved.json",
 );
 const contentDocumentsTable = "content_documents";
 type StudioContentSource = "auto" | "local" | "supabase";
@@ -147,9 +162,28 @@ function parseNavItem(value: unknown, label: string): StudioHomepageNavItem {
   assertRecord(value, label);
 
   return {
-    label: expectString(value.label, `${label}.label`),
-    href: expectString(value.href, `${label}.href`),
+    label: expectString(value.label, `${label}.label`).trim(),
+    href: normalizeStudioNavHref(expectString(value.href, `${label}.href`)),
   };
+}
+
+// Keep legacy About nav payloads from falling back to homepage hash links in production.
+function normalizeStudioNavHref(href: string) {
+  const trimmedHref = href.trim();
+  const normalizedHref = trimmedHref.toLowerCase();
+
+  if (
+    normalizedHref === "about" ||
+    normalizedHref === "./about" ||
+    normalizedHref === "about/" ||
+    normalizedHref === "#about" ||
+    normalizedHref === "/#about" ||
+    normalizedHref === "/about/"
+  ) {
+    return "/about";
+  }
+
+  return trimmedHref;
 }
 
 function normalizeNavItem(
@@ -159,7 +193,9 @@ function normalizeNavItem(
   assertRecord(value, label);
 
   const nextLabel = expectString(value.label, `${label}.label`).trim();
-  const nextHref = expectString(value.href, `${label}.href`).trim();
+  const nextHref = normalizeStudioNavHref(
+    expectString(value.href, `${label}.href`),
+  );
 
   if (!nextLabel || !nextHref) {
     return null;
@@ -362,6 +398,339 @@ export function parseStudioHomepageContentInput(
         )
       : defaultServicesContent,
     work: normalizeWorkContent(value.work, "homepage content payload.work"),
+  };
+}
+
+function parseAboutHeroContent(
+  value: unknown,
+  label: string,
+): StudioAboutHeroContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    highlight: expectString(value.highlight, `${label}.highlight`),
+    description: expectString(value.description, `${label}.description`),
+    supportingLine: expectString(value.supportingLine, `${label}.supportingLine`),
+    primaryCtaLabel: expectString(value.primaryCtaLabel, `${label}.primaryCtaLabel`),
+    primaryCtaHref: expectString(value.primaryCtaHref, `${label}.primaryCtaHref`),
+    secondaryCtaLabel: expectString(value.secondaryCtaLabel, `${label}.secondaryCtaLabel`),
+    secondaryCtaHref: expectString(value.secondaryCtaHref, `${label}.secondaryCtaHref`),
+    callouts: expectArray(value.callouts, `${label}.callouts`).map((callout, index) => {
+      assertRecord(callout, `${label}.callouts[${index}]`);
+
+      return {
+        label: expectString(callout.label, `${label}.callouts[${index}].label`),
+        value: expectString(callout.value, `${label}.callouts[${index}].value`),
+        description: expectString(
+          callout.description,
+          `${label}.callouts[${index}].description`,
+        ),
+      };
+    }),
+  };
+}
+
+function normalizeAboutHeroContent(
+  value: unknown,
+  label: string,
+): StudioAboutHeroContent {
+  const parsed = parseAboutHeroContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    highlight: parsed.highlight.trim(),
+    description: parsed.description.trim(),
+    supportingLine: parsed.supportingLine.trim(),
+    primaryCtaLabel: parsed.primaryCtaLabel.trim(),
+    primaryCtaHref: parsed.primaryCtaHref.trim(),
+    secondaryCtaLabel: parsed.secondaryCtaLabel.trim(),
+    secondaryCtaHref: parsed.secondaryCtaHref.trim(),
+    callouts: parsed.callouts.map((callout) => ({
+      label: callout.label.trim(),
+      value: callout.value.trim(),
+      description: callout.description.trim(),
+    })),
+  };
+}
+
+function parseAboutStoryContent(
+  value: unknown,
+  label: string,
+): StudioAboutStoryContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    paragraphs: expectStringArray(value.paragraphs, `${label}.paragraphs`),
+    operatingPrinciples: expectArray(
+      value.operatingPrinciples,
+      `${label}.operatingPrinciples`,
+    ).map((principle, index) => {
+      assertRecord(principle, `${label}.operatingPrinciples[${index}]`);
+
+      return {
+        title: expectString(
+          principle.title,
+          `${label}.operatingPrinciples[${index}].title`,
+        ),
+        description: expectString(
+          principle.description,
+          `${label}.operatingPrinciples[${index}].description`,
+        ),
+      };
+    }),
+  };
+}
+
+function normalizeAboutStoryContent(
+  value: unknown,
+  label: string,
+): StudioAboutStoryContent {
+  const parsed = parseAboutStoryContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    paragraphs: parsed.paragraphs.map((paragraph) => paragraph.trim()),
+    operatingPrinciples: parsed.operatingPrinciples.map((principle) => ({
+      title: principle.title.trim(),
+      description: principle.description.trim(),
+    })),
+  };
+}
+
+function parseAboutWorkflowContent(
+  value: unknown,
+  label: string,
+): StudioAboutWorkflowContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    stages: expectArray(value.stages, `${label}.stages`).map((stage, index) => {
+      assertRecord(stage, `${label}.stages[${index}]`);
+
+      return {
+        label: expectString(stage.label, `${label}.stages[${index}].label`),
+        description: expectString(
+          stage.description,
+          `${label}.stages[${index}].description`,
+        ),
+      };
+    }),
+  };
+}
+
+function normalizeAboutWorkflowContent(
+  value: unknown,
+  label: string,
+): StudioAboutWorkflowContent {
+  const parsed = parseAboutWorkflowContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    stages: parsed.stages.map((stage) => ({
+      label: stage.label.trim(),
+      description: stage.description.trim(),
+    })),
+  };
+}
+
+function parseAboutProofContent(
+  value: unknown,
+  label: string,
+): StudioAboutProofContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    entries: expectArray(value.entries, `${label}.entries`).map((entry, index) => {
+      assertRecord(entry, `${label}.entries[${index}]`);
+
+      return {
+        client: expectString(entry.client, `${label}.entries[${index}].client`),
+        sector: expectString(entry.sector, `${label}.entries[${index}].sector`),
+        summary: expectString(entry.summary, `${label}.entries[${index}].summary`),
+      };
+    }),
+  };
+}
+
+function normalizeAboutProofContent(
+  value: unknown,
+  label: string,
+): StudioAboutProofContent {
+  const parsed = parseAboutProofContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    entries: parsed.entries.map((entry) => ({
+      client: entry.client.trim(),
+      sector: entry.sector.trim(),
+      summary: entry.summary.trim(),
+    })),
+  };
+}
+
+function parseAboutValuesContent(
+  value: unknown,
+  label: string,
+): StudioAboutValuesContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    values: expectArray(value.values, `${label}.values`).map((item, index) => {
+      assertRecord(item, `${label}.values[${index}]`);
+
+      return {
+        title: expectString(item.title, `${label}.values[${index}].title`),
+        description: expectString(
+          item.description,
+          `${label}.values[${index}].description`,
+        ),
+      };
+    }),
+    principles: expectStringArray(value.principles, `${label}.principles`),
+  };
+}
+
+function normalizeAboutValuesContent(
+  value: unknown,
+  label: string,
+): StudioAboutValuesContent {
+  const parsed = parseAboutValuesContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    values: parsed.values.map((item) => ({
+      title: item.title.trim(),
+      description: item.description.trim(),
+    })),
+    principles: parsed.principles.map((principle) => principle.trim()),
+  };
+}
+
+function parseAboutTeamTeaserContent(
+  value: unknown,
+  label: string,
+): StudioAboutTeamTeaserContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    points: expectStringArray(value.points, `${label}.points`),
+  };
+}
+
+function normalizeAboutTeamTeaserContent(
+  value: unknown,
+  label: string,
+): StudioAboutTeamTeaserContent {
+  const parsed = parseAboutTeamTeaserContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    points: parsed.points.map((point) => point.trim()),
+  };
+}
+
+function parseAboutCtaContent(
+  value: unknown,
+  label: string,
+): StudioAboutCtaContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    primaryCtaLabel: expectString(value.primaryCtaLabel, `${label}.primaryCtaLabel`),
+    primaryCtaHref: expectString(value.primaryCtaHref, `${label}.primaryCtaHref`),
+    secondaryCtaLabel: expectString(
+      value.secondaryCtaLabel,
+      `${label}.secondaryCtaLabel`,
+    ),
+    secondaryCtaHref: expectString(
+      value.secondaryCtaHref,
+      `${label}.secondaryCtaHref`,
+    ),
+  };
+}
+
+function normalizeAboutCtaContent(
+  value: unknown,
+  label: string,
+): StudioAboutCtaContent {
+  const parsed = parseAboutCtaContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    primaryCtaLabel: parsed.primaryCtaLabel.trim(),
+    primaryCtaHref: parsed.primaryCtaHref.trim(),
+    secondaryCtaLabel: parsed.secondaryCtaLabel.trim(),
+    secondaryCtaHref: parsed.secondaryCtaHref.trim(),
+  };
+}
+
+function parseAboutPageContent(value: unknown): StudioAboutPageContent {
+  assertRecord(value, "about content");
+
+  return {
+    hero: parseAboutHeroContent(value.hero, "about content.hero"),
+    story: parseAboutStoryContent(value.story, "about content.story"),
+    workflow: parseAboutWorkflowContent(value.workflow, "about content.workflow"),
+    proof: parseAboutProofContent(value.proof, "about content.proof"),
+    values: parseAboutValuesContent(value.values, "about content.values"),
+    teamTeaser: parseAboutTeamTeaserContent(
+      value.teamTeaser,
+      "about content.teamTeaser",
+    ),
+    cta: parseAboutCtaContent(value.cta, "about content.cta"),
+  };
+}
+
+export function parseStudioAboutPageContentInput(
+  value: unknown,
+): StudioAboutPageContent {
+  assertRecord(value, "about content payload");
+
+  return {
+    hero: normalizeAboutHeroContent(value.hero, "about content payload.hero"),
+    story: normalizeAboutStoryContent(value.story, "about content payload.story"),
+    workflow: normalizeAboutWorkflowContent(
+      value.workflow,
+      "about content payload.workflow",
+    ),
+    proof: normalizeAboutProofContent(value.proof, "about content payload.proof"),
+    values: normalizeAboutValuesContent(value.values, "about content payload.values"),
+    teamTeaser: normalizeAboutTeamTeaserContent(
+      value.teamTeaser,
+      "about content payload.teamTeaser",
+    ),
+    cta: normalizeAboutCtaContent(value.cta, "about content payload.cta"),
   };
 }
 
@@ -641,7 +1010,7 @@ async function readJsonFile<T>(filePath: string): Promise<T> {
   return JSON.parse(rawFile) as T;
 }
 
-async function readContentDocument(key: "homepage" | "case_studies") {
+async function readContentDocument(key: "homepage" | "case_studies" | "about") {
   noStore();
 
   const supabase = getSupabaseAdminClient();
@@ -675,7 +1044,7 @@ function shouldUseLocalContentFallback(error: unknown) {
 }
 
 async function writeContentDocument(
-  key: "homepage" | "case_studies",
+  key: "homepage" | "case_studies" | "about",
   payload: unknown,
 ) {
   const supabase = getSupabaseAdminClient();
@@ -689,7 +1058,7 @@ async function writeContentDocument(
 }
 
 async function getOrBootstrapDocument<T>(
-  key: "homepage" | "case_studies",
+  key: "homepage" | "case_studies" | "about",
   fallbackFilePath: string,
 ) {
   // Prefer Supabase when it's reachable, but keep the site renderable when local
@@ -754,12 +1123,20 @@ function getStudioContentSource(): StudioContentSource {
   return "auto";
 }
 
-function getLocalContentFilePath(key: "homepage" | "case_studies") {
-  return key === "homepage" ? approvedHomepageFilePath : approvedCaseStudiesFilePath;
+function getLocalContentFilePath(key: "homepage" | "case_studies" | "about") {
+  if (key === "homepage") {
+    return approvedHomepageFilePath;
+  }
+
+  if (key === "about") {
+    return approvedAboutFilePath;
+  }
+
+  return approvedCaseStudiesFilePath;
 }
 
 async function getStudioContentDocument<T>(
-  key: "homepage" | "case_studies",
+  key: "homepage" | "case_studies" | "about",
   fallbackFilePath: string,
 ) {
   const contentSource = getStudioContentSource();
@@ -791,6 +1168,20 @@ export async function getStudioHomepageContent() {
 
 export async function saveStudioHomepageContent(content: StudioHomepageContent) {
   await writeContentDocument("homepage", content);
+}
+
+export async function getStudioAboutPageContent() {
+  const rawContent = await getStudioContentDocument<unknown>(
+    "about",
+    aboutFilePath,
+  );
+  return parseAboutPageContent(rawContent);
+}
+
+export async function saveStudioAboutPageContent(
+  content: StudioAboutPageContent,
+) {
+  await writeContentDocument("about", content);
 }
 
 export async function getStudioCaseStudies() {

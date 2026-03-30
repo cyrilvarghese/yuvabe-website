@@ -85,29 +85,51 @@
   },
   "bevolve": {
     "badgeLabel": "ESG AI",
+    "itemImages": {
+      "Reporting workflow": [
+        {
+          "src": "/assets/bevolve/mock1.png",
+          "alt": "Bevolve.ai reporting workflow interface."
+        }
+      ],
+      "AI-assisted review": [
+        {
+          "src": "/assets/bevolve/mock2.png",
+          "alt": "Bevolve.ai AI-assisted review interface."
+        }
+      ],
+      "Benchmarking engine": [
+        {
+          "src": "/assets/bevolve/mock3.png",
+          "alt": "Bevolve.ai benchmarking engine view."
+        }
+      ],
+      "Peer comparison workspace": [
+        {
+          "src": "/assets/bevolve/mock4.png",
+          "alt": "Bevolve.ai peer comparison workspace."
+        }
+      ]
+    },
     "images": [
       {
-        "src": "/assets/bevolve/case-study1.png",
+        "src": "/assets/bevolve/mock1.png",
         "alt": "Bevolve.ai reporting workflow interface."
       },
       {
-        "src": "/assets/bevolve/case-study2.png",
+        "src": "/assets/bevolve/mock2.png",
         "alt": "Bevolve.ai AI-assisted review interface."
       },
       {
-        "src": "/assets/bevolve/Case-study3.png",
+        "src": "/assets/bevolve/mock3.png",
         "alt": "Bevolve.ai benchmarking engine view."
       },
       {
-        "src": "/assets/bevolve/emissions-Summary.png",
+        "src": "/assets/bevolve/mock4.png",
         "alt": "Bevolve.ai emissions summary dashboard."
       },
       {
-        "src": "/assets/bevolve/path-to-net-zero.png",
-        "alt": "Bevolve.ai path to net zero planning view."
-      },
-      {
-        "src": "/assets/bevolve/platform-banner.png",
+        "src": "/assets/bevolve/cover.png",
         "alt": "Bevolve.ai integrated platform overview."
       }
     ]

@@ -38,7 +38,7 @@ export function EditorialCaseStudyPreview() {
           subtext={bevolveSummary}
           brandName="Bevolve.ai"
           logoSrc="/assets/bevolve-ai.svg"
-          heroSrc="/assets/Bevolve_cover.png"
+          heroSrc="/assets/bevolve/cover.png"
           href="#"
         />
       </div>

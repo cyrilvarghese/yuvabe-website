@@ -1,6 +1,6 @@
 {
   "cta": {
-    "title": "If you want more than a vendor, talk to us.",
+    "title": "Tell us what you are building.",
     "eyebrow": "Start the conversation",
     "description": "We work best with founders who want a close partner, honest thinking, and people who can move from idea to execution without losing context.",
     "primaryCtaHref": "/#process",
@@ -19,8 +19,8 @@
       },
       {
         "label": "Today",
-        "value": "Product engineering studio",
-        "description": "Product, design, engineering, and growth working together instead of in handoffs."
+        "value": "One connected loop",
+        "description": "Strategy, design, engineering, and growth stay in the same room instead of getting split across handoffs."
       },
       {
         "label": "Best fit",
@@ -29,7 +29,7 @@
       }
     ],
     "highlight": "bets.",
-    "description": "Rooted in Auroville. Built to help ambitious teams moving fast figure out what matters, build with focus, and keep momentum.",
+    "description": "Yuvabe is an AI-first studio from Auroville for founders who need sharper decisions, faster execution, and direct collaboration with the people doing the work.",
     "primaryCtaHref": "/#process",
     "supportingLine": "",
     "primaryCtaLabel": "Start Your Project",
@@ -119,7 +119,7 @@
       "Stay close to the work",
       "Care about the details"
     ],
-    "description": "These are not slogans for us. They are the standards we try to keep with clients and with each other."
+    "description": "These are the standards behind how we work with clients and with each other."
   },
   "workflow": {
     "title": "One team across the full loop.",

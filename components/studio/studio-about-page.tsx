@@ -620,7 +620,7 @@ function AboutValuesAndTeamSection({
                 </h3>
               </div>
 
-              <div className="relative z-10 divide-y divide-slate-200/80">
+              <div className="relative z-10 space-y-6 md:space-y-7">
                 {values.values.map((value) => {
                   const valueIconAsset =
                     valueIconAssets[value.title as keyof typeof valueIconAssets];
@@ -630,19 +630,19 @@ function AboutValuesAndTeamSection({
                     <div
                       key={value.title}
                       className={[
-                        "grid min-w-0 gap-4 py-5 md:gap-5 md:py-7",
+                        "grid min-w-0 gap-4 py-1 md:gap-5 md:py-2",
                         usesLargePanel
                           ? "sm:grid-cols-[5.6875rem_minmax(0,1fr)] sm:items-start"
                           : "sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start",
                       ].join(" ")}
                     >
-                      <div
-                        className={[
-                          usesLargePanel
-                            ? "relative h-[5.6875rem] w-[5.6875rem] sm:mt-1"
-                            : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
-                        ].join(" ")}
-                      >
+                    <div
+                      className={[
+                        usesLargePanel
+                          ? "relative h-[5.6875rem] w-[5.6875rem] self-start"
+                          : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
+                      ].join(" ")}
+                    >
                         {valueIconAsset ? (
                           <div
                             className={[

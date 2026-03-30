@@ -13,9 +13,7 @@ import { StartProjectButton } from "@/components/studio/start-project-button";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-const caseStudyVideoOverrides: Partial<Record<string, string>> = {
-  bevolve: "/assets/bevolve/bevolve-AI-page.mp4",
-};
+const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
 const caseStudyImageOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
@@ -113,16 +111,22 @@ const detailGalleryStageClassMap: Record<
 };
 
 // Gallery rows own their layout: a single item becomes full width, while a pair becomes a split row.
-function getGalleryItemSpan(itemCount: number) {
+function getGalleryItemSpan(caseStudyId: string, itemCount: number) {
+  if (caseStudyId === "bevolve") {
+    return "md:col-span-12";
+  }
+
   return itemCount <= 1 ? "md:col-span-12" : "md:col-span-6";
 }
 
 // The detail gallery inherits viewport intent from the case study so mobile-first work reads taller than desktop-first work.
 function getGalleryStageClass({
+  caseStudyId,
   isModal,
   mockViewport,
   itemCount,
 }: {
+  caseStudyId: string;
   isModal: boolean;
   mockViewport?: StudioCaseStudySummary["mockViewport"];
   itemCount: number;
@@ -130,20 +134,23 @@ function getGalleryStageClass({
   const layoutMode: DetailGalleryLayoutMode = isModal ? "modal" : "page";
   const viewport: DetailGalleryViewport =
     mockViewport === "landscape" ? "landscape" : "portrait";
-  const rowKind: DetailGalleryRowKind = itemCount <= 1 ? "full" : "split";
+  const rowKind: DetailGalleryRowKind =
+    caseStudyId === "bevolve" || itemCount <= 1 ? "full" : "split";
 
   return detailGalleryStageClassMap[layoutMode][viewport][rowKind];
 }
 
 // The browser image-size hint stays aligned to the row shape so single panels can claim the full canvas width.
 function getGalleryImageSizes({
+  caseStudyId,
   isModal,
   itemCount,
 }: {
+  caseStudyId: string;
   isModal: boolean;
   itemCount: number;
 }) {
-  if (itemCount <= 1) {
+  if (caseStudyId === "bevolve" || itemCount <= 1) {
     return "100vw";
   }
 
@@ -160,6 +167,15 @@ function getGalleryRowTitle(title: string) {
     default:
       return title;
   }
+}
+
+// Some proof screens rely on the full chart or dashboard frame, so they should scale to fit instead of cropping.
+function getGalleryImageClass(caseStudyId: string) {
+  if (caseStudyId === "bevolve") {
+    return "object-cover";
+  }
+
+  return "object-cover";
 }
 
 type StudioCaseStudyHeroMedia = {
@@ -460,7 +476,7 @@ export function StudioCaseStudyDetail({
                     key={item.title}
                     className={cn(
                       "flex h-full flex-col overflow-hidden rounded-[1.35rem] border border-white/85 bg-white/96 shadow-[0_18px_40px_rgba(15,23,42,0.09),0_4px_14px_rgba(15,23,42,0.05)]",
-                      getGalleryItemSpan(row.items.length),
+                      getGalleryItemSpan(caseStudy.id, row.items.length),
                     )}
                   >
                     {/* The gallery visual stays cleaner now: one image stage, one badge, and no extra inset frame. */}
@@ -473,6 +489,7 @@ export function StudioCaseStudyDetail({
                         className={cn(
                           "relative w-full",
                           getGalleryStageClass({
+                            caseStudyId: caseStudy.id,
                             isModal,
                             mockViewport: caseStudy.mockViewport,
                             itemCount: row.items.length,
@@ -484,10 +501,11 @@ export function StudioCaseStudyDetail({
                           alt={galleryImage.alt}
                           fill
                           sizes={getGalleryImageSizes({
+                            caseStudyId: caseStudy.id,
                             isModal,
                             itemCount: row.items.length,
                           })}
-                          className="object-cover"
+                          className={getGalleryImageClass(caseStudy.id)}
                           unoptimized={shouldSkipImageOptimization}
                         />
                         <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(255,255,255,0)_28%,rgba(11,15,25,0.045)_100%)]" />

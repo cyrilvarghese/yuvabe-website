@@ -21,9 +21,7 @@ type StudioCaseStudiesProps = {
 
 // Hard-coded video sources keyed by case study ID — ensures the video shows even when
 // the Supabase record predates the mockVideoSrc field being added.
-const caseStudyVideoOverrides: Partial<Record<string, string>> = {
-  bevolve: "/assets/bevolve/bevolve-AI-page.mp4",
-};
+const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
 // Hard-coded image overrides — take priority over whatever Supabase returns so real
 // assets are always shown even when the remote record still points to placeholders.

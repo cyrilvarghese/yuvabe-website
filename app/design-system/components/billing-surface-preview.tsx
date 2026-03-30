@@ -16,7 +16,7 @@ const caseStudyPreviewCards = [
     title: "Bevolve.ai",
     summary: "Turned fragmented sustainability reporting into an AI-guided system teams could trust for faster, evidence-based decisions.",
     services: ["AI integration", "ML", "ESG reporting"],
-    imageSrc: "/assets/Bevolve_cover.png",
+    imageSrc: "/assets/bevolve/cover.png",
     imageAlt: "Bevolve.ai product experience mock",
     mockViewport: "landscape" as const,
     variant: "sunrise" as const,

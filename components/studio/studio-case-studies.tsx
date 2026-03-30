@@ -26,9 +26,15 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 // Hard-coded image overrides — take priority over whatever Supabase returns so real
 // assets are always shown even when the remote record still points to placeholders.
 const caseStudyImageOverrides: Partial<Record<string, string>> = {
+  bevolve: "/assets/bevolve-ai.svg",
   "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
   ageshift: "/assets/ageshift/ageshift_cover.png",
 };
+
+const caseStudyImageClassOverrides: Partial<Record<string, string>> = {
+  bevolve: "scale-[1.9] -translate-y-[18%] object-[center_110%]",
+};
+
 
 // Hard-coded viewport overrides — switches portrait phone frames to landscape where the
 // cover image is a wide/landscape asset and needs a wider container for full visibility.
@@ -43,6 +49,7 @@ const caseStudyViewportOverrides: Partial<
 const caseStudyPresentationOverrides: Partial<
   Record<string, "framed" | "fullImage">
 > = {
+  bevolve: "fullImage",
   "general-aeronautics": "fullImage",
 };
 
@@ -120,7 +127,10 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[caseStudy.id]
                   }
                   imageAspectRatio={caseStudy.mockImageAspectRatio}
-                  imageClassName={caseStudy.mockImageClassName}
+                  imageClassName={
+                    caseStudyImageClassOverrides[caseStudy.id] ??
+                    caseStudy.mockImageClassName
+                  }
                   mockViewport={
                     caseStudyViewportOverrides[caseStudy.id] ??
                     caseStudy.mockViewport
@@ -159,7 +169,10 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[caseStudy.id]
                   }
                   imageAspectRatio={caseStudy.mockImageAspectRatio}
-                  imageClassName={caseStudy.mockImageClassName}
+                  imageClassName={
+                    caseStudyImageClassOverrides[caseStudy.id] ??
+                    caseStudy.mockImageClassName
+                  }
                   mockViewport={
                     caseStudyViewportOverrides[caseStudy.id] ??
                     caseStudy.mockViewport
@@ -197,7 +210,10 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[spotlightCaseStudy.id]
                   }
                   imageAspectRatio={spotlightCaseStudy.mockImageAspectRatio}
-                  imageClassName={spotlightCaseStudy.mockImageClassName}
+                  imageClassName={
+                    caseStudyImageClassOverrides[spotlightCaseStudy.id] ??
+                    spotlightCaseStudy.mockImageClassName
+                  }
                   mockViewport={
                     caseStudyViewportOverrides[spotlightCaseStudy.id] ??
                     spotlightCaseStudy.mockViewport
@@ -229,3 +245,4 @@ export function StudioCaseStudies({
     </>
   );
 }
+

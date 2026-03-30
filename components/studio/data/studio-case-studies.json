@@ -13,9 +13,11 @@
     ],
     "modalIntro": "General Aeronautics builds drone systems across agriculture, defense, humanitarian response, and warehouse automation. As the portfolio expanded, the challenge was making that breadth easier to understand, trust, and navigate.",
     "mockVariant": "aurora",
+    "mockLayout": "wide",
     "mediaIconKey": "layoutGrid",
     "mockImageAlt": "General Aeronautics mobile product mock",
     "mockImageSrc": "/assets/GA_cover.png",
+    "mockImageClassName": "scale-[0.82]",
     "mockViewport": "portrait",
     "modalOutcomes": [
       "Reframed a broad drone portfolio into a sharper market story.",
@@ -106,6 +108,7 @@
     ],
     "modalIntro": "Bevolve.ai needed a product experience that could bring together fragmented ESG and sustainability data, automate reporting workflows, and make decision support easier for teams navigating compliance pressure.",
     "mockVariant": "sunrise",
+    "mockLayout": "wide",
     "mediaIconKey": "bot",
     "mockImageAlt": "Bevolve.ai product experience mock",
     "mockImageSrc": "/assets/bevolve/cover.png",
@@ -167,8 +170,7 @@
           }
         ],
         "title": "Benchmarking workspace"
-      },
-      
+      }
     ],
     "modalProofPoints": [
       {

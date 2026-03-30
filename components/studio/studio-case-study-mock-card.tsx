@@ -341,7 +341,7 @@ export function StudioCaseStudyMockCard({
                     : { transformStyle: "preserve-3d", transform }
                 }
                 className={cn(
-                  "relative max-w-[560px]",
+                  "relative max-w-[560px] scale-[0.75]",
                   span === "full" && "max-w-[680px]",
                 )}
               >

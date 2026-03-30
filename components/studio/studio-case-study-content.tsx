@@ -77,7 +77,7 @@ export type StudioCaseStudySummary = {
   mockViewport?: StudioCaseStudyMockViewport;
   mockPresentation?: StudioCaseStudyMockPresentation;
   mockImageAspectRatio?: string;
-  mockImageClassName?: string;
+    mockImageClassName?: string;
   size?: "default" | "feature";
   modalIntro?: string;
   modalOutcomes?: string[];

@@ -61,7 +61,7 @@ export function StudioCaseStudyPageHero({
               </p>
 
               <div className="mt-10 flex flex-col gap-3 sm:mt-12 sm:flex-row">
-                <Button asChild size="lg" className="rounded-full px-6">
+                <Button asChild size="lg" className="px-6">
                   <Link href="/#process">
                     Start a project
                     <ArrowUpRight className="size-4" />

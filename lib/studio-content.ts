@@ -19,6 +19,7 @@ import {
 import type {
   StudioHomepageContent,
   StudioHomepageHeroContent,
+  StudioHomepageInlineCtaContent,
   StudioHomepageNavItem,
   StudioHomepageServiceItem,
   StudioHomepageServicesContent,
@@ -71,6 +72,25 @@ const defaultServicesContent: StudioHomepageServicesContent = {
         "Positioning, landing pages, campaigns, and analytics that turn launches into growth.",
     },
   ],
+};
+
+const defaultAfterServicesCtaContent: StudioHomepageInlineCtaContent = {
+  eyebrow: "",
+  title:
+    "If you need one team to shape, ship, and grow the product, talk to us.",
+  description:
+    "We work best with founders who want honest thinking, fast execution, and fewer handoffs between strategy and delivery.",
+  primaryCtaLabel: "Start Your Project",
+  primaryCtaHref: "/#process",
+};
+
+const defaultBeforeTestimonialsCtaContent: StudioHomepageInlineCtaContent = {
+  eyebrow: "Need a close partner?",
+  title: "If you want more momentum and less vendor drag, let's talk.",
+  description:
+    "The strongest work happens when strategy, design, engineering, and growth stay connected from the first bet onward.",
+  primaryCtaLabel: "Start Your Project",
+  primaryCtaHref: "/#process",
 };
 
 const defaultTestimonialsContent: StudioHomepageTestimonialsContent = {
@@ -288,6 +308,39 @@ function normalizeWorkContent(
   };
 }
 
+function parseInlineCtaContent(
+  value: unknown,
+  label: string,
+): StudioHomepageInlineCtaContent {
+  assertRecord(value, label);
+
+  return {
+    eyebrow: expectString(value.eyebrow, `${label}.eyebrow`),
+    title: expectString(value.title, `${label}.title`),
+    description: expectString(value.description, `${label}.description`),
+    primaryCtaLabel: expectString(
+      value.primaryCtaLabel,
+      `${label}.primaryCtaLabel`,
+    ),
+    primaryCtaHref: expectString(value.primaryCtaHref, `${label}.primaryCtaHref`),
+  };
+}
+
+function normalizeInlineCtaContent(
+  value: unknown,
+  label: string,
+): StudioHomepageInlineCtaContent {
+  const parsed = parseInlineCtaContent(value, label);
+
+  return {
+    eyebrow: parsed.eyebrow.trim(),
+    title: parsed.title.trim(),
+    description: parsed.description.trim(),
+    primaryCtaLabel: parsed.primaryCtaLabel.trim(),
+    primaryCtaHref: parsed.primaryCtaHref.trim(),
+  };
+}
+
 function parseServiceItem(
   value: unknown,
   label: string,
@@ -421,9 +474,21 @@ function parseHomepageContent(value: unknown): StudioHomepageContent {
       parseNavItem(item, `homepage content.navigationItems[${index}]`),
     ),
     hero: parseHeroContent(value.hero, "homepage content.hero"),
+    afterServicesCta: value.afterServicesCta
+      ? parseInlineCtaContent(
+          value.afterServicesCta,
+          "homepage content.afterServicesCta",
+        )
+      : defaultAfterServicesCtaContent,
     services: value.services
       ? parseServicesContent(value.services, "homepage content.services")
       : defaultServicesContent,
+    beforeTestimonialsCta: value.beforeTestimonialsCta
+      ? parseInlineCtaContent(
+          value.beforeTestimonialsCta,
+          "homepage content.beforeTestimonialsCta",
+        )
+      : defaultBeforeTestimonialsCtaContent,
     testimonials: value.testimonials
       ? parseTestimonialsContent(
           value.testimonials,
@@ -442,9 +507,25 @@ function mergeHomepageContentWithFallback(
   const shouldUseFallbackTestimonials =
     remoteContent.testimonials.items.length <
     fallbackContent.testimonials.items.length;
+  const shouldUseFallbackAfterServicesCta =
+    JSON.stringify(remoteContent.afterServicesCta) ===
+      JSON.stringify(defaultAfterServicesCtaContent) &&
+    JSON.stringify(fallbackContent.afterServicesCta) !==
+      JSON.stringify(defaultAfterServicesCtaContent);
+  const shouldUseFallbackBeforeTestimonialsCta =
+    JSON.stringify(remoteContent.beforeTestimonialsCta) ===
+      JSON.stringify(defaultBeforeTestimonialsCtaContent) &&
+    JSON.stringify(fallbackContent.beforeTestimonialsCta) !==
+      JSON.stringify(defaultBeforeTestimonialsCtaContent);
 
   return {
     ...remoteContent,
+    afterServicesCta: shouldUseFallbackAfterServicesCta
+      ? fallbackContent.afterServicesCta
+      : remoteContent.afterServicesCta,
+    beforeTestimonialsCta: shouldUseFallbackBeforeTestimonialsCta
+      ? fallbackContent.beforeTestimonialsCta
+      : remoteContent.beforeTestimonialsCta,
     testimonials: shouldUseFallbackTestimonials
       ? fallbackContent.testimonials
       : remoteContent.testimonials,
@@ -466,12 +547,24 @@ export function parseStudioHomepageContentInput(
       )
       .filter((item): item is StudioHomepageNavItem => Boolean(item)),
     hero: normalizeHeroContent(value.hero, "homepage content payload.hero"),
+    afterServicesCta: value.afterServicesCta
+      ? normalizeInlineCtaContent(
+          value.afterServicesCta,
+          "homepage content payload.afterServicesCta",
+        )
+      : defaultAfterServicesCtaContent,
     services: value.services
       ? normalizeServicesContent(
           value.services,
           "homepage content payload.services",
         )
       : defaultServicesContent,
+    beforeTestimonialsCta: value.beforeTestimonialsCta
+      ? normalizeInlineCtaContent(
+          value.beforeTestimonialsCta,
+          "homepage content payload.beforeTestimonialsCta",
+        )
+      : defaultBeforeTestimonialsCtaContent,
     testimonials: value.testimonials
       ? normalizeTestimonialsContent(
           value.testimonials,

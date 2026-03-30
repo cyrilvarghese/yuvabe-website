@@ -50,6 +50,13 @@
       }
     ]
   },
+  "afterServicesCta": {
+    "eyebrow": "",
+    "title": "If you need one team to shape, ship, and grow the product, talk to us.",
+    "description": "We work best with founders who want honest thinking, fast execution, and fewer handoffs between strategy and delivery.",
+    "primaryCtaLabel": "Start Your Project",
+    "primaryCtaHref": "/#process"
+  },
   "testimonials": {
     "eyebrow": "Testimonials",
     "headline": "Client proof, in their own words.",
@@ -83,6 +90,13 @@
         "attribution": "Chief Administrative Officer, NorthSouth Foundation"
       }
     ]
+  },
+  "beforeTestimonialsCta": {
+    "eyebrow": "Need a close partner?",
+    "title": "If you want more momentum and less vendor drag, let's talk.",
+    "description": "The strongest work happens when strategy, design, engineering, and growth stay connected from the first bet onward.",
+    "primaryCtaLabel": "Start Your Project",
+    "primaryCtaHref": "/#process"
   },
   "work": {
     "eyebrow": "Work",

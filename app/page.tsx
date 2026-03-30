@@ -1,5 +1,6 @@
 import { getHomepageCaseStudies } from "@/components/studio/studio-case-study-content";
 import { StudioCaseStudies } from "@/components/studio/studio-case-studies";
+import { StudioCtaCard } from "@/components/studio/studio-cta-card";
 import { StudioHeader } from "@/components/studio/studio-header";
 import { StudioHero } from "@/components/studio/studio-hero";
 import { StudioPageRails } from "@/components/studio/studio-page-shell";
@@ -33,11 +34,29 @@ export default async function Home() {
       <StudioHeader navigationItems={homepageContent.navigationItems} />
       <StudioHero content={homepageContent.hero} />
       <StudioServices content={homepageContent.services} />
+      <StudioCtaCard
+        eyebrow={homepageContent.afterServicesCta.eyebrow}
+        title={homepageContent.afterServicesCta.title}
+        primaryCtaLabel={homepageContent.afterServicesCta.primaryCtaLabel}
+        primaryCtaHref={homepageContent.afterServicesCta.primaryCtaHref}
+        sectionClassName="bg-white pb-10 md:pb-12"
+        titleClassName="max-w-5xl text-display-muted-editorial text-[var(--neutral-950)]"
+        contentLayout="stacked"
+      />
       <StudioCaseStudies
         caseStudies={homepageCaseStudies}
         workContent={homepageContent.work}
       />
       <StudioTestimonials content={homepageContent.testimonials} />
+      <StudioCtaCard
+        eyebrow={homepageContent.beforeTestimonialsCta.eyebrow}
+        title={homepageContent.beforeTestimonialsCta.title}
+        primaryCtaLabel={homepageContent.beforeTestimonialsCta.primaryCtaLabel}
+        primaryCtaHref={homepageContent.beforeTestimonialsCta.primaryCtaHref}
+        sectionClassName="bg-white pb-10 md:pb-12"
+        titleClassName="max-w-5xl text-display-muted-editorial text-[var(--neutral-950)]"
+        contentLayout="stacked"
+      />
     </main>
   );
 }

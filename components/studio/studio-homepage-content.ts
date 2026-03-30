@@ -21,6 +21,14 @@ export type StudioHomepageWorkContent = {
   supportSuffix: string;
 };
 
+export type StudioHomepageInlineCtaContent = {
+  eyebrow: string;
+  title: string;
+  description: string;
+  primaryCtaLabel: string;
+  primaryCtaHref: string;
+};
+
 export type StudioHomepageServiceItem = {
   title: string;
   shortLabel: string;
@@ -53,6 +61,8 @@ export type StudioHomepageContent = {
   navigationItems: StudioHomepageNavItem[];
   hero: StudioHomepageHeroContent;
   services: StudioHomepageServicesContent;
+  afterServicesCta: StudioHomepageInlineCtaContent;
   testimonials: StudioHomepageTestimonialsContent;
+  beforeTestimonialsCta: StudioHomepageInlineCtaContent;
   work: StudioHomepageWorkContent;
 };

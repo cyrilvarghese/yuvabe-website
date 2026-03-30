@@ -3,7 +3,6 @@ import Link from "next/link";
 import {
   ArrowRight,
   Compass,
-  HeartHandshake,
   Lightbulb,
   Rocket,
   ShieldCheck,
@@ -44,7 +43,23 @@ type SectionIntroProps = {
 
 const storyIcons = [Target, Sparkles, Rocket] as const;
 const workflowIcons = [Compass, Lightbulb, Rocket, ShieldCheck] as const;
-const valueIcons = [HeartHandshake, Target, Sparkles] as const;
+const valueIconAssets = {
+  Care: {
+    src: "/assets/how-we-work/care.png",
+    alt: "Care icon",
+    treatment: "panel",
+  },
+  Courage: {
+    src: "/assets/how-we-work/courage.png",
+    alt: "Courage icon",
+    treatment: "panel",
+  },
+  Creativity: {
+    src: "/assets/how-we-work/creativity.png",
+    alt: "Creativity icon",
+    treatment: "panel",
+  },
+} as const;
 const principleHashtagClasses = [
   "text-[var(--purple-500)]",
   "text-[var(--cyan-500)]",
@@ -559,7 +574,7 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
   );
 }
 
-// The closing mid-page section combines enduring values with a lightweight team/culture teaser.
+// This two-panel section pairs the studio's working standards with a parallel explanation of what feels different about working with Yuvabe.
 function AboutValuesAndTeamSection({
   values,
   teamTeaser,
@@ -569,88 +584,146 @@ function AboutValuesAndTeamSection({
 }) {
   return (
     <section className="border-b border-slate-200/80 bg-[var(--color-background-canvas)] py-14 md:py-20">
-      <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:gap-12">
-        <div className="min-w-0 space-y-8 lg:pl-4 xl:pl-6">
-          <SectionIntro
-            eyebrow={values.eyebrow}
-            title={values.title}
-            description={values.description}
-          />
+      <StudioPageContainer className="space-y-10">
+        <SectionIntro
+          eyebrow={values.eyebrow}
+          title={values.title}
+          description={values.description}
+          className="lg:pl-4 xl:pl-6"
+        />
 
-          {/* The value cards keep the original root values visible without repeating the old site structure verbatim. */}
-          <div className="grid gap-4">
-            {values.values.map((value, index) => {
-              const Icon = valueIcons[index % valueIcons.length];
+        <div className="grid gap-10 lg:grid-cols-[minmax(0,1.16fr)_minmax(20rem,0.84fr)] lg:items-start lg:gap-12">
+          <div className="min-w-0 lg:pl-4 xl:pl-6">
+            {/* The left subsection is the dedicated values module inside the larger How we work section. */}
+            <PremiumSurface
+              tone="glass"
+              elevation="md"
+              blur="md"
+              radius="xl"
+              className="overflow-hidden px-5 py-5 sm:px-6 md:px-8 md:py-7"
+            >
+              {/* The background wash gives the values card a softer premium depth without competing with the right column. */}
+              <div aria-hidden="true" className="absolute inset-0">
+                <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(88,41,199,0.12)_0%,rgba(255,255,255,0.72)_34%,rgba(255,202,45,0.14)_100%)]" />
+                <div className="absolute left-[-10%] top-[-18%] h-[20rem] w-[20rem] rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.2)_0%,rgba(88,41,199,0.08)_34%,rgba(88,41,199,0)_76%)] blur-3xl" />
+                <div className="absolute bottom-[-26%] right-[-10%] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.22)_0%,rgba(255,202,45,0.1)_36%,rgba(255,202,45,0)_76%)] blur-3xl" />
+                <div className="absolute right-[18%] top-[26%] h-[10rem] w-[10rem] rounded-full bg-[radial-gradient(circle,rgba(121,210,225,0.16)_0%,rgba(121,210,225,0)_72%)] blur-3xl" />
+                <div className="absolute inset-x-[12%] top-[6%] h-[28%] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.78)_0%,rgba(255,255,255,0.16)_56%,transparent_86%)] blur-2xl" />
+              </div>
 
-              return (
-                <PremiumSurface
-                  key={value.title}
-                  tone="glassSubtle"
-                  elevation="sm"
-                  blur="sm"
-                  radius="xl"
-                  className="min-w-0 p-5 md:p-6"
-                >
-                  <div className="grid min-w-0 gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
-                    <div className="flex size-11 items-center justify-center rounded-full border border-white/80 bg-white/85 text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
-                      <Icon className="size-5" />
+              <div className="relative z-10 space-y-4 pb-5 md:pb-7">
+                <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
+                  Our values
+                </p>
+                <h3 className="max-w-[16ch] text-heading-lg text-[var(--neutral-950)] md:text-heading-xl">
+                  Care, courage, and creativity.
+                </h3>
+              </div>
+
+              <div className="relative z-10 divide-y divide-slate-200/80">
+                {values.values.map((value) => {
+                  const valueIconAsset =
+                    valueIconAssets[value.title as keyof typeof valueIconAssets];
+                  const usesLargePanel = valueIconAsset?.treatment === "panel";
+
+                  return (
+                    <div
+                      key={value.title}
+                      className={[
+                        "grid min-w-0 gap-4 py-5 md:gap-5 md:py-7",
+                        usesLargePanel
+                          ? "sm:grid-cols-[5.6875rem_minmax(0,1fr)] sm:items-start"
+                          : "sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start",
+                      ].join(" ")}
+                    >
+                      <div
+                        className={[
+                          usesLargePanel
+                            ? "relative h-[5.6875rem] w-[5.6875rem] sm:mt-1"
+                            : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
+                        ].join(" ")}
+                      >
+                        {valueIconAsset ? (
+                          <div
+                            className={[
+                              "relative",
+                              usesLargePanel ? "h-full w-full" : "size-5",
+                            ].join(" ")}
+                          >
+                            <Image
+                              src={valueIconAsset.src}
+                              alt={valueIconAsset.alt}
+                              fill={usesLargePanel}
+                              width={usesLargePanel ? undefined : 20}
+                              height={usesLargePanel ? undefined : 20}
+                              sizes={usesLargePanel ? "91px" : "20px"}
+                              className={[
+                                "object-contain",
+                                usesLargePanel ? "scale-[0.65]" : "",
+                              ]
+                                .filter(Boolean)
+                                .join(" ")}
+                            />
+                          </div>
+                        ) : null}
+                      </div>
+                      <div
+                        className={[
+                          "min-w-0 space-y-2",
+                          usesLargePanel ? "self-start pt-1" : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
+                      >
+                        <h4 className="text-heading-md text-[var(--neutral-950)]">
+                          {value.title}
+                        </h4>
+                        <p className="text-body-md text-[var(--color-text-secondary)]">
+                          {value.description}
+                        </p>
+                      </div>
                     </div>
-                    <div className="min-w-0 space-y-2">
-                      <h3 className="text-heading-md text-[var(--neutral-950)]">
-                        {value.title}
-                      </h3>
-                      <p className="text-body-md text-[var(--color-text-secondary)]">
-                        {value.description}
-                      </p>
-                    </div>
-                  </div>
-                </PremiumSurface>
-              );
-            })}
+                  );
+                })}
+              </div>
+
+              <div className="relative z-10 flex w-full min-w-0 flex-wrap items-center gap-x-4 gap-y-3 pb-2 pt-6 md:gap-x-5 md:pt-7">
+                {values.principles.map((principle, index) => (
+                  <span
+                    key={principle}
+                    className={[
+                      "whitespace-nowrap text-label-lg font-semibold md:text-label-xl",
+                      principleHashtagClasses[index % principleHashtagClasses.length],
+                    ].join(" ")}
+                  >
+                    #{principle.replace(/\s+/g, "")}
+                  </span>
+                ))}
+              </div>
+            </PremiumSurface>
           </div>
 
-          <div className="flex w-full min-w-0 flex-wrap items-center gap-x-4 gap-y-2 pb-1 sm:flex-nowrap sm:gap-y-4 sm:overflow-x-auto">
-            {values.principles.map((principle, index) => (
-              <span
-                key={principle}
-                className={[
-                  "shrink-0 whitespace-nowrap text-label-lg font-semibold md:text-label-xl",
-                  principleHashtagClasses[index % principleHashtagClasses.length],
-                ].join(" ")}
-              >
-                #{principle.replace(/\s+/g, "")}
-              </span>
-            ))}
-          </div>
-        </div>
-
-        {/* The right column stays editorial-only so the values section remains focused on principles, not imagery. */}
-        <PremiumSurface
-          tone="glass"
-          elevation="md"
-          blur="md"
-          radius="xl"
-          className="min-w-0 self-start p-6 md:p-7 lg:mt-16"
-        >
-          <div className="space-y-6">
-            <div className="space-y-3">
-              <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
-                {teamTeaser.eyebrow}
+          {/* The right subsection stays unframed so the values panel remains the heavier anchor. */}
+          <div className="min-w-0 space-y-6 pt-2 lg:pt-6">
+            <div className="max-w-2xl space-y-3">
+              <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
+                What makes us different
               </p>
-              <h3 className="text-display-muted-editorial text-[var(--neutral-950)]">
+              <h3 className="max-w-[16ch] text-heading-lg text-[var(--neutral-950)] md:text-heading-xl">
                 {teamTeaser.title}
               </h3>
-              <p className="text-body-lg text-[var(--color-text-secondary)]">
+              <p className="text-body-md text-[var(--color-text-secondary)]">
                 {teamTeaser.description}
               </p>
             </div>
-            <div className="space-y-3">
+
+            <div className="space-y-4">
               {teamTeaser.points.map((point) => (
                 <div
                   key={point}
-                  className="grid grid-cols-[auto_minmax(0,1fr)] items-center gap-3 rounded-[1rem] border border-slate-200/80 bg-white/80 px-4 py-4"
+                  className="grid min-w-0 gap-3 py-2 sm:grid-cols-[0.875rem_minmax(0,1fr)] sm:items-start"
                 >
-                  <span className="flex size-2.5 shrink-0 rounded-full bg-[var(--purple-500)]" />
+                  <span className="mt-2 flex size-3 shrink-0 rounded-full bg-[var(--purple-500)]" />
                   <p className="text-body-md text-[var(--color-text-secondary)]">
                     {point}
                   </p>
@@ -658,7 +731,7 @@ function AboutValuesAndTeamSection({
               ))}
             </div>
           </div>
-        </PremiumSurface>
+        </div>
       </StudioPageContainer>
     </section>
   );

@@ -70,7 +70,7 @@ export function StudioCaseStudies({
     <>
       <section
         id="work"
-        className="relative overflow-hidden bg-white py-10 md:py-2"
+        className="relative overflow-hidden bg-white py-14 md:py-20"
       >
         {/* The section background extends the hero's light grid so the frame line continues below the fold. */}
         <div aria-hidden="true" className="absolute inset-0">
@@ -139,7 +139,7 @@ export function StudioCaseStudies({
               ))}
             </div>
 
-            <div className="grid gap-6 xl:grid-cols-2">
+            <div className="grid gap-6 xl:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]">
               {secondaryCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}

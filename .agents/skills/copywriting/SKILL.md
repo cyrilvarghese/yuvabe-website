@@ -73,6 +73,8 @@ Write premium, founder-focused copy that sounds decisive, useful, and conversion
 - Keep labels, helper text, card headings, and CTA text concise enough to work inside reusable UI patterns.
 - Treat buttons, nav links, badges, callouts, and cards as repeated system surfaces; keep wording consistent across instances.
 - Use one dominant CTA intent per section so the system does not create competing actions.
+- Write headlines and short section intros so they wrap cleanly across likely desktop and mobile widths; avoid awkward line breaks, stranded short words, or a weak final line.
+- If a phrase only works when manually forced onto perfect lines, rewrite the phrase instead of relying on layout luck.
 - When writing copy for internal preview or foundation routes, keep the tone instructional and concise rather than sales-heavy.
 
 ## AI-first Framing
@@ -107,6 +109,7 @@ Before finalizing copy:
 7. Does it sound like a real person?
 8. Have you checked for typos, grammar issues, or factual mistakes?
 9. Does the copy pass the Copy Swap Test?
+10. Do the headline and key lines still read well when they wrap in the actual layout?
 
 Use these prompts when reviewing:
 - Can someone quickly see why this screen matters to them?

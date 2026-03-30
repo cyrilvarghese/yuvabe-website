@@ -72,6 +72,24 @@ Use this file as the default proof source for website, pitch, and case-study tas
   - data preprocessing and model refinement
   - scalable branded visual production
 
+## Quilt.AI
+- Sector: AI-powered market research / consumer insight analysis.
+- Positioning summary: Insight platform work focused on turning human signals and messy data into clearer, decision-ready intelligence.
+- Public proof level:
+  - Lightweight reference. Current public support comes from Yuvabe's work listing plus Quilt.AI's own public site.
+- What Yuvabe publicly lists:
+  - Market Research
+  - Data Analysis
+- Useful proof points:
+  - Yuvabe's public work listing presents Quilt.AI with the line "Human Insights with AI-Driven Precision."
+  - The same listing tags the engagement under "Market Research & Data Analysis."
+  - Quilt.AI's public case-study site frames the product around AI-driven analysis of search, social, and discourse data to surface consumer insight and inform strategy.
+- Best used for claims around:
+  - AI-assisted market intelligence
+  - research and data-analysis workflows
+  - insight synthesis for strategy or product decisions
+  - turning qualitative and quantitative signals into clearer decision support
+
 ## Bevolve
 - Sector: ESG / sustainability intelligence and compliance automation.
 - Positioning summary: AI sustainability platform built to unify ESG data, automate reporting, and improve compliance monitoring through machine learning and natural language processing.
@@ -137,6 +155,7 @@ Use this file as the default proof source for website, pitch, and case-study tas
 ## Usage Rules
 - Prefer TVAM and General Aeronautics when you need richer, more defensible proof.
 - Use KittyKat for Generative AI, image workflow, and scalable visual-production claims.
+- Use Quilt.AI for lighter-weight market-intelligence, research, and insight-synthesis references.
 - Use Bevolve for ESG AI, compliance automation, multi-source data integration, and benchmarking claims.
 - Use AgeShift for AI wellness, cross-platform app delivery, backend/API engineering, admin systems, and secure cloud deployment claims.
 - When writing public-facing claims, stay concrete and avoid combining details across projects.

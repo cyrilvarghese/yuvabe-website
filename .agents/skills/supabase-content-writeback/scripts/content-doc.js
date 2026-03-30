@@ -19,8 +19,8 @@ async function main() {
   const [mode, key, payloadPath] = process.argv.slice(2);
   if (!mode || !key || (mode === "write" && !payloadPath)) {
     console.error("Usage:");
-    console.error("  node content-doc.js read <homepage|case_studies>");
-    console.error("  node content-doc.js write <homepage|case_studies> <payload.json>");
+    console.error("  node content-doc.js read <homepage|about|case_studies>");
+    console.error("  node content-doc.js write <homepage|about|case_studies> <payload.json>");
     process.exit(1);
   }
 

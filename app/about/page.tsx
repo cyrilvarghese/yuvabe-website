@@ -2,7 +2,10 @@ import type { Metadata } from "next";
 
 import { StudioAboutPage } from "@/components/studio/studio-about-page";
 import { getAbsoluteUrl } from "@/lib/site";
-import { getStudioHomepageContent } from "@/lib/studio-content";
+import {
+  getStudioAboutPageContent,
+  getStudioHomepageContent,
+} from "@/lib/studio-content";
 
 export const dynamic = "force-dynamic";
 
@@ -27,7 +30,10 @@ export const metadata: Metadata = {
 };
 
 export default async function AboutPage() {
-  const homepageContent = await getStudioHomepageContent();
+  const [homepageContent, aboutContent] = await Promise.all([
+    getStudioHomepageContent(),
+    getStudioAboutPageContent(),
+  ]);
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "AboutPage",
@@ -52,7 +58,10 @@ export default async function AboutPage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
-      <StudioAboutPage navigationItems={homepageContent.navigationItems} />
+      <StudioAboutPage
+        navigationItems={homepageContent.navigationItems}
+        content={aboutContent}
+      />
     </>
   );
 }

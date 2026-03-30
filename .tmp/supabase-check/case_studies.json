@@ -225,13 +225,11 @@
       "RAG workflows"
     ],
     "mockLayout": "feature",
-    "modalIntro": "tvam focused on simplifying health guidance, policy support, and exam-prep workflows through advisor-style AI tools. The challenge was turning multiple AI capabilities into one product experience that felt useful, reliable, and easy to navigate ï¿½ without losing the depth that made each tool valuable.",
+    "modalIntro": "tvam focused on simplifying health guidance, policy support, and exam-prep workflows through advisor-style AI tools. The challenge was turning multiple AI capabilities into one product experience that felt useful, reliable, and easy to navigate — without losing the depth that made each tool valuable.",
     "mockVariant": "aurora",
     "mediaIconKey": "bot",
-    "mockImageSrc": "/assets/tvam/tvam_cover.jpg",
     "mockImageAlt": "TVAM case study cover",
-    "mockVariant": "aurora",
-    "mockLayout": "feature",
+    "mockImageSrc": "/assets/tvam/tvam_cover.jpg",
     "mockViewport": "portrait",
     "modalOutcomes": [
       "Built AI-powered Health and Policy Advisors plus a USMLE preparation tool.",
@@ -245,7 +243,7 @@
         "title": "Context"
       },
       {
-        "body": "The opportunity wasn't just to ship features ï¿½ it was to help the business communicate value faster and with more confidence to the people who needed it most.",
+        "body": "The opportunity wasn't just to ship features — it was to help the business communicate value faster and with more confidence to the people who needed it most.",
         "title": "Challenge"
       },
       {
@@ -264,7 +262,7 @@
         "items": [
           {
             "title": "Health Advisor workspace",
-            "description": "A portrait-led advisor flow that makes complex health guidance feel more approachable, structured, and actionable ï¿½ so users arrive at answers without feeling lost in clinical language."
+            "description": "A portrait-led advisor flow that makes complex health guidance feel more approachable, structured, and actionable — so users arrive at answers without feeling lost in clinical language."
           },
           {
             "title": "Policy Advisor journey",
@@ -277,11 +275,11 @@
         "items": [
           {
             "title": "Document-aware assistant",
-            "description": "A retrieval-driven experience that connects uploaded materials, reference content, and AI responses inside one usable system ï¿½ so the right information surfaces at the right moment."
+            "description": "A retrieval-driven experience that connects uploaded materials, reference content, and AI responses inside one usable system — so the right information surfaces at the right moment."
           },
           {
             "title": "Exam-prep support",
-            "description": "An AI-guided prep flow that brings question support, recall, and guided explanation into a clearer study rhythm ï¿½ making preparation feel less like drilling and more like understanding."
+            "description": "An AI-guided prep flow that brings question support, recall, and guided explanation into a clearer study rhythm — making preparation feel less like drilling and more like understanding."
           }
         ],
         "title": "Retrieval and orchestration"
@@ -321,7 +319,7 @@
       "Image refinement"
     ],
     "mockLayout": "feature",
-    "modalIntro": "KittyKat needed a way to generate realistic fashion imagery at scale ï¿½ without the delay and cost of repeated production shoots. The work focused on turning product-to-model image generation into a more reliable AI workflow with the output quality a premium fashion brand actually needs.",
+    "modalIntro": "KittyKat needed a way to generate realistic fashion imagery at scale — without the delay and cost of repeated production shoots. The work focused on turning product-to-model image generation into a more reliable AI workflow with the output quality a premium fashion brand actually needs.",
     "mockVariant": "sunrise",
     "mediaIconKey": "sparkles",
     "mockImageAlt": "KittyKat AI fashion workflow cover",
@@ -343,7 +341,7 @@
         "title": "Challenge"
       },
       {
-        "body": "Yuvabe built the product-to-model generation workflow, then improved output quality through data preprocessing, model optimization, and hierarchical image refinement ï¿½ tuning the pipeline to feel reliable, scalable, and aligned to real fashion use cases rather than generic AI output.",
+        "body": "Yuvabe built the product-to-model generation workflow, then improved output quality through data preprocessing, model optimization, and hierarchical image refinement — tuning the pipeline to feel reliable, scalable, and aligned to real fashion use cases rather than generic AI output.",
         "title": "What we changed"
       },
       {
@@ -414,7 +412,7 @@
       "AI recommendations"
     ],
     "mockLayout": "feature",
-    "modalIntro": "AgeShift needed a connected wellness product ecosystem that could guide users through routines, protocol tracking, and AI-powered recommendations ï¿½ while giving administrators the operational visibility to manage it all with confidence.",
+    "modalIntro": "AgeShift needed a connected wellness product ecosystem that could guide users through routines, protocol tracking, and AI-powered recommendations — while giving administrators the operational visibility to manage it all with confidence.",
     "mockVariant": "prism",
     "mediaIconKey": "barChart3",
     "mockImageAlt": "AgeShift logo",
@@ -428,7 +426,7 @@
     ],
     "modalSections": [
       {
-        "body": "AgeShift needed one coherent product ecosystem ï¿½ connecting member experience, admin operations, and AI-driven guidance into a single platform that could scale as the business grew.",
+        "body": "AgeShift needed one coherent product ecosystem — connecting member experience, admin operations, and AI-driven guidance into a single platform that could scale as the business grew.",
         "title": "Context"
       },
       {
@@ -451,7 +449,7 @@
         "items": [
           {
             "title": "Wellness app journey",
-            "description": "A mobile-first product flow for routines, check-ins, and protocol guidance ï¿½ built to feel calmer, clearer, and more actionable so users stay engaged with their wellness journey over time."
+            "description": "A mobile-first product flow for routines, check-ins, and protocol guidance — built to feel calmer, clearer, and more actionable so users stay engaged with their wellness journey over time."
           },
           {
             "title": "Protocol tracking",
@@ -464,11 +462,11 @@
         "items": [
           {
             "title": "Admin operations surface",
-            "description": "A landscape-oriented control layer for managing users, content, and operational visibility across the platform ï¿½ giving administrators the clarity to act without switching between systems."
+            "description": "A landscape-oriented control layer for managing users, content, and operational visibility across the platform — giving administrators the clarity to act without switching between systems."
           },
           {
             "title": "Recommendation engine",
-            "description": "AI-assisted personalization flows that connect user behavior, wellness signals, and backend logic into one product ecosystem ï¿½ making guidance feel relevant rather than generic."
+            "description": "AI-assisted personalization flows that connect user behavior, wellness signals, and backend logic into one product ecosystem — making guidance feel relevant rather than generic."
           }
         ],
         "title": "Admin and intelligence layers"

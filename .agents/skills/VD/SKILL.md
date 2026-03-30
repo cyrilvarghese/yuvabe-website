@@ -49,6 +49,7 @@ Create interfaces that feel premium, calm, high-trust, and technically sophistic
 
 - If a neutral needs a primary-brand tint, define that tinted neutral as a shared design-system token first; do not create page-specific tinted grays on the fly.
 - Keep headline copy short and impactful.
+- Review real line breaks in headline and intro copy at likely viewport widths; avoid layouts that leave stranded short words, awkward phrase breaks, or a visually weak last line.
 - Limit line length for body text.
 - Maintain strict text contrast and hierarchy across headings, subheads, and body.
 - Let premium feel come from hierarchy, spacing, and restraint rather than visual noise.
@@ -106,6 +107,7 @@ Before finalizing any page:
 4. Is spacing consistent by tokenized steps?
 5. Are headline, subcopy, and CTA clearly scannable in 5 seconds?
 6. Do visuals feel premium through restraint, not clutter?
+7. Do headline and intro line breaks look intentional on desktop and mobile?
 
 ## Implementation Guidance for This Repo
 - Prefer editing shared primitives first:

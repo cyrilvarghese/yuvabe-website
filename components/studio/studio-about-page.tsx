@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -12,7 +13,7 @@ import {
 
 import type { StudioHomepageNavItem } from "@/components/studio/studio-homepage-content";
 import {
-  studioAboutPageContent,
+  type StudioAboutPageContent,
   type StudioAboutProofContent,
   type StudioAboutStoryContent,
   type StudioAboutValuesContent,
@@ -28,6 +29,7 @@ import { PremiumSurface } from "@/components/ui/premium-surface";
 
 type StudioAboutPageProps = {
   navigationItems: StudioHomepageNavItem[];
+  content: StudioAboutPageContent;
 };
 
 type SectionIntroProps = {
@@ -46,34 +48,48 @@ const principleHashtagClasses = [
   "text-[var(--orange-500)]",
   "text-[var(--lavender-500)]",
 ] as const;
+const aboutAssets = {
+  cover: {
+    src: "/assets/about/yuvabe-cover.jpeg",
+    alt: "The Yuvabe team gathered outdoors on the studio campus in Auroville.",
+  },
+  roots: {
+    src: "/assets/about/yuvabe-image.jpeg",
+    alt: "An earlier Yuvabe team group photo taken under a large tree in Auroville.",
+  },
+  shirtDetail: {
+    src: "/assets/about/yuvabe-shirt-jpg.jpeg",
+    alt: "A close-up of the Yuvabe mark printed on a grey team shirt.",
+  },
+  illustration: {
+    src: "/assets/about/yuvabe-illustration.png",
+    alt: "An illustration of a sprout growing inside a light bulb.",
+  },
+} as const;
 const workflowCardStyles = [
   {
-    backgroundClassName:
-      "border-[color:color-mix(in_srgb,var(--lavender-200)_72%,white)] bg-[linear-gradient(180deg,color-mix(in_srgb,var(--purple-500)_10%,white)_0%,color-mix(in_srgb,var(--lavender-200)_34%,white)_100%)]",
+    tone: "tintLavender",
     numberClassName: "text-[var(--lavender-500)]",
     iconShellClassName:
-      "border-[color:color-mix(in_srgb,var(--lavender-200)_68%,white)] bg-[color:color-mix(in_srgb,var(--purple-500)_6%,white)] text-[var(--purple-500)]",
+      "border-white/80 bg-white/78 text-[var(--purple-500)]",
   },
   {
-    backgroundClassName:
-      "border-[color:color-mix(in_srgb,var(--orange-200)_92%,white)] bg-[color:color-mix(in_srgb,var(--yellow-500)_18%,white)]",
+    tone: "tintWarm",
     numberClassName: "text-[var(--orange-500)]",
     iconShellClassName:
-      "border-[color:color-mix(in_srgb,var(--orange-200)_86%,white)] bg-[color:color-mix(in_srgb,var(--yellow-500)_24%,white)] text-[var(--orange-500)]",
+      "border-white/80 bg-white/80 text-[var(--orange-500)]",
   },
   {
-    backgroundClassName:
-      "border-[color:color-mix(in_srgb,var(--cyan-200)_90%,white)] bg-[color:color-mix(in_srgb,var(--cyan-200)_42%,white)]",
+    tone: "tintCyan",
     numberClassName: "text-[var(--cyan-500)]",
     iconShellClassName:
-      "border-[color:color-mix(in_srgb,var(--cyan-200)_84%,white)] bg-[color:color-mix(in_srgb,var(--cyan-200)_28%,white)] text-[var(--cyan-500)]",
+      "border-white/80 bg-white/78 text-[var(--cyan-500)]",
   },
   {
-    backgroundClassName:
-      "border-[color:color-mix(in_srgb,var(--green-200)_92%,white)] bg-[color:color-mix(in_srgb,var(--green-200)_46%,white)]",
+    tone: "tintGreen",
     numberClassName: "text-[var(--green-500)]",
     iconShellClassName:
-      "border-[color:color-mix(in_srgb,var(--green-200)_86%,white)] bg-[color:color-mix(in_srgb,var(--green-200)_30%,white)] text-[var(--green-500)]",
+      "border-white/80 bg-white/78 text-[var(--green-500)]",
   },
 ] as const;
 
@@ -94,9 +110,65 @@ function SectionIntro({
   );
 }
 
+type AboutMediaCardProps = {
+  asset: (typeof aboutAssets)[keyof typeof aboutAssets];
+  altCaption?: string;
+  className?: string;
+  frameClassName?: string;
+  imageClassName?: string;
+  priority?: boolean;
+  sizes: string;
+};
+
+// The reusable image frame keeps the new About assets aligned to the existing premium surface system.
+function AboutMediaCard({
+  asset,
+  altCaption,
+  className,
+  frameClassName,
+  imageClassName,
+  priority = false,
+  sizes,
+}: AboutMediaCardProps) {
+  return (
+    <PremiumSurface
+      tone="glassSubtle"
+      elevation="sm"
+      blur="sm"
+      radius="xl"
+      className={["overflow-hidden", className].filter(Boolean).join(" ")}
+    >
+      <div
+        className={[
+          "relative min-h-[26rem] w-full",
+          frameClassName,
+        ]
+          .filter(Boolean)
+          .join(" ")}
+      >
+        <Image
+          src={asset.src}
+          alt={asset.alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className={["object-cover object-center", imageClassName].filter(Boolean).join(" ")}
+        />
+      </div>
+      {altCaption ? (
+        <div className="border-t border-slate-200/80 bg-white/92 px-4 py-3">
+          <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
+            {altCaption}
+          </p>
+        </div>
+      ) : null}
+    </PremiumSurface>
+  );
+}
+
 // The hero reframes the legacy About story into the sharper AI-first founder promise.
-function AboutHero() {
-  const { hero } = studioAboutPageContent;
+function AboutHero({ content }: { content: StudioAboutPageContent["hero"] }) {
+  const hero = content;
   const descriptionHighlight = "AI-first studio from Auroville";
   const descriptionParts = hero.description.split(descriptionHighlight);
 
@@ -202,11 +274,13 @@ function AboutHero() {
 
 // This section pairs the studio origin story with the practical differentiators founders should remember.
 function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
+  const [storyTitleLead, storyTitleRest] = content.title.split(". ");
+
   return (
     <section className="border-b border-slate-200/80 bg-white py-14 md:py-20">
-      <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,0.86fr)_minmax(0,1.14fr)] lg:gap-12">
+      <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,0.98fr)_minmax(0,1.02fr)] lg:gap-12">
         {/* The left column becomes the narrative anchor with one strong headline and one tight origin paragraph. */}
-        <div className="max-w-4xl space-y-5 lg:pl-4 xl:pl-6">
+        <div className="space-y-5 lg:pl-4 xl:pl-6">
           <div className="space-y-3">
             <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
               {content.eyebrow}
@@ -214,13 +288,29 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
           </div>
 
-          <h2 className="max-w-4xl text-section-display text-[var(--neutral-950)]">
-            {content.title}
+          <h2 className="max-w-[13ch] text-section-display text-[var(--neutral-950)]">
+            {storyTitleRest ? (
+              <>
+                <span>{`${storyTitleLead}.`}</span>
+                <br />
+                <span>{storyTitleRest}</span>
+              </>
+            ) : (
+              content.title
+            )}
           </h2>
 
-          <p className="max-w-4xl text-body-lg text-[var(--color-text-secondary)]">
+          <p className="max-w-[38rem] text-body-lg text-[var(--color-text-secondary)]">
             {content.paragraphs[0]}
           </p>
+
+          {/* The illustration gives the origin story a warmer metaphor instead of another team photo. */}
+          <AboutMediaCard
+            asset={aboutAssets.illustration}
+            sizes="(min-width: 1024px) 34vw, 100vw"
+            className="mt-6 max-w-[34rem] bg-[color:color-mix(in_srgb,var(--yellow-500)_18%,white)]"
+            imageClassName="object-contain p-6"
+          />
         </div>
 
         <div className="space-y-5">
@@ -244,21 +334,17 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
 
           {/* The secondary block now uses the shared aurora surface so the strategic takeaway feels like a system callout, not a one-off panel. */}
           <PremiumSurface
-            tone="neutral"
+            tone="editorialSunrise"
             elevation="md"
             blur="lg"
             radius="xl"
             className="overflow-hidden p-5 md:p-6"
           >
-            <div
-              aria-hidden="true"
-              className="pointer-events-none absolute inset-0 bg-[radial-gradient(88%_82%_at_15%_88%,rgba(255,202,45,0.69)_0%,rgba(249,169,31,0.36)_24%,rgba(240,78,40,0.21)_42%,rgba(150,136,192,0.15)_58%,rgba(255,255,255,0)_74%)] opacity-100 [mask-image:linear-gradient(180deg,transparent_0%,rgba(0,0,0,0.05)_26%,rgba(0,0,0,0.9)_56%,rgba(0,0,0,1)_100%),linear-gradient(90deg,rgba(0,0,0,1)_0%,rgba(0,0,0,0.98)_30%,rgba(0,0,0,0.42)_50%,transparent_66%)]"
-            />
             <div className="max-w-4xl space-y-3">
-              <p className="text-label-sm uppercase tracking-[0.18em] text-[color:color-mix(in_srgb,var(--neutral-700)_88%,var(--lavender-500)_12%)]">
+              <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--neutral-700)]">
                 What we care about now
               </p>
-              <p className="max-w-3xl text-body-lg text-[var(--color-text-secondary)]">
+              <p className="max-w-3xl text-body-lg text-[var(--color-text-primary)]">
                 {content.paragraphs[2]}
               </p>
             </div>
@@ -301,6 +387,35 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
   );
 }
 
+// This band introduces the larger team image later in the page so the founder-first story stays intact.
+function AboutTeamBandSection() {
+  return (
+    <section className="border-b border-slate-200/80 bg-[var(--color-background-canvas)] py-14 md:py-20">
+      <StudioPageContainer className="space-y-6">
+        <div className="space-y-3 lg:pl-4 xl:pl-6">
+          <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
+            People behind the work
+          </p>
+          <h2 className="max-w-[28ch] text-section-display text-[var(--neutral-950)]">
+            <span>Small team. Deep involvement.</span>
+            <br />
+            <span>Start to finish.</span>
+          </h2>
+        </div>
+
+        <AboutMediaCard
+          asset={aboutAssets.cover}
+          priority
+          sizes="100vw"
+          className="lg:mx-4 xl:mx-6"
+          frameClassName="min-h-[18rem] sm:min-h-[22rem] md:min-h-[26rem]"
+          imageClassName="object-cover object-[center_40%] md:object-center"
+        />
+      </StudioPageContainer>
+    </section>
+  );
+}
+
 // This section turns the studio model into a compact, four-part execution loop instead of a services dump.
 function AboutWorkflowSection({
   content,
@@ -330,14 +445,11 @@ function AboutWorkflowSection({
             return (
               <PremiumSurface
                 key={stage.label}
-                tone="neutral"
+                tone={workflowCardStyle.tone}
                 elevation="sm"
                 blur="sm"
                 radius="xl"
-                className={[
-                  "h-full p-5 md:p-6",
-                  workflowCardStyle.backgroundClassName,
-                ].join(" ")}
+                className="h-full p-5 md:p-6"
               >
                 <div className="flex h-full flex-col gap-6">
                   <div className="flex items-center justify-between gap-4">
@@ -435,15 +547,15 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
 // The closing mid-page section combines enduring values with a lightweight team/culture teaser.
 function AboutValuesAndTeamSection({
   values,
+  teamTeaser,
 }: {
   values: StudioAboutValuesContent;
+  teamTeaser: StudioAboutPageContent["teamTeaser"];
 }) {
-  const { teamTeaser } = studioAboutPageContent;
-
   return (
     <section className="border-b border-slate-200/80 bg-[var(--color-background-canvas)] py-14 md:py-20">
       <StudioPageContainer className="grid gap-10 lg:grid-cols-[minmax(0,1.04fr)_minmax(0,0.96fr)] lg:gap-12">
-        <div className="space-y-8 lg:pl-4 xl:pl-6">
+        <div className="min-w-0 space-y-8 lg:pl-4 xl:pl-6">
           <SectionIntro
             eyebrow={values.eyebrow}
             title={values.title}
@@ -462,13 +574,13 @@ function AboutValuesAndTeamSection({
                   elevation="sm"
                   blur="sm"
                   radius="xl"
-                  className="p-5 md:p-6"
+                  className="min-w-0 p-5 md:p-6"
                 >
-                  <div className="grid gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
+                  <div className="grid min-w-0 gap-4 sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start">
                     <div className="flex size-11 items-center justify-center rounded-full border border-white/80 bg-white/85 text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]">
                       <Icon className="size-5" />
                     </div>
-                    <div className="space-y-2">
+                    <div className="min-w-0 space-y-2">
                       <h3 className="text-heading-md text-[var(--neutral-950)]">
                         {value.title}
                       </h3>
@@ -482,7 +594,7 @@ function AboutValuesAndTeamSection({
             })}
           </div>
 
-          <div className="flex flex-nowrap items-center gap-4 overflow-x-auto pb-1">
+          <div className="flex w-full min-w-0 flex-wrap items-center gap-x-4 gap-y-2 pb-1 sm:flex-nowrap sm:gap-y-4 sm:overflow-x-auto">
             {values.principles.map((principle, index) => (
               <span
                 key={principle}
@@ -497,13 +609,13 @@ function AboutValuesAndTeamSection({
           </div>
         </div>
 
-        {/* The team teaser stays intentionally lightweight so the page talks about collaboration style, not org charts. */}
+        {/* The right column stays editorial-only so the values section remains focused on principles, not imagery. */}
         <PremiumSurface
           tone="glass"
           elevation="md"
           blur="md"
           radius="xl"
-          className="self-start p-6 md:p-7 lg:mt-16"
+          className="min-w-0 self-start p-6 md:p-7 lg:mt-16"
         >
           <div className="space-y-6">
             <div className="space-y-3">
@@ -538,8 +650,8 @@ function AboutValuesAndTeamSection({
 }
 
 // The final CTA closes the page on one clear next step while preserving a lower-friction proof path.
-function AboutFinalCta() {
-  const { cta } = studioAboutPageContent;
+function AboutFinalCta({ content }: { content: StudioAboutPageContent["cta"] }) {
+  const cta = content;
 
   return (
     <section className="bg-white py-16 md:py-20">
@@ -584,8 +696,8 @@ function AboutFinalCta() {
   );
 }
 
-export function StudioAboutPage({ navigationItems }: StudioAboutPageProps) {
-  const { story, workflow, proof, values } = studioAboutPageContent;
+export function StudioAboutPage({ navigationItems, content }: StudioAboutPageProps) {
+  const { hero, story, workflow, proof, values, teamTeaser, cta } = content;
 
   return (
     <main
@@ -601,12 +713,13 @@ export function StudioAboutPage({ navigationItems }: StudioAboutPageProps) {
       <StudioHeader navigationItems={navigationItems} />
 
       <article className="relative z-10">
-        <AboutHero />
+        <AboutHero content={hero} />
         <AboutStorySection content={story} />
+        <AboutTeamBandSection />
         <AboutWorkflowSection content={workflow} />
         <AboutProofSection content={proof} />
-        <AboutValuesAndTeamSection values={values} />
-        <AboutFinalCta />
+        <AboutValuesAndTeamSection values={values} teamTeaser={teamTeaser} />
+        <AboutFinalCta content={cta} />
       </article>
     </main>
   );

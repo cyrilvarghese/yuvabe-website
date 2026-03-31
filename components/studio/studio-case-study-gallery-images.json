@@ -136,18 +136,52 @@
   },
   "tvam": {
     "badgeLabel": "AI Advisors",
+    "itemImages": {
+      "Health Advisor workspace": [
+        {
+          "src": "/assets/tvam/mock5.png",
+          "alt": "TVAM Health Advisor workspace interface."
+        }
+      ],
+      "Policy Advisor journey": [
+        {
+          "src": "/assets/tvam/mock2.png",
+          "alt": "TVAM Policy Advisor journey interface."
+        }
+      ],
+      "Document-aware assistant": [
+        {
+          "src": "/assets/tvam/mock3.png",
+          "alt": "TVAM document-aware assistant interface."
+        }
+      ],
+      "Exam-prep support": [
+        {
+          "src": "/assets/tvam/mock4.png",
+          "alt": "TVAM exam-prep support interface."
+        }
+      ]
+    },
     "images": [
       {
-        "src": "/assets/illustration1.png",
-        "alt": "TVAM AI workflow illustration."
+        "src": "/assets/tvam/mock1.png",
+        "alt": "TVAM Health Advisor workspace interface."
       },
       {
-        "src": "/assets/illustration2.png",
-        "alt": "TVAM advisor-style product visual."
+        "src": "/assets/tvam/mock2.png",
+        "alt": "TVAM Policy Advisor product visual."
       },
       {
-        "src": "/assets/illustration3.png",
-        "alt": "TVAM platform systems illustration."
+        "src": "/assets/tvam/mock3.png",
+        "alt": "TVAM document-aware assistant interface."
+      },
+      {
+        "src": "/assets/tvam/mock4.png",
+        "alt": "TVAM exam-prep support interface."
+      },
+      {
+        "src": "/assets/tvam/mock5.png",
+        "alt": "TVAM platform systems overview."
       }
     ]
   },

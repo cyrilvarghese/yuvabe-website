@@ -10,7 +10,8 @@ import {
 } from "@/components/studio/studio-case-study-content";
 import galleryImageLibrary from "@/components/studio/studio-case-study-gallery-images.json";
 import { StartProjectButton } from "@/components/studio/start-project-button";
-import { Button, buttonVariants } from "@/components/ui/button";
+import { Button } from "@/components/ui/button";
+import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
@@ -22,7 +23,9 @@ const caseStudyImageOverrides: Partial<Record<string, string>> = {
 
 const caseStudyDetailImageOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "/assets/general-aeronautics/cover-detail.jpeg",
+  tvam: "/assets/tvam/mock1.png",
 };
+
 
 const caseStudyDetailImageClassOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "scale-[1.16] object-[center_18%]",
@@ -143,18 +146,16 @@ function getGalleryStageClass({
 // The browser image-size hint stays aligned to the row shape so single panels can claim the full canvas width.
 function getGalleryImageSizes({
   caseStudyId,
-  isModal,
   itemCount,
 }: {
   caseStudyId: string;
-  isModal: boolean;
   itemCount: number;
 }) {
   if (caseStudyId === "bevolve" || itemCount <= 1) {
     return "100vw";
   }
 
-  return isModal ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw";
+  return "(min-width: 768px) 50vw, 100vw";
 }
 
 // The gallery uses one clearer section label when rows are really just different visual cuts of the same work.
@@ -213,7 +214,7 @@ export function StudioCaseStudyDetail({
     caseStudyGalleryImageLibrary.bevolve;
   const isModal = variant === "modal";
   const heroMedia = resolveStudioCaseStudyHeroMedia(caseStudy);
-  const detailVisualSrc = heroMedia.visualSrc;
+  const detailVisualSrc = !isModal && caseStudy.heroImageSrc ? caseStudy.heroImageSrc : heroMedia.visualSrc;
   const detailVideoSrc = heroMedia.videoSrc;
   const detailImageClassName = heroMedia.imageClassName;
   const caseBreakdownSections =
@@ -502,7 +503,6 @@ export function StudioCaseStudyDetail({
                           fill
                           sizes={getGalleryImageSizes({
                             caseStudyId: caseStudy.id,
-                            isModal,
                             itemCount: row.items.length,
                           })}
                           className={getGalleryImageClass(caseStudy.id)}

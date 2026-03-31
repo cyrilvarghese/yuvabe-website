@@ -74,7 +74,7 @@ export function StudioServices({ content }: StudioServicesProps) {
             {content.eyebrow}
           </p>
           <h2 className="max-w-5xl text-display-muted-editorial tracking-[-0.032em] [word-spacing:0.02em] text-[var(--neutral-950)]">
-            <strong>{content.headline}</strong>
+            {content.headline}
           </h2>
           <p className="text-hero-support max-w-6xl">
             {content.supportPrefix}{" "}

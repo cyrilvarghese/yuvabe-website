@@ -29,6 +29,7 @@ const caseStudyImageOverrides: Partial<Record<string, string>> = {
   bevolve: "/assets/bevolve-ai.svg",
   "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
   ageshift: "/assets/ageshift/ageshift_cover.png",
+  tvam: "/assets/tvam/tvam3d.gif",
 };
 
 const caseStudyImageClassOverrides: Partial<Record<string, string>> = {
@@ -51,6 +52,11 @@ const caseStudyPresentationOverrides: Partial<
 > = {
   bevolve: "fullImage",
   "general-aeronautics": "fullImage",
+  tvam: "fullImage",
+};
+
+const caseStudyAspectRatioOverrides: Partial<Record<string, string>> = {
+  tvam: "1 / 1",
 };
 
 // The case-studies section turns named proof into a scannable homepage evidence block.
@@ -91,7 +97,7 @@ export function StudioCaseStudies({
               {workContent.eyebrow}
             </p>
             <h2 className="text-display-muted-editorial  max-w-5xl text-[var(--neutral-950)]">
-              <strong>{workContent.headline}</strong>
+             {workContent.headline}
             </h2>
             <p className="text-hero-support max-w-6xl">
               {workContent.supportPrefix}{" "}
@@ -126,7 +132,7 @@ export function StudioCaseStudies({
                     caseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[caseStudy.id]
                   }
-                  imageAspectRatio={caseStudy.mockImageAspectRatio}
+                  imageAspectRatio={caseStudyAspectRatioOverrides[caseStudy.id] ?? caseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[caseStudy.id] ??
                     caseStudy.mockImageClassName
@@ -168,7 +174,7 @@ export function StudioCaseStudies({
                     caseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[caseStudy.id]
                   }
-                  imageAspectRatio={caseStudy.mockImageAspectRatio}
+                  imageAspectRatio={caseStudyAspectRatioOverrides[caseStudy.id] ?? caseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[caseStudy.id] ??
                     caseStudy.mockImageClassName
@@ -209,7 +215,7 @@ export function StudioCaseStudies({
                     spotlightCaseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[spotlightCaseStudy.id]
                   }
-                  imageAspectRatio={spotlightCaseStudy.mockImageAspectRatio}
+                  imageAspectRatio={caseStudyAspectRatioOverrides[spotlightCaseStudy.id] ?? spotlightCaseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[spotlightCaseStudy.id] ??
                     spotlightCaseStudy.mockImageClassName

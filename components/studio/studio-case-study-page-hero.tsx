@@ -22,6 +22,11 @@ type StudioCaseStudyPageHeroProps = {
 const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 const caseStudyHeroLogoOverrides: Partial<Record<string, string>> = {
   "general-aeronautics": "/logos/general-aeronautics.svg",
+  tvam: "/assets/tvam/tvam_logo.png",
+};
+
+const caseStudyHeroLogoSizeOverrides: Partial<Record<string, { aspect: string; maxW: string }>> = {
+  tvam: { aspect: "aspect-[3/4]", maxW: "max-w-[18rem]" },
 };
 
 // This page-only hero gives the SEO route a landing-style opening with one focused narrative instead of a hero mock card.
@@ -31,6 +36,7 @@ export function StudioCaseStudyPageHero({
   const detail = resolveStudioCaseStudyDetail(caseStudy);
   const heroMedia = resolveStudioCaseStudyHeroMedia(caseStudy);
   const heroLogoSrc = caseStudyHeroLogoOverrides[caseStudy.id];
+  const heroLogoSize = caseStudyHeroLogoSizeOverrides[caseStudy.id] ?? { aspect: "aspect-[17/4]", maxW: "max-w-[34rem]" };
 
   return (
     <section className="relative isolate overflow-visible border-b border-[var(--color-border-default)]/80">
@@ -74,7 +80,7 @@ export function StudioCaseStudyPageHero({
                 <div className="relative flex min-h-[18rem] w-full items-center justify-center px-4 py-10 sm:min-h-[22rem] sm:px-8 sm:py-12 xl:min-h-[27rem] xl:py-0">
                   <div className="pointer-events-none absolute inset-x-[10%] top-1/2 h-24 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.15),rgba(129,103,255,0.12)_34%,rgba(43,183,199,0.08)_56%,rgba(255,255,255,0)_74%)] blur-3xl" />
                   <div className="pointer-events-none absolute inset-x-[20%] top-1/2 h-px translate-y-[4.25rem] bg-[linear-gradient(90deg,rgba(203,195,223,0),rgba(203,195,223,0.72),rgba(148,219,228,0.62),rgba(203,195,223,0))]" />
-                  <div className="relative aspect-[17/4] w-full max-w-[34rem]">
+                  <div className={cn("relative w-full", heroLogoSize.aspect, heroLogoSize.maxW)}>
                     <Image
                       src={heroLogoSrc}
                       alt={`${caseStudy.title} logo`}

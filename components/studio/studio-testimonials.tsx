@@ -24,6 +24,57 @@ function getLogoForAttribution(attribution: string): string | undefined {
   return undefined;
 }
 
+function getAttributionBadgeStyle(attribution: string) {
+  const s = attribution.toLowerCase();
+
+  // TVAM uses a warmer orange badge pulled from the app icon.
+  if (s.includes("tvam")) {
+    return {
+      backgroundColor: "rgba(242, 125, 66, 0.08)",
+      borderColor: "rgba(242, 125, 66, 0.22)",
+      color: "#d96d35",
+    };
+  }
+
+  // A warm terracotta tone ties the Solitude badge back to the hand-drawn logo.
+  if (s.includes("solitude")) {
+    return {
+      backgroundColor: "rgba(193, 110, 91, 0.08)",
+      borderColor: "rgba(193, 110, 91, 0.24)",
+      color: "#b86a58",
+    };
+  }
+
+  // Indic-AI carries a soft brand blue in the mark and wordmark.
+  if (s.includes("indic")) {
+    return {
+      backgroundColor: "rgba(132, 171, 224, 0.08)",
+      borderColor: "rgba(132, 171, 224, 0.24)",
+      color: "#5f86bf",
+    };
+  }
+
+  // Matrimandir reads best with a muted stone tint from the logo artwork.
+  if (s.includes("matrimandir")) {
+    return {
+      backgroundColor: "rgba(153, 145, 130, 0.08)",
+      borderColor: "rgba(153, 145, 130, 0.22)",
+      color: "#817765",
+    };
+  }
+
+  // NorthSouth uses a restrained teal pulled from the brand palette.
+  if (s.includes("northsouth") || s.includes("north south") || s.includes("nsf")) {
+    return {
+      backgroundColor: "rgba(74, 148, 153, 0.08)",
+      borderColor: "rgba(74, 148, 153, 0.22)",
+      color: "#3f8d93",
+    };
+  }
+
+  return undefined;
+}
+
 type StudioTestimonialsProps = {
   content: StudioHomepageTestimonialsContent;
 };
@@ -51,8 +102,11 @@ export function StudioTestimonials({ content }: StudioTestimonialsProps) {
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
             {content.eyebrow}
           </p>
-          <h2 className="max-w-5xl text-display-muted-editorial text-[var(--neutral-950)]">
-            {content.headline}
+          <h2
+            className="max-w-5xl text-display-muted-editorial text-[var(--neutral-950)]"
+            style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+          >
+            <strong style={{ fontWeight: "inherit" }}>{content.headline}</strong>
           </h2>
           <p className="max-w-6xl text-hero-support">
             {content.supportPrefix}{" "}
@@ -72,6 +126,9 @@ export function StudioTestimonials({ content }: StudioTestimonialsProps) {
               const isLastOddCard =
                 content.items.length % 2 === 1 &&
                 index === content.items.length - 1;
+              const badgeStyle = entry.attribution
+                ? getAttributionBadgeStyle(entry.attribution)
+                : undefined;
 
               return (
                 <article
@@ -87,31 +144,41 @@ export function StudioTestimonials({ content }: StudioTestimonialsProps) {
                     .filter(Boolean)
                     .join(" ")}
                 >
-                  {entry.attribution && getLogoForAttribution(entry.attribution) ? (
-                    <Image
-                      src={getLogoForAttribution(entry.attribution)!}
-                      alt={entry.attribution}
-                      width={200}
-                      height={80}
-                      className="h-20 w-auto max-w-48 object-contain object-left opacity-80"
-                    />
-                  ) : null}
-
                   <p className="max-w-[32rem] text-body-md font-medium italic text-[var(--neutral-700)]">
                     &ldquo;{entry.quote}&rdquo;
                   </p>
 
-                  <div className="space-y-2">
-                    <h3 className="text-heading-sm text-[var(--neutral-900)]">
-                      {entry.name}
-                    </h3>
-                    {entry.attribution ? (
-                      <div className="inline-flex max-w-full rounded-full border border-white/80 bg-white/90 px-3 py-1 backdrop-blur-sm">
-                        <p className="truncate text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
-                          {entry.attribution}
-                        </p>
-                      </div>
-                    ) : null}
+                  <div className="flex items-end gap-6 pt-2">
+                    <div className="flex shrink-0 justify-start">
+                      {entry.attribution && getLogoForAttribution(entry.attribution) ? (
+                        <Image
+                          src={getLogoForAttribution(entry.attribution)!}
+                          alt={entry.attribution}
+                          width={165}
+                          height={72}
+                          className="h-[4.5rem] w-auto max-w-[9.75rem] object-contain object-left opacity-80"
+                        />
+                      ) : null}
+                    </div>
+
+                    <div className="min-w-0 flex-1 space-y-2 self-center">
+                      <h3 className="text-heading-sm text-[var(--neutral-900)]">
+                        {entry.name}
+                      </h3>
+                      {entry.attribution ? (
+                        <div
+                          className="inline-flex max-w-full rounded-full border border-white/80 bg-white/90 px-3 py-1 backdrop-blur-sm"
+                          style={badgeStyle}
+                        >
+                          <p
+                            className="truncate text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]"
+                            style={badgeStyle ? { color: badgeStyle.color } : undefined}
+                          >
+                            {entry.attribution}
+                          </p>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </article>
               );

@@ -52,9 +52,9 @@
   },
   "afterServicesCta": {
     "eyebrow": "",
-    "title": "If you need one team to shape, ship, and grow the product, talk to us.",
+    "title": "If you need one team to shape, ship, and grow the product",
     "description": "We work best with founders who want honest thinking, fast execution, and fewer handoffs between strategy and delivery.",
-    "primaryCtaLabel": "Start Your Project",
+    "primaryCtaLabel": "Talk to us",
     "primaryCtaHref": "/#process"
   },
   "testimonials": {
@@ -75,14 +75,14 @@
         "attribution": "Founder of Solitude Farm & Cafe"
       },
       {
-        "quote": "Yuvabe Studios transformed our vision for a dedicated Matrimandir website into a complete digital experience. Their professionalism and alignment with our vision were outstanding.",
-        "name": "Antoine Colombani",
-        "attribution": "Matrimandir"
-      },
-      {
         "quote": "Yuvabe Studios helped us balance clarity and dignity in telling Indic-AI's story across education, jobs, healthcare, and AI. They delivered a brochure and website that feel authentic and impactful.",
         "name": "Sarita Chand",
         "attribution": "Co-Founder, Indic-AI"
+      },
+      {
+        "quote": "Yuvabe Studios transformed our vision for a dedicated Matrimandir website into a complete digital experience. Their professionalism and alignment with our vision were outstanding.",
+        "name": "Antoine Colombani",
+        "attribution": "Matrimandir"
       },
       {
         "quote": "Yuvabe is a talented team of creative, digital marketing professionals who have been instrumental in quite a few campaigns for us in various forms which we have deployed across email, social media campaigns. This has helped us get our message out to our constituents in an engaging manner. The team has a good breadth and deep knowledge of tools and the creative process work. It has been a pleasure to work with them and I would highly recommend them.",

@@ -94,8 +94,11 @@ export function StudioCaseStudies({
             <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
               {workContent.eyebrow}
             </p>
-            <h2 className="text-display-muted-editorial  max-w-5xl text-[var(--neutral-950)]">
-             {workContent.headline}
+            <h2
+              className="text-display-muted-editorial  max-w-5xl text-[var(--neutral-950)]"
+              style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+            >
+              <strong style={{ fontWeight: "inherit" }}>{workContent.headline}</strong>
             </h2>
             <p className="text-hero-support max-w-6xl">
               {workContent.supportPrefix}{" "}

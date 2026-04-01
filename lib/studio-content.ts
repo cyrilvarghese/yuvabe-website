@@ -44,6 +44,9 @@ const homepageFilePath = path.join(dataDirectory, "studio-homepage-content.json"
 const aboutFilePath = path.join(dataDirectory, "studio-about-content.json");
 const contentDocumentsTable = "content_documents";
 type StudioContentSource = "auto" | "local" | "supabase";
+type StudioContentOptions = {
+  source?: StudioContentSource;
+};
 
 const defaultServicesContent: StudioHomepageServicesContent = {
   eyebrow: "Services",
@@ -77,10 +80,10 @@ const defaultServicesContent: StudioHomepageServicesContent = {
 const defaultAfterServicesCtaContent: StudioHomepageInlineCtaContent = {
   eyebrow: "",
   title:
-    "If you need one team to shape, ship, and grow the product, talk to us.",
+    "If you need one team to shape, ship, and grow the product",
   description:
     "We work best with founders who want honest thinking, fast execution, and fewer handoffs between strategy and delivery.",
-  primaryCtaLabel: "Start Your Project",
+  primaryCtaLabel: "Talk to us",
   primaryCtaHref: "/#process",
 };
 
@@ -1191,6 +1194,11 @@ async function readJsonFile<T>(filePath: string): Promise<T> {
   return JSON.parse(rawFile) as T;
 }
 
+// Keep local-mode edits durable by writing the same prettified JSON shape the repo already uses.
+async function writeJsonFile(filePath: string, payload: unknown) {
+  await fs.writeFile(filePath, `${JSON.stringify(payload, null, 2)}\n`, "utf8");
+}
+
 async function readContentDocument(key: "homepage" | "case_studies" | "about") {
   noStore();
 
@@ -1307,8 +1315,9 @@ function getStudioContentSource(): StudioContentSource {
 async function getStudioContentDocument<T>(
   key: "homepage" | "case_studies" | "about",
   fallbackFilePath: string,
+  options?: StudioContentOptions,
 ) {
-  const contentSource = getStudioContentSource();
+  const contentSource = options?.source ?? getStudioContentSource();
 
   if (contentSource === "local") {
     return readJsonFile<T>(fallbackFilePath);
@@ -1327,10 +1336,45 @@ async function getStudioContentDocument<T>(
   return getOrBootstrapDocument<T>(key, fallbackFilePath);
 }
 
-export async function getStudioHomepageContent() {
+// Saving follows the active content source so local development edits do not disappear after the redirect.
+async function saveStudioContentDocument(
+  key: "homepage" | "case_studies" | "about",
+  fallbackFilePath: string,
+  payload: unknown,
+  options?: StudioContentOptions,
+) {
+  const contentSource = options?.source ?? getStudioContentSource();
+
+  if (contentSource === "local") {
+    await writeJsonFile(fallbackFilePath, payload);
+    return;
+  }
+
+  if (contentSource === "supabase") {
+    await writeContentDocument(key, payload);
+    return;
+  }
+
+  try {
+    await writeContentDocument(key, payload);
+  } catch (error) {
+    if (!shouldUseLocalContentFallback(error)) {
+      throw error;
+    }
+
+    console.warn(
+      `Saved ${key} content locally because Supabase could not be reached.`,
+      error,
+    );
+    await writeJsonFile(fallbackFilePath, payload);
+  }
+}
+
+export async function getStudioHomepageContent(options?: StudioContentOptions) {
   const rawContent = await getStudioContentDocument<unknown>(
     "homepage",
     homepageFilePath,
+    options,
   );
   const parsedContent = parseHomepageContent(rawContent);
   const fallbackContent = parseHomepageContent(
@@ -1340,28 +1384,34 @@ export async function getStudioHomepageContent() {
   return mergeHomepageContentWithFallback(parsedContent, fallbackContent);
 }
 
-export async function saveStudioHomepageContent(content: StudioHomepageContent) {
-  await writeContentDocument("homepage", content);
+export async function saveStudioHomepageContent(
+  content: StudioHomepageContent,
+  options?: StudioContentOptions,
+) {
+  await saveStudioContentDocument("homepage", homepageFilePath, content, options);
 }
 
-export async function getStudioAboutPageContent() {
+export async function getStudioAboutPageContent(options?: StudioContentOptions) {
   const rawContent = await getStudioContentDocument<unknown>(
     "about",
     aboutFilePath,
+    options,
   );
   return parseAboutPageContent(rawContent);
 }
 
 export async function saveStudioAboutPageContent(
   content: StudioAboutPageContent,
+  options?: StudioContentOptions,
 ) {
-  await writeContentDocument("about", content);
+  await saveStudioContentDocument("about", aboutFilePath, content, options);
 }
 
-export async function getStudioCaseStudies() {
+export async function getStudioCaseStudies(options?: StudioContentOptions) {
   const rawCaseStudies = await getStudioContentDocument<unknown[]>(
     "case_studies",
     caseStudiesFilePath,
+    options,
   );
   const caseStudies = expectArray(rawCaseStudies, "studio case studies");
 
@@ -1370,16 +1420,20 @@ export async function getStudioCaseStudies() {
   );
 }
 
-export async function getStudioCaseStudyById(id: string) {
-  const caseStudies = await getStudioCaseStudies();
+export async function getStudioCaseStudyById(
+  id: string,
+  options?: StudioContentOptions,
+) {
+  const caseStudies = await getStudioCaseStudies(options);
   return caseStudies.find((caseStudy) => caseStudy.id === id);
 }
 
 export async function saveStudioCaseStudy(
   id: string,
   updates: Omit<StudioEditableCaseStudy, "id">,
+  options?: StudioContentOptions,
 ) {
-  const caseStudies = await getStudioCaseStudies();
+  const caseStudies = await getStudioCaseStudies(options);
   const caseStudyIndex = caseStudies.findIndex((caseStudy) => caseStudy.id === id);
 
   if (caseStudyIndex === -1) {
@@ -1393,6 +1447,11 @@ export async function saveStudioCaseStudy(
     ...updates,
   };
 
-  await writeContentDocument("case_studies", nextCaseStudies);
+  await saveStudioContentDocument(
+    "case_studies",
+    caseStudiesFilePath,
+    nextCaseStudies,
+    options,
+  );
   return nextCaseStudies[caseStudyIndex];
 }

@@ -25,9 +25,9 @@ export default async function StudioAdminPage({
   const [{ caseStudyId, saved, tab }, homepageContent, aboutContent, caseStudies] =
     await Promise.all([
       searchParams,
-      getStudioHomepageContent(),
-      getStudioAboutPageContent(),
-      getStudioCaseStudies(),
+      getStudioHomepageContent({ source: "supabase" }),
+      getStudioAboutPageContent({ source: "supabase" }),
+      getStudioCaseStudies({ source: "supabase" }),
     ]);
 
   const editableCaseStudies = caseStudies.map(createStudioEditableCaseStudy);

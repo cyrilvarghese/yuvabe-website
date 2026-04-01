@@ -73,8 +73,11 @@ export function StudioServices({ content }: StudioServicesProps) {
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
             {content.eyebrow}
           </p>
-          <h2 className="max-w-5xl text-display-muted-editorial tracking-[-0.032em] [word-spacing:0.02em] text-[var(--neutral-950)]">
-            {content.headline}
+          <h2
+            className="max-w-5xl text-display-muted-editorial tracking-[-0.032em] [word-spacing:0.02em] text-[var(--neutral-950)]"
+            style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+          >
+            <strong style={{ fontWeight: "inherit" }}>{content.headline}</strong>
           </h2>
           <p className="text-hero-support max-w-6xl">
             {content.supportPrefix}{" "}

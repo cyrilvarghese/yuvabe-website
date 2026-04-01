@@ -576,7 +576,12 @@ export function StudioAiFirstSection({ className }: { className?: string }) {
         {/* The intro keeps the section argument tight so the graphic grid can do the rest of the work. */}
         <div className="max-w-4xl space-y-4 md:space-y-5">
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-inverse-muted)]">AI-first DNA</p>
-          <h2 className="text-section-display text-white md:max-w-4xl">The 0-to-1 workflow changed.</h2>
+          <h2
+            className="text-section-display text-white md:max-w-4xl"
+            style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+          >
+            The 0-to-1 workflow changed.
+          </h2>
           <p className="max-w-3xl text-body-lg text-[var(--color-text-inverse-muted)]">
             Execution got cheaper. The edge moved to framing, faster experiments, richer MVPs, and better judgment.
           </p>

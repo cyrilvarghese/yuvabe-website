@@ -24,7 +24,7 @@ export async function saveHomepageContentAction(formData: FormData) {
   const payload = expectString(formData.get("payload"), "Homepage payload");
   const parsedPayload = parseStudioHomepageContentInput(JSON.parse(payload));
 
-  await saveStudioHomepageContent(parsedPayload);
+  await saveStudioHomepageContent(parsedPayload, { source: "supabase" });
 
   revalidatePath("/");
   revalidatePath("/studio-admin");
@@ -35,7 +35,7 @@ export async function saveAboutContentAction(formData: FormData) {
   const payload = expectString(formData.get("payload"), "About payload");
   const parsedPayload = parseStudioAboutPageContentInput(JSON.parse(payload));
 
-  await saveStudioAboutPageContent(parsedPayload);
+  await saveStudioAboutPageContent(parsedPayload, { source: "supabase" });
 
   revalidatePath("/about");
   revalidatePath("/studio-admin");
@@ -47,7 +47,9 @@ export async function saveCaseStudyContentAction(formData: FormData) {
   const payload = expectString(formData.get("payload"), "Case study payload");
   const parsedPayload = parseStudioEditableCaseStudyInput(JSON.parse(payload));
 
-  await saveStudioCaseStudy(caseStudyId, parsedPayload);
+  await saveStudioCaseStudy(caseStudyId, parsedPayload, {
+    source: "supabase",
+  });
 
   revalidatePath("/");
   revalidatePath(`/case-studies/${caseStudyId}`);

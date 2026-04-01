@@ -1,3 +1,4 @@
+import type { CSSProperties } from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 
@@ -16,6 +17,7 @@ type StudioCtaCardProps = {
   sectionClassName?: string;
   containerClassName?: string;
   titleClassName?: string;
+  titleStyle?: CSSProperties;
   descriptionClassName?: string;
   contentLayout?: "split" | "stacked";
 };
@@ -29,7 +31,8 @@ export function StudioCtaCard({
   primaryCtaHref,
   sectionClassName = "bg-white py-16 md:py-20",
   containerClassName = "lg:px-10 xl:px-14",
-  titleClassName = "max-w-4xl text-section-display text-[var(--neutral-950)]",
+  titleClassName = "max-w-4xl text-display-muted-editorial text-[var(--neutral-950)]",
+  titleStyle = { wordSpacing: ".2rem" },
   descriptionClassName = "max-w-3xl text-body-lg text-[var(--color-text-secondary)]",
   contentLayout = "split",
 }: StudioCtaCardProps) {
@@ -47,11 +50,13 @@ export function StudioCtaCard({
           elevation="lg"
           blur="lg"
           radius="xl"
-          className="overflow-hidden p-8 transition-transform duration-300 ease-out hover:[transform:perspective(1600px)_rotateX(0.8deg)_rotateY(-1.8deg)] md:p-10"
+          className="overflow-hidden border-white/85 p-8 shadow-[0_28px_80px_rgba(15,23,42,0.14)] transition-transform duration-300 ease-out hover:[transform:perspective(1600px)_rotateX(0.8deg)_rotateY(-1.8deg)] md:p-10"
         >
           <div aria-hidden="true" className="absolute inset-0">
-            <div className="absolute right-[-8rem] top-[-8rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.18)_0%,rgba(255,202,45,0)_72%)] blur-3xl" />
-            <div className="absolute left-[-8rem] bottom-[-8rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.16)_0%,rgba(88,41,199,0)_72%)] blur-3xl" />
+            <div className="absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.98)_0%,rgba(252,248,255,0.96)_34%,rgba(255,249,236,0.95)_100%)]" />
+            <div className="absolute inset-x-[18%] top-[-9rem] h-[18rem] rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.14)_0%,rgba(203,195,223,0.18)_34%,rgba(255,202,45,0.14)_58%,rgba(255,255,255,0)_82%)] blur-3xl" />
+            <div className="absolute right-[-8rem] top-[-8rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(255,202,45,0.24)_0%,rgba(255,202,45,0)_72%)] blur-3xl" />
+            <div className="absolute left-[-8rem] bottom-[-8rem] h-[18rem] w-[18rem] rounded-full bg-[radial-gradient(circle,rgba(88,41,199,0.2)_0%,rgba(88,41,199,0)_72%)] blur-3xl" />
           </div>
 
           {/* The content column stays editorial while the action area keeps one clear next step. */}
@@ -62,7 +67,9 @@ export function StudioCtaCard({
                   {eyebrow}
                 </p>
               ) : null}
-              <h2 className={titleClassName}>{title}</h2>
+            <h2 className={titleClassName} style={titleStyle}>
+              {title}
+            </h2>
               {description ? (
                 <p className={descriptionClassName}>{description}</p>
               ) : null}

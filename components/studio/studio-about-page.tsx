@@ -139,7 +139,12 @@ function SectionIntro({
       <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
         {eyebrow}
       </p>
-      <h2 className="text-section-display text-[var(--neutral-950)]">{title}</h2>
+      <h2
+        className="text-section-display text-[var(--neutral-950)]"
+        style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+      >
+        {title}
+      </h2>
       <p className="text-body-lg text-[var(--color-text-secondary)]">{description}</p>
     </div>
   );
@@ -335,7 +340,10 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
           </div>
 
-          <h2 className="max-w-[13ch] text-section-display text-[var(--neutral-950)]">
+          <h2
+            className="max-w-[13ch] text-section-display text-[var(--neutral-950)]"
+            style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+          >
             {storyTitleRest ? (
               <>
                 <span>{`${storyTitleLead}.`}</span>
@@ -443,7 +451,10 @@ function AboutTeamBandSection() {
           <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
             People behind the work
           </p>
-          <h2 className="max-w-[28ch] text-section-display text-[var(--neutral-950)]">
+          <h2
+            className="max-w-[28ch] text-section-display text-[var(--neutral-950)]"
+            style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+          >
             <span>Small team. Deep involvement.</span>
             <br />
             <span>Start to finish.</span>

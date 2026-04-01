@@ -1084,6 +1084,14 @@ function parseCaseStudySummary(value: unknown, label: string): StudioCaseStudySu
     mockImageSrc: resolveStudioAssetPath(value.mockImageSrc),
     mockVideoSrc: optionalString(value.mockVideoSrc),
     mockImageAlt: optionalString(value.mockImageAlt),
+    coverImages:
+      value.coverImages && typeof value.coverImages === "object"
+        ? {
+            card: resolveStudioAssetPath((value.coverImages as Record<string, unknown>).card),
+            summary: resolveStudioAssetPath((value.coverImages as Record<string, unknown>).summary),
+            detail: resolveStudioAssetPath((value.coverImages as Record<string, unknown>).detail),
+          }
+        : undefined,
     heroImageSrc: optionalString(value.heroImageSrc),
     detailImageSrc: optionalString(value.detailImageSrc),
     mockVariant: optionalString(value.mockVariant) as

@@ -4,26 +4,26 @@
     "itemImages": {
       "Drone system visual": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock5.png",
+          "src": "/assets/general-aeronautics/details-mocks/mock1.png",
           "alt": "General Aeronautics mission planning schedule mock."
         }
       ],
       "Flight dashboard view": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock13.png",
+          "src": "/assets/general-aeronautics/details-mocks/mock3.png",
           "alt": "General Aeronautics flight path setup view."
         }
       ],
       "Ops planner surface": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock3.png",
+          "src": "/assets/general-aeronautics/details-mocks/mock13.png",
           "alt": "General Aeronautics operations planner surface."
         }
       ],
       "Mission planning mock": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock1.png",
-          "alt": "General Aeronautics drone system concept visual."
+          "src": "/assets/general-aeronautics/details-mocks/mock5.png",
+          "alt": "General Aeronautics mission planning workstation mock."
         }
       ]
     },
@@ -139,66 +139,108 @@
     "itemImages": {
       "Health Advisor workspace": [
         {
-          "src": "/assets/tvam/mock5.png",
-          "alt": "TVAM Health Advisor workspace interface."
+          "src": "/assets/tvam/mock%201.png",
+          "alt": "TVAM health advisor workspace on a mobile device."
         }
       ],
       "Policy Advisor journey": [
         {
           "src": "/assets/tvam/mock2.png",
-          "alt": "TVAM Policy Advisor journey interface."
+          "alt": "TVAM advisor flow across voice and chat interactions."
         }
       ],
       "Document-aware assistant": [
         {
-          "src": "/assets/tvam/mock3.png",
-          "alt": "TVAM document-aware assistant interface."
+          "src": "/assets/tvam/mock5.png",
+          "alt": "TVAM guided assistant experience with suggested next questions."
         }
       ],
       "Exam-prep support": [
         {
           "src": "/assets/tvam/mock4.png",
-          "alt": "TVAM exam-prep support interface."
+          "alt": "TVAM product storytelling screens across health, wealth, and trust journeys."
         }
       ]
     },
     "images": [
       {
-        "src": "/assets/tvam/mock1.png",
-        "alt": "TVAM Health Advisor workspace interface."
+        "src": "/assets/tvam/Cover%20img.png",
+        "alt": "TVAM case study cover in a handheld device mockup."
+      },
+      {
+        "src": "/assets/tvam/mock%201.png",
+        "alt": "TVAM health advisor workspace on a mobile device."
       },
       {
         "src": "/assets/tvam/mock2.png",
-        "alt": "TVAM Policy Advisor product visual."
+        "alt": "TVAM advisor flow across voice and chat interactions."
       },
       {
         "src": "/assets/tvam/mock3.png",
-        "alt": "TVAM document-aware assistant interface."
+        "alt": "TVAM landing and trust screens across multiple mobile frames."
       },
       {
         "src": "/assets/tvam/mock4.png",
-        "alt": "TVAM exam-prep support interface."
+        "alt": "TVAM product storytelling screens across health, wealth, and trust journeys."
       },
       {
         "src": "/assets/tvam/mock5.png",
-        "alt": "TVAM platform systems overview."
+        "alt": "TVAM guided assistant experience with suggested next questions."
       }
     ]
   },
   "kittykat": {
     "badgeLabel": "Generative AI",
+    "itemImages": {
+      "Product-to-model pipeline": [
+        {
+          "src": "/assets/KK/mock1.png",
+          "alt": "KittyKat product-to-model pipeline mock."
+        }
+      ],
+      "Prompt and variation control": [
+        {
+          "src": "/assets/KK/mock2.png",
+          "alt": "KittyKat prompt and variation control mock."
+        }
+      ],
+      "Image quality tuning": [
+        {
+          "src": "/assets/KK/mock3.png",
+          "alt": "KittyKat image quality tuning mock."
+        }
+      ],
+      "Campaign-ready asset system": [
+        {
+          "src": "/assets/KK/mock4.png",
+          "alt": "KittyKat campaign-ready asset system mock."
+        }
+      ]
+    },
     "images": [
       {
-        "src": "/assets/kittykat.svg",
-        "alt": "KittyKat brand mark."
+        "src": "/assets/KK/Cover.png",
+        "alt": "KittyKat AI fashion workflow cover."
       },
       {
-        "src": "/assets/illustration2.png",
-        "alt": "KittyKat fashion image workflow illustration."
+        "src": "/assets/KK/mock1.png",
+        "alt": "KittyKat product-to-model pipeline mock."
       },
       {
-        "src": "/assets/illustration1.png",
-        "alt": "KittyKat generative visual production illustration."
+        "src": "/assets/KK/mock2.png",
+        "alt": "KittyKat prompt and variation control mock."
+      },
+      {
+        "src": "/assets/KK/mock3.png",
+        "alt": "KittyKat image quality tuning mock."
+      },
+      {
+        "src": "/assets/KK/mock4.png",
+        "alt": "KittyKat campaign-ready asset system mock."
+      },
+      {
+        "src": "/assets/KK/mock5.png",
+        "alt": "KittyKat AI fashion asset variation mock."
       }
     ]
   },

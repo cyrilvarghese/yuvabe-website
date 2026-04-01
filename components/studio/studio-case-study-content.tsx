@@ -59,6 +59,12 @@ export type StudioCaseStudyTestimonial = {
   ctaHref?: string;
 };
 
+export type StudioCaseStudyCoverImages = {
+  card?: string;
+  summary?: string;
+  detail?: string;
+};
+
 export type StudioCaseStudySummary = {
   id: StudioCaseStudyId;
   sector: string;
@@ -70,6 +76,7 @@ export type StudioCaseStudySummary = {
   mockImageSrc?: string;
   mockVideoSrc?: string;
   mockImageAlt?: string;
+  coverImages?: StudioCaseStudyCoverImages;
   heroImageSrc?: string;
   detailImageSrc?: string;
   mockVariant?: StudioCaseStudyMockVariant;
@@ -119,41 +126,6 @@ export type ResolvedStudioCaseStudyDetail = {
   seoDescription: string;
 };
 
-const generalAeronauticsShowcaseGalleryRows: NonNullable<
-  StudioCaseStudySummary["modalGalleryRows"]
-> = [
-  {
-    title: "Work Gallery",
-    items: [
-      {
-        title: "Drone system visual",
-        description:
-          "Concept-led product framing used to make the drone portfolio feel clearer and more technically grounded at a glance.",
-      },
-      {
-        title: "Flight dashboard view",
-        description:
-          "A more readable mission dashboard direction that turns operational metrics into a cleaner decision surface.",
-      },
-    ],
-  },
-  {
-    title: "Work Gallery",
-    items: [
-      {
-        title: "Ops planner surface",
-        description:
-          "Planner and control views that make field work, payload flow, and task sequencing easier to follow.",
-      },
-      {
-        title: "Mission planning mock",
-        description:
-          "A workstation mockup showing how the product UI reads in a more grounded, product-in-context setting.",
-      },
-    ],
-  },
-];
-
 const caseStudyIcons: Record<StudioCaseStudyIconKey, LucideIcon> = {
   barChart3: BarChart3,
   bot: Bot,
@@ -189,17 +161,44 @@ export function getCaseStudyIcon(
   return caseStudyIcons[iconKey];
 }
 
+export type StudioCaseStudyCoverSlot = keyof StudioCaseStudyCoverImages;
+
+// Preferred asset suffixes per case study are `cover-card`, `cover-summary`, and `cover-detail`.
+// The cover resolver makes the homepage card, summary modal, and detail page read from one explicit image contract.
+export function resolveStudioCaseStudyCoverSrc(
+  caseStudy: StudioCaseStudySummary,
+  slot: StudioCaseStudyCoverSlot,
+) {
+  const covers = caseStudy.coverImages;
+
+  switch (slot) {
+    case "card":
+      return covers?.card ?? caseStudy.heroImageSrc ?? caseStudy.mockImageSrc;
+    case "summary":
+      return (
+        covers?.summary ??
+        covers?.card ??
+        caseStudy.heroImageSrc ??
+        caseStudy.mockImageSrc
+      );
+    case "detail":
+      return (
+        covers?.detail ??
+        caseStudy.detailImageSrc ??
+        covers?.summary ??
+        covers?.card ??
+        caseStudy.heroImageSrc ??
+        caseStudy.mockImageSrc
+      );
+    default:
+      return caseStudy.mockImageSrc;
+  }
+}
+
 // This helper keeps case-study presentation overrides shared between the modal summary and the full detail route.
 export function applyStudioCaseStudyDisplayOverrides(
   caseStudy: StudioCaseStudySummary,
 ): StudioCaseStudySummary {
-  if (caseStudy.id === "general-aeronautics") {
-    return {
-      ...caseStudy,
-      modalGalleryRows: generalAeronauticsShowcaseGalleryRows,
-    };
-  }
-
   return caseStudy;
 }
 

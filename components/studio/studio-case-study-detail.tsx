@@ -5,29 +5,19 @@ import { ArrowUpRight, CheckCircle2, ImageIcon, Sparkles } from "lucide-react";
 import {
   CaseStudyIcon,
   getCaseStudyIcon,
+  resolveStudioCaseStudyCoverSrc,
   resolveStudioCaseStudyDetail,
   type StudioCaseStudySummary,
 } from "@/components/studio/studio-case-study-content";
 import galleryImageLibrary from "@/components/studio/studio-case-study-gallery-images.json";
 import { StartProjectButton } from "@/components/studio/start-project-button";
 import { Button } from "@/components/ui/button";
-import { buttonVariants } from "@/components/ui/button-variants";
 import { cn } from "@/lib/utils";
 
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
-const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
-  ageshift: "/assets/ageshift/ageshift_cover.png",
-};
-
-const caseStudyDetailImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/cover-detail.jpeg",
-  tvam: "/assets/tvam/mock1.png",
-};
-
-
 const caseStudyDetailImageClassOverrides: Partial<Record<string, string>> = {
+  bevolve: "object-bottom",
   "general-aeronautics": "scale-[1.16] object-[center_18%]",
 };
 
@@ -83,6 +73,8 @@ const caseStudyGalleryImageLibrary =
 const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 const shouldUseLocalCaseBreakdownOverrides =
   process.env.NODE_ENV === "development";
+const proofPointIconShellClassName =
+  "inline-flex h-11 w-11 items-center justify-center gap-2 rounded-[0.95rem] border border-white/80 bg-white/80 text-brand shadow-[0_10px_24px_rgba(15,23,42,0.06)]";
 type DetailGalleryLayoutMode = "modal" | "page";
 type DetailGalleryRowKind = "full" | "split";
 type DetailGalleryViewport = "portrait" | "landscape";
@@ -146,16 +138,18 @@ function getGalleryStageClass({
 // The browser image-size hint stays aligned to the row shape so single panels can claim the full canvas width.
 function getGalleryImageSizes({
   caseStudyId,
+  isModal,
   itemCount,
 }: {
   caseStudyId: string;
+  isModal: boolean;
   itemCount: number;
 }) {
   if (caseStudyId === "bevolve" || itemCount <= 1) {
     return "100vw";
   }
 
-  return "(min-width: 768px) 50vw, 100vw";
+  return isModal ? "(min-width: 768px) 50vw, 100vw" : "(min-width: 768px) 50vw, 100vw";
 }
 
 // The gallery uses one clearer section label when rows are really just different visual cuts of the same work.
@@ -170,6 +164,23 @@ function getGalleryRowTitle(title: string) {
   }
 }
 
+// GA gallery mocks need the image chip to repeat the mock title because the modal view hides the footer copy.
+function getGalleryBadgeLabel({
+  caseStudyId,
+  defaultBadgeLabel,
+  itemTitle,
+}: {
+  caseStudyId: string;
+  defaultBadgeLabel: string;
+  itemTitle: string;
+}) {
+  if (caseStudyId === "general-aeronautics") {
+    return itemTitle;
+  }
+
+  return defaultBadgeLabel;
+}
+
 // Some proof screens rely on the full chart or dashboard frame, so they should scale to fit instead of cropping.
 function getGalleryImageClass(caseStudyId: string) {
   if (caseStudyId === "bevolve") {
@@ -177,6 +188,15 @@ function getGalleryImageClass(caseStudyId: string) {
   }
 
   return "object-cover";
+}
+
+// GA's detail cover is a taller environmental mock, so the page rail gives it extra vertical room.
+function getCaseBreakdownMediaHeightClass(caseStudyId: string) {
+  if (caseStudyId === "general-aeronautics") {
+    return "min-h-80 sm:min-h-[34rem] lg:min-h-[50rem]";
+  }
+
+  return "min-h-72 sm:min-h-96 lg:min-h-[42rem]";
 }
 
 type StudioCaseStudyHeroMedia = {
@@ -190,11 +210,7 @@ export function resolveStudioCaseStudyHeroMedia(
   caseStudy: StudioCaseStudySummary,
 ): StudioCaseStudyHeroMedia {
   return {
-    visualSrc:
-      caseStudy.detailImageSrc ??
-      caseStudyDetailImageOverrides[caseStudy.id] ??
-      caseStudyImageOverrides[caseStudy.id] ??
-      caseStudy.mockImageSrc,
+    visualSrc: resolveStudioCaseStudyCoverSrc(caseStudy, "summary"),
     videoSrc: caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id],
     imageClassName: caseStudyDetailImageClassOverrides[caseStudy.id],
   };
@@ -214,9 +230,10 @@ export function StudioCaseStudyDetail({
     caseStudyGalleryImageLibrary.bevolve;
   const isModal = variant === "modal";
   const heroMedia = resolveStudioCaseStudyHeroMedia(caseStudy);
-  const detailVisualSrc = !isModal && caseStudy.heroImageSrc ? caseStudy.heroImageSrc : heroMedia.visualSrc;
+  const summaryVisualSrc = heroMedia.visualSrc;
   const detailVideoSrc = heroMedia.videoSrc;
   const detailImageClassName = heroMedia.imageClassName;
+  const detailCoverVisualSrc = resolveStudioCaseStudyCoverSrc(caseStudy, "detail");
   const caseBreakdownSections =
     shouldUseLocalCaseBreakdownOverrides
       ? caseStudyBreakdownSectionOverrides[caseStudy.id] ?? detail.sections
@@ -310,9 +327,9 @@ export function StudioCaseStudyDetail({
                   playsInline
                   className="absolute inset-0 h-full w-full object-cover"
                 />
-              ) : detailVisualSrc ? (
+              ) : summaryVisualSrc ? (
                 <Image
-                  src={detailVisualSrc}
+                  src={summaryVisualSrc}
                   alt={caseStudy.mockImageAlt ?? caseStudy.title}
                   fill
                   sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
@@ -357,8 +374,18 @@ export function StudioCaseStudyDetail({
           </div>
         ) : (
           <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
-            <div className="min-h-72 overflow-hidden rounded-[1.65rem] bg-white sm:min-h-96 lg:sticky lg:top-6 lg:min-h-[42rem]">
-              <div className="relative flex h-full min-h-[16rem] items-center justify-center overflow-hidden text-(--neutral-700) sm:min-h-[22rem] lg:min-h-[42rem]">
+            <div
+              className={cn(
+                "overflow-hidden rounded-[1.65rem] bg-white lg:sticky lg:top-6",
+                getCaseBreakdownMediaHeightClass(caseStudy.id),
+              )}
+            >
+              <div
+                className={cn(
+                  "relative flex h-full min-h-[16rem] items-center justify-center overflow-hidden text-(--neutral-700)",
+                  getCaseBreakdownMediaHeightClass(caseStudy.id),
+                )}
+              >
                 {detailVideoSrc ? (
                   <video
                     src={detailVideoSrc}
@@ -368,12 +395,15 @@ export function StudioCaseStudyDetail({
                     playsInline
                     className="absolute inset-0 h-full w-full object-cover"
                   />
-                ) : detailVisualSrc ? (
+                ) : detailCoverVisualSrc ? (
                   <Image
-                    src={detailVisualSrc}
+                    src={detailCoverVisualSrc}
                     alt={caseStudy.mockImageAlt ?? caseStudy.title}
                     fill
-                    className="object-cover object-center"
+                    className={cn(
+                      "object-cover object-top",
+                      detailImageClassName,
+                    )}
                     unoptimized={shouldSkipImageOptimization}
                   />
                 ) : (
@@ -418,9 +448,9 @@ export function StudioCaseStudyDetail({
                 playsInline
                 className="absolute inset-0 h-full w-full object-cover"
               />
-            ) : detailVisualSrc ? (
+            ) : summaryVisualSrc ? (
               <Image
-                src={detailVisualSrc}
+                src={summaryVisualSrc}
                 alt={caseStudy.mockImageAlt ?? caseStudy.title}
                 fill
                 sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
@@ -484,7 +514,11 @@ export function StudioCaseStudyDetail({
                     <div className="relative overflow-hidden border-b border-white/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.985),rgba(248,248,250,0.95))] before:pointer-events-none before:absolute before:inset-0 before:rounded-[inherit] before:ring-1 before:ring-white/55 before:content-['']">
                       <div className="absolute left-5 top-5 z-10 inline-flex items-center gap-2 rounded-full border border-(--color-border-default) bg-white/96 px-3 py-2 text-[0.66rem] uppercase tracking-[0.16em] text-(--color-text-tertiary) shadow-[0_8px_18px_rgba(15,23,42,0.05)]">
                         <ImageIcon className="size-3.5" strokeWidth={1.9} />
-                        {galleryAssets.badgeLabel}
+                        {getGalleryBadgeLabel({
+                          caseStudyId: caseStudy.id,
+                          defaultBadgeLabel: galleryAssets.badgeLabel,
+                          itemTitle: item.title,
+                        })}
                       </div>
                       <div
                         className={cn(
@@ -503,6 +537,7 @@ export function StudioCaseStudyDetail({
                           fill
                           sizes={getGalleryImageSizes({
                             caseStudyId: caseStudy.id,
+                            isModal,
                             itemCount: row.items.length,
                           })}
                           className={getGalleryImageClass(caseStudy.id)}
@@ -547,8 +582,8 @@ export function StudioCaseStudyDetail({
             <section key={point.title} className="space-y-4 pt-1">
               <div
                 className={cn(
-                  buttonVariants({ variant: "secondary", size: "icon" }),
-                  "pointer-events-none h-11 w-11 rounded-[0.95rem] border-white/80 bg-white/80 text-brand shadow-[0_10px_24px_rgba(15,23,42,0.06)]",
+                  proofPointIconShellClassName,
+                  "pointer-events-none",
                 )}
               >
                 <ProofIcon className="size-4" strokeWidth={1.9} />

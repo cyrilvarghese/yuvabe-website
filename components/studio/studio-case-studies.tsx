@@ -6,6 +6,7 @@ import type { StudioHomepageWorkContent } from "@/components/studio/studio-homep
 import { StudioCaseStudyMockCard } from "@/components/studio/studio-case-study-mock-card";
 import {
   getStudioCaseStudyHref,
+  resolveStudioCaseStudyCoverSrc,
   type StudioCaseStudySummary,
 } from "@/components/studio/studio-case-study-content";
 import {
@@ -25,13 +26,6 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
 // Hard-coded image overrides — take priority over whatever Supabase returns so real
 // assets are always shown even when the remote record still points to placeholders.
-const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  bevolve: "/assets/bevolve-ai.svg",
-  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
-  ageshift: "/assets/ageshift/ageshift_cover.png",
-  tvam: "/assets/tvam/tvam3d.gif",
-};
-
 const caseStudyImageClassOverrides: Partial<Record<string, string>> = {
   bevolve: "scale-[1.9] -translate-y-[18%] object-[center_110%]",
 };
@@ -52,11 +46,6 @@ const caseStudyPresentationOverrides: Partial<
 > = {
   bevolve: "fullImage",
   "general-aeronautics": "fullImage",
-  tvam: "fullImage",
-};
-
-const caseStudyAspectRatioOverrides: Partial<Record<string, string>> = {
-  tvam: "1 / 1",
 };
 
 // The case-studies section turns named proof into a scannable homepage evidence block.
@@ -97,7 +86,7 @@ export function StudioCaseStudies({
               {workContent.eyebrow}
             </p>
             <h2 className="text-display-muted-editorial  max-w-5xl text-[var(--neutral-950)]">
-             {workContent.headline}
+              <strong>{workContent.headline}</strong>
             </h2>
             <p className="text-hero-support max-w-6xl">
               {workContent.supportPrefix}{" "}
@@ -120,8 +109,7 @@ export function StudioCaseStudies({
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[caseStudy.id] ??
-                    caseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(caseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={
@@ -132,7 +120,7 @@ export function StudioCaseStudies({
                     caseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[caseStudy.id]
                   }
-                  imageAspectRatio={caseStudyAspectRatioOverrides[caseStudy.id] ?? caseStudy.mockImageAspectRatio}
+                  imageAspectRatio={caseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[caseStudy.id] ??
                     caseStudy.mockImageClassName
@@ -162,8 +150,7 @@ export function StudioCaseStudies({
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[caseStudy.id] ??
-                    caseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(caseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={
@@ -174,7 +161,7 @@ export function StudioCaseStudies({
                     caseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[caseStudy.id]
                   }
-                  imageAspectRatio={caseStudyAspectRatioOverrides[caseStudy.id] ?? caseStudy.mockImageAspectRatio}
+                  imageAspectRatio={caseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[caseStudy.id] ??
                     caseStudy.mockImageClassName
@@ -203,8 +190,7 @@ export function StudioCaseStudies({
                   summary={spotlightCaseStudy.summary}
                   services={spotlightCaseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[spotlightCaseStudy.id] ??
-                    spotlightCaseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(spotlightCaseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={
@@ -215,7 +201,7 @@ export function StudioCaseStudies({
                     spotlightCaseStudy.mockVideoSrc ??
                     caseStudyVideoOverrides[spotlightCaseStudy.id]
                   }
-                  imageAspectRatio={caseStudyAspectRatioOverrides[spotlightCaseStudy.id] ?? spotlightCaseStudy.mockImageAspectRatio}
+                  imageAspectRatio={spotlightCaseStudy.mockImageAspectRatio}
                   imageClassName={
                     caseStudyImageClassOverrides[spotlightCaseStudy.id] ??
                     spotlightCaseStudy.mockImageClassName

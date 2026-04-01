@@ -71,7 +71,9 @@ const mockCardLayoutStyles: Record<
   // Mobile stacks naturally for better density, while desktop restores the editorial equal-height composition.
   feature: {
     bodyClassName: "gap-4 md:gap-6",
-    footerClassName: "max-w-none md:max-w-[30rem]",
+    // A shared desktop tag lane keeps three proof chips wrapping into two rows
+    // consistently across portrait and landscape homepage cards.
+    footerClassName: "max-w-none md:max-w-[28rem]",
     imageClassName: "h-[20rem] sm:h-[22rem] lg:h-[24rem]",
     // The mock stage gets a smaller mobile min-height so the image sits closer to the copy.
     imageStageClassName:
@@ -79,13 +81,13 @@ const mockCardLayoutStyles: Record<
     // Mobile keeps the media group in normal flow; desktop pushes it down to preserve the premium editorial rhythm.
     mediaGroupClassName: "space-y-4 md:mt-auto md:space-y-5",
     // Mobile uses natural height to avoid dead space, while desktop restores equal card heights for balanced rows.
-    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[720px] md:p-6 lg:p-7",
+    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[640px] md:p-6 lg:p-7",
     summaryClassName: "max-w-[34ch] text-body-sm text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-md text-foreground",
   },
   compact: {
     bodyClassName: "gap-3 md:gap-4",
-    footerClassName: "max-w-none",
+    footerClassName: "max-w-none md:max-w-[24rem]",
     imageClassName: "h-[11rem] sm:h-[12rem]",
     imageStageClassName:
       "min-h-[180px] px-1 pb-1 pt-1 sm:min-h-[220px] sm:px-2 sm:pt-2 md:min-h-[250px] md:px-2 md:pt-4 lg:px-3",
@@ -97,12 +99,12 @@ const mockCardLayoutStyles: Record<
   },
   wide: {
     bodyClassName: "gap-4 md:gap-5",
-    footerClassName: "max-w-none md:max-w-[34rem]",
+    footerClassName: "max-w-none md:max-w-[28rem]",
     imageClassName: "h-[14rem] sm:h-[15rem] lg:h-[16rem]",
     imageStageClassName:
       "min-h-[220px] px-1 pb-1 pt-1 sm:min-h-[260px] sm:px-3 sm:pt-2 md:min-h-[320px] md:pb-1 md:pt-5 lg:px-5",
     mediaGroupClassName: "space-y-4 md:mt-auto md:space-y-5",
-    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[560px] md:p-6 lg:p-7",
+    shellClassName: "h-auto px-5 py-5 sm:p-5 md:h-[640px] md:p-6 lg:p-7",
     summaryClassName:
       "max-w-[56ch] text-body-sm leading-6 text-[var(--color-text-secondary)]",
     titleClassName: "text-heading-md text-foreground",
@@ -127,9 +129,9 @@ const mockViewportStyles: Record<
 };
 
 const fullSpanShellOverrides: Record<StudioCaseStudyMockCardLayout, string> = {
-  feature: "md:h-auto md:min-h-[36rem] lg:min-h-[38rem]",
+  feature: "md:h-auto md:min-h-[40rem] lg:min-h-[40rem]",
   compact: "md:h-auto md:min-h-[30rem]",
-  wide: "md:h-auto md:min-h-[34rem] lg:min-h-[36rem]",
+  wide: "md:h-auto md:min-h-[40rem] lg:min-h-[40rem]",
 };
 
 const fullSpanImageStageOverrides: Record<StudioCaseStudyMockCardLayout, string> = {
@@ -341,7 +343,7 @@ export function StudioCaseStudyMockCard({
                     : { transformStyle: "preserve-3d", transform }
                 }
                 className={cn(
-                  "relative max-w-[560px] scale-[0.75]",
+                  "relative max-w-[560px] scale-[0.8]",
                   span === "full" && "max-w-[680px]",
                 )}
               >

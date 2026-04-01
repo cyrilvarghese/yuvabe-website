@@ -20,6 +20,15 @@ type StudioCaseStudiesProps = {
   workContent: StudioHomepageWorkContent;
 };
 
+// Hard-coded logo sources keyed by case study ID.
+const caseStudyLogoMap: Partial<Record<string, string>> = {
+  "general-aeronautics": "/logos/general-aeronautics.svg",
+  bevolve: "/logos/bevolve-ai.svg",
+  tvam: "/logos/tvam.svg",
+  kittykat: "/logos/kittykat.svg",
+  ageshift: "/logos/ageshift.svg",
+};
+
 // Hard-coded video sources keyed by case study ID — ensures the video shows even when
 // the Supabase record predates the mockVideoSrc field being added.
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
@@ -86,7 +95,7 @@ export function StudioCaseStudies({
               {workContent.eyebrow}
             </p>
             <h2 className="text-display-muted-editorial  max-w-5xl text-[var(--neutral-950)]">
-              <strong>{workContent.headline}</strong>
+             {workContent.headline}
             </h2>
             <p className="text-hero-support max-w-6xl">
               {workContent.supportPrefix}{" "}
@@ -104,6 +113,7 @@ export function StudioCaseStudies({
               {featuredCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}
+                  logoSrc={caseStudyLogoMap[caseStudy.id]}
                   sector={caseStudy.sector}
                   title={caseStudy.title}
                   summary={caseStudy.summary}
@@ -145,6 +155,7 @@ export function StudioCaseStudies({
               {secondaryCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}
+                  logoSrc={caseStudyLogoMap[caseStudy.id]}
                   sector={caseStudy.sector}
                   title={caseStudy.title}
                   summary={caseStudy.summary}
@@ -185,6 +196,7 @@ export function StudioCaseStudies({
             {spotlightCaseStudy ? (
               <div className="grid gap-6">
                 <StudioCaseStudyMockCard
+                  logoSrc={caseStudyLogoMap[spotlightCaseStudy.id]}
                   sector={spotlightCaseStudy.sector}
                   title={spotlightCaseStudy.title}
                   summary={spotlightCaseStudy.summary}

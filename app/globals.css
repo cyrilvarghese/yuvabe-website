@@ -605,7 +605,7 @@ h2 {
 /* This hero support utility preserves the original responsive subtext scale in the shared DS layer. */
 .text-hero-support {
   font-family: var(--font-body-family);
-  font-size: clamp(1.45rem, 2.4vw, 2.7rem);
+  font-size: clamp(1.45rem, 2.0vw, 2.7rem);
   font-weight: 400;
   line-height: 1.08;
   letter-spacing: -0.045em;
@@ -623,10 +623,10 @@ h2 {
 /* This display utility supports editorial secondary statements without dropping to paragraph styling. */
 .text-display-muted-editorial {
   font-family: var(--font-display-family);
-  font-size: clamp(1.45rem, 2.4vw, 2.7rem);
-  font-weight: 600;
+  font-size: 42px; 
+  font-weight: 500;
   line-height: 1.06;
-  letter-spacing: -0.038em;
+  /* letter-spacing: 0.038em; */
   color: var(--color-text-secondary);
 }
 

@@ -160,6 +160,7 @@ export type StudioCaseStudyMockCardProps = {
   services: string[];
   imageSrc: string;
   imageAlt: string;
+  logoSrc?: string;
   videoSrc?: string;
   imageAspectRatio?: string;
   imageClassName?: string;
@@ -181,6 +182,7 @@ export function StudioCaseStudyMockCard({
   imageAspectRatio,
   imageClassName,
   imageSrc,
+  logoSrc,
   videoSrc,
   layout = "feature",
   mockPresentation = "framed",

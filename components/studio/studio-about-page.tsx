@@ -1,4 +1,21 @@
 import Image from "next/image";
+
+function getLogoForClient(client: string): string | undefined {
+  const s = client.toLowerCase();
+  if (s.includes("tvam")) return "/logos/tvam.svg";
+  if (s.includes("bevolve")) return "/logos/bevolve-ai.svg";
+  if (s.includes("kittykat") || s.includes("kitty kat")) return "/logos/kittykat.svg";
+  if (s.includes("quilt")) return "/logos/quilt.ai.svg";
+  if (s.includes("ageshift") || s.includes("age shift")) return "/logos/ageshift.svg";
+  if (s.includes("aeronautics")) return "/logos/general-aeronautics.svg";
+  if (s.includes("maatram")) return "/logos/maatram.svg";
+  if (s.includes("hemplanet")) return "/logos/hemplanet.svg";
+  if (s.includes("matrimandir")) return "/logos/matrimandir.svg";
+  if (s.includes("indic")) return "/logos/indic.svg";
+  if (s.includes("north south") || s.includes("nsf")) return "/logos/nsf.svg";
+  if (s.includes("solitude")) return "/logos/solitude-farm.svg";
+  return undefined;
+}
 import Link from "next/link";
 import {
   ArrowRight,
@@ -555,6 +572,15 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
                     .filter(Boolean)
                     .join(" ")}
                 >
+                  {getLogoForClient(entry.client) ? (
+                    <Image
+                      src={getLogoForClient(entry.client)!}
+                      alt={`${entry.client} logo`}
+                      width={200}
+                      height={80}
+                      className="h-14 w-auto max-w-40 object-contain object-left opacity-80"
+                    />
+                  ) : null}
                   <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
                     {entry.sector}
                   </p>

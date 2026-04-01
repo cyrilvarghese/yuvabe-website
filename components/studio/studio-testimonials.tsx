@@ -1,9 +1,28 @@
+import Image from "next/image";
+
 import type { StudioHomepageTestimonialsContent } from "@/components/studio/studio-homepage-content";
 import {
   StudioPageContainer,
   StudioPageRails,
 } from "@/components/studio/studio-page-shell";
 import { PremiumSurface } from "@/components/ui/premium-surface";
+
+function getLogoForAttribution(attribution: string): string | undefined {
+  const s = attribution.toLowerCase();
+  if (s.includes("tvam")) return "/logos/tvam.svg";
+  if (s.includes("solitude")) return "/logos/solitude-farm.svg";
+  if (s.includes("matrimandir")) return "/logos/matrimandir.svg";
+  if (s.includes("indic")) return "/logos/indic.svg";
+  if (s.includes("bevolve")) return "/logos/bevolve-ai.svg";
+  if (s.includes("kittykat") || s.includes("kitty kat")) return "/logos/kittykat.svg";
+  if (s.includes("quilt")) return "/logos/quilt.ai.svg";
+  if (s.includes("aeronautics")) return "/logos/general-aeronautics.svg";
+  if (s.includes("ageshift") || s.includes("age shift")) return "/logos/ageshift.svg";
+  if (s.includes("maatram")) return "/logos/maatram.svg";
+  if (s.includes("hemplanet")) return "/logos/hemplanet.svg";
+  if (s.includes("northsouth") || s.includes("north south") || s.includes("nsf")) return "/logos/nsf.svg";
+  return undefined;
+}
 
 type StudioTestimonialsProps = {
   content: StudioHomepageTestimonialsContent;
@@ -33,7 +52,7 @@ export function StudioTestimonials({ content }: StudioTestimonialsProps) {
             {content.eyebrow}
           </p>
           <h2 className="max-w-5xl text-display-muted-editorial text-[var(--neutral-950)]">
-            <strong>{content.headline}</strong>
+            {content.headline}
           </h2>
           <p className="max-w-6xl text-hero-support">
             {content.supportPrefix}{" "}
@@ -68,11 +87,21 @@ export function StudioTestimonials({ content }: StudioTestimonialsProps) {
                     .filter(Boolean)
                     .join(" ")}
                 >
+                  {entry.attribution && getLogoForAttribution(entry.attribution) ? (
+                    <Image
+                      src={getLogoForAttribution(entry.attribution)!}
+                      alt={entry.attribution}
+                      width={200}
+                      height={80}
+                      className="h-20 w-auto max-w-48 object-contain object-left opacity-80"
+                    />
+                  ) : null}
+
                   <p className="max-w-[32rem] text-body-md font-medium italic text-[var(--neutral-700)]">
                     &ldquo;{entry.quote}&rdquo;
                   </p>
 
-                  <div className="space-y-1">
+                  <div className="space-y-2">
                     <h3 className="text-heading-sm text-[var(--neutral-900)]">
                       {entry.name}
                     </h3>

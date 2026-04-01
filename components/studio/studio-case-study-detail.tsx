@@ -5,6 +5,7 @@ import { ArrowUpRight, CheckCircle2, ImageIcon, Sparkles } from "lucide-react";
 import {
   CaseStudyIcon,
   getCaseStudyIcon,
+  resolveStudioCaseStudyCoverSrc,
   resolveStudioCaseStudyDetail,
   type StudioCaseStudySummary,
 } from "@/components/studio/studio-case-study-content";
@@ -15,16 +16,8 @@ import { cn } from "@/lib/utils";
 
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
-const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
-  ageshift: "/assets/ageshift/ageshift_cover.png",
-};
-
-const caseStudyDetailImageOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/cover-detail.jpeg",
-};
-
 const caseStudyDetailImageClassOverrides: Partial<Record<string, string>> = {
+  bevolve: "object-bottom",
   "general-aeronautics": "scale-[1.16] object-[center_18%]",
 };
 
@@ -197,6 +190,15 @@ function getGalleryImageClass(caseStudyId: string) {
   return "object-cover";
 }
 
+// GA's detail cover is a taller environmental mock, so the page rail gives it extra vertical room.
+function getCaseBreakdownMediaHeightClass(caseStudyId: string) {
+  if (caseStudyId === "general-aeronautics") {
+    return "min-h-80 sm:min-h-[34rem] lg:min-h-[50rem]";
+  }
+
+  return "min-h-72 sm:min-h-96 lg:min-h-[42rem]";
+}
+
 type StudioCaseStudyHeroMedia = {
   visualSrc?: string;
   videoSrc?: string;
@@ -208,11 +210,7 @@ export function resolveStudioCaseStudyHeroMedia(
   caseStudy: StudioCaseStudySummary,
 ): StudioCaseStudyHeroMedia {
   return {
-    visualSrc:
-      caseStudy.detailImageSrc ??
-      caseStudyDetailImageOverrides[caseStudy.id] ??
-      caseStudyImageOverrides[caseStudy.id] ??
-      caseStudy.mockImageSrc,
+    visualSrc: resolveStudioCaseStudyCoverSrc(caseStudy, "summary"),
     videoSrc: caseStudy.mockVideoSrc ?? caseStudyVideoOverrides[caseStudy.id],
     imageClassName: caseStudyDetailImageClassOverrides[caseStudy.id],
   };
@@ -232,9 +230,10 @@ export function StudioCaseStudyDetail({
     caseStudyGalleryImageLibrary.bevolve;
   const isModal = variant === "modal";
   const heroMedia = resolveStudioCaseStudyHeroMedia(caseStudy);
-  const detailVisualSrc = heroMedia.visualSrc;
+  const summaryVisualSrc = heroMedia.visualSrc;
   const detailVideoSrc = heroMedia.videoSrc;
   const detailImageClassName = heroMedia.imageClassName;
+  const detailCoverVisualSrc = resolveStudioCaseStudyCoverSrc(caseStudy, "detail");
   const caseBreakdownSections =
     shouldUseLocalCaseBreakdownOverrides
       ? caseStudyBreakdownSectionOverrides[caseStudy.id] ?? detail.sections
@@ -328,9 +327,9 @@ export function StudioCaseStudyDetail({
                   playsInline
                   className="absolute inset-0 h-full w-full object-cover"
                 />
-              ) : detailVisualSrc ? (
+              ) : summaryVisualSrc ? (
                 <Image
-                  src={detailVisualSrc}
+                  src={summaryVisualSrc}
                   alt={caseStudy.mockImageAlt ?? caseStudy.title}
                   fill
                   sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"
@@ -375,8 +374,18 @@ export function StudioCaseStudyDetail({
           </div>
         ) : (
           <div className="relative z-10 grid gap-4 border-b border-(--color-border-default)/80 py-8 lg:grid-cols-[minmax(0,1.05fr)_minmax(18rem,0.95fr)]">
-            <div className="min-h-72 overflow-hidden rounded-[1.65rem] bg-white sm:min-h-96 lg:sticky lg:top-6 lg:min-h-[42rem]">
-              <div className="relative flex h-full min-h-[16rem] items-center justify-center overflow-hidden text-(--neutral-700) sm:min-h-[22rem] lg:min-h-[42rem]">
+            <div
+              className={cn(
+                "overflow-hidden rounded-[1.65rem] bg-white lg:sticky lg:top-6",
+                getCaseBreakdownMediaHeightClass(caseStudy.id),
+              )}
+            >
+              <div
+                className={cn(
+                  "relative flex h-full min-h-[16rem] items-center justify-center overflow-hidden text-(--neutral-700)",
+                  getCaseBreakdownMediaHeightClass(caseStudy.id),
+                )}
+              >
                 {detailVideoSrc ? (
                   <video
                     src={detailVideoSrc}
@@ -386,12 +395,15 @@ export function StudioCaseStudyDetail({
                     playsInline
                     className="absolute inset-0 h-full w-full object-cover"
                   />
-                ) : detailVisualSrc ? (
+                ) : detailCoverVisualSrc ? (
                   <Image
-                    src={detailVisualSrc}
+                    src={detailCoverVisualSrc}
                     alt={caseStudy.mockImageAlt ?? caseStudy.title}
                     fill
-                    className="object-cover object-center"
+                    className={cn(
+                      "object-cover object-top",
+                      detailImageClassName,
+                    )}
                     unoptimized={shouldSkipImageOptimization}
                   />
                 ) : (
@@ -436,9 +448,9 @@ export function StudioCaseStudyDetail({
                 playsInline
                 className="absolute inset-0 h-full w-full object-cover"
               />
-            ) : detailVisualSrc ? (
+            ) : summaryVisualSrc ? (
               <Image
-                src={detailVisualSrc}
+                src={summaryVisualSrc}
                 alt={caseStudy.mockImageAlt ?? caseStudy.title}
                 fill
                 sizes="(min-width: 1280px) 70rem, (min-width: 768px) 90vw, 100vw"

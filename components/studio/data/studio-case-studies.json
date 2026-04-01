@@ -16,7 +16,12 @@
     "mockLayout": "wide",
     "mediaIconKey": "layoutGrid",
     "mockImageAlt": "General Aeronautics mobile product mock",
-    "mockImageSrc": "/assets/GA_cover.png",
+    "coverImages": {
+      "card": "/assets/general-aeronautics/cover-home.png",
+      "summary": "/assets/general-aeronautics/cover-summary.jpeg",
+      "detail": "/assets/general-aeronautics/cover-detail.png"
+    },
+    "mockImageSrc": "/assets/general-aeronautics/cover-home.png",
     "mockImageClassName": "scale-[0.82]",
     "mockViewport": "portrait",
     "modalOutcomes": [
@@ -111,7 +116,12 @@
     "mockLayout": "wide",
     "mediaIconKey": "bot",
     "mockImageAlt": "Bevolve.ai product experience mock",
-    "mockImageSrc": "/assets/bevolve/cover.png",
+    "coverImages": {
+      "card": "/assets/bevolve/mock- cover-home.png",
+      "summary": "/assets/bevolve/cover-summary.png",
+      "detail": "/assets/bevolve/cover-detail.png"
+    },
+    "mockImageSrc": "/assets/bevolve/mock- cover-home.png",
     "mockViewport": "landscape",
     "modalOutcomes": [
       "Unified structured and unstructured ESG data into one clearer workflow.",
@@ -210,7 +220,12 @@
     "mockVariant": "aurora",
     "mediaIconKey": "bot",
     "mockImageAlt": "TVAM case study cover",
-    "mockImageSrc": "/assets/tvam/tvam_cover.png",
+    "coverImages": {
+      "card": "/assets/tvam/cover-home.png",
+      "summary": "/assets/tvam/cover-summary.png",
+      "detail": "/assets/tvam/cover-detail.png"
+    },
+    "mockImageSrc": "/assets/tvam/cover-home.png",
     "mockViewport": "landscape",
     "mockPresentation": "fullImage",
     "modalOutcomes": [
@@ -305,7 +320,12 @@
     "mockVariant": "sunrise",
     "mediaIconKey": "sparkles",
     "mockImageAlt": "KittyKat AI fashion workflow cover",
-    "mockImageSrc": "/assets/KK/Cover.png",
+    "coverImages": {
+      "card": "/assets/KK/Cover-home.png",
+      "summary": "/assets/KK/Cover-summary.png",
+      "detail": "/assets/KK/mock-detail.png"
+    },
+    "mockImageSrc": "/assets/KK/Cover-home.png",
     "mockViewport": "landscape",
     "modalOutcomes": [
       "Built a generative AI fashion platform that automated product-to-model image generation.",
@@ -398,7 +418,12 @@
     "mockVariant": "prism",
     "mediaIconKey": "barChart3",
     "mockImageAlt": "AgeShift logo",
-    "mockImageSrc": "/assets/ageShift_logo.svg",
+    "coverImages": {
+      "card": "/assets/ageshift/ageshift_cover.png",
+      "summary": "/assets/ageshift/ageshift_cover.png",
+      "detail": "/assets/ageshift/ageshift_cover.png"
+    },
+    "mockImageSrc": "/assets/ageshift/ageshift_cover.png",
     "mockViewport": "landscape",
     "modalOutcomes": [
       "Built a Flutter mobile app, FastAPI backend, and Next.js admin panel on Google Cloud Platform.",

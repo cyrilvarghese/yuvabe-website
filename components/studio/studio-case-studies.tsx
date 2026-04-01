@@ -6,6 +6,7 @@ import type { StudioHomepageWorkContent } from "@/components/studio/studio-homep
 import { StudioCaseStudyMockCard } from "@/components/studio/studio-case-study-mock-card";
 import {
   getStudioCaseStudyHref,
+  resolveStudioCaseStudyCoverSrc,
   type StudioCaseStudySummary,
 } from "@/components/studio/studio-case-study-content";
 import {
@@ -25,13 +26,6 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
 // Hard-coded image overrides — take priority over whatever Supabase returns so real
 // assets are always shown even when the remote record still points to placeholders.
-const caseStudyImageOverrides: Partial<Record<string, string>> = {
-  bevolve: "/assets/bevolve-ai.svg",
-  "general-aeronautics": "/assets/general-aeronautics/cover-home.png",
-  kittykat: "/assets/KK/Cover-home.png",
-  ageshift: "/assets/ageshift/ageshift_cover.png",
-};
-
 const caseStudyImageClassOverrides: Partial<Record<string, string>> = {
   bevolve: "scale-[1.9] -translate-y-[18%] object-[center_110%]",
 };
@@ -115,8 +109,7 @@ export function StudioCaseStudies({
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[caseStudy.id] ??
-                    caseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(caseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={
@@ -157,8 +150,7 @@ export function StudioCaseStudies({
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[caseStudy.id] ??
-                    caseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(caseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={
@@ -198,8 +190,7 @@ export function StudioCaseStudies({
                   summary={spotlightCaseStudy.summary}
                   services={spotlightCaseStudy.services}
                   imageSrc={
-                    caseStudyImageOverrides[spotlightCaseStudy.id] ??
-                    spotlightCaseStudy.mockImageSrc ??
+                    resolveStudioCaseStudyCoverSrc(spotlightCaseStudy, "card") ??
                     "/assets/GA_cover.png"
                   }
                   imageAlt={

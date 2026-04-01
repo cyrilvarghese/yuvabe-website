@@ -59,6 +59,12 @@ export type StudioCaseStudyTestimonial = {
   ctaHref?: string;
 };
 
+export type StudioCaseStudyCoverImages = {
+  card?: string;
+  summary?: string;
+  detail?: string;
+};
+
 export type StudioCaseStudySummary = {
   id: StudioCaseStudyId;
   sector: string;
@@ -70,6 +76,7 @@ export type StudioCaseStudySummary = {
   mockImageSrc?: string;
   mockVideoSrc?: string;
   mockImageAlt?: string;
+  coverImages?: StudioCaseStudyCoverImages;
   heroImageSrc?: string;
   detailImageSrc?: string;
   mockVariant?: StudioCaseStudyMockVariant;
@@ -152,6 +159,40 @@ export function getCaseStudyIcon(
   iconKey: StudioCaseStudyIconKey = "sparkles",
 ) {
   return caseStudyIcons[iconKey];
+}
+
+export type StudioCaseStudyCoverSlot = keyof StudioCaseStudyCoverImages;
+
+// Preferred asset suffixes per case study are `cover-card`, `cover-summary`, and `cover-detail`.
+// The cover resolver makes the homepage card, summary modal, and detail page read from one explicit image contract.
+export function resolveStudioCaseStudyCoverSrc(
+  caseStudy: StudioCaseStudySummary,
+  slot: StudioCaseStudyCoverSlot,
+) {
+  const covers = caseStudy.coverImages;
+
+  switch (slot) {
+    case "card":
+      return covers?.card ?? caseStudy.heroImageSrc ?? caseStudy.mockImageSrc;
+    case "summary":
+      return (
+        covers?.summary ??
+        covers?.card ??
+        caseStudy.heroImageSrc ??
+        caseStudy.mockImageSrc
+      );
+    case "detail":
+      return (
+        covers?.detail ??
+        caseStudy.detailImageSrc ??
+        covers?.summary ??
+        covers?.card ??
+        caseStudy.heroImageSrc ??
+        caseStudy.mockImageSrc
+      );
+    default:
+      return caseStudy.mockImageSrc;
+  }
 }
 
 // This helper keeps case-study presentation overrides shared between the modal summary and the full detail route.

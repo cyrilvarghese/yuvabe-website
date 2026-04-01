@@ -13,6 +13,7 @@ import {
 import {
   applyStudioCaseStudyDisplayOverrides,
   getStudioCaseStudyHref,
+  resolveStudioCaseStudyCoverSrc,
   resolveStudioCaseStudyDetail,
 } from "@/components/studio/studio-case-study-content";
 import { getAbsoluteUrl } from "@/lib/site";
@@ -43,9 +44,8 @@ export async function generateMetadata({
 
   const detail = resolveStudioCaseStudyDetail(caseStudy);
   const href = getStudioCaseStudyHref(caseStudy.id);
-  const image = caseStudy.mockImageSrc
-    ? getAbsoluteUrl(caseStudy.mockImageSrc)
-    : undefined;
+  const imageSrc = resolveStudioCaseStudyCoverSrc(caseStudy, "summary");
+  const image = imageSrc ? getAbsoluteUrl(imageSrc) : undefined;
 
   return {
     title: detail.seoTitle,
@@ -90,6 +90,10 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   const displayCaseStudy = applyStudioCaseStudyDisplayOverrides(caseStudy);
   const detail = resolveStudioCaseStudyDetail(caseStudy);
   const href = getStudioCaseStudyHref(caseStudy.id);
+  const structuredDataImageSrc = resolveStudioCaseStudyCoverSrc(caseStudy, "summary");
+  const structuredDataImage = structuredDataImageSrc
+    ? getAbsoluteUrl(structuredDataImageSrc)
+    : undefined;
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "Article",
@@ -98,7 +102,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
     articleSection: caseStudy.sector,
     keywords: caseStudy.services.join(", "),
     mainEntityOfPage: getAbsoluteUrl(href),
-    image: caseStudy.mockImageSrc ? [getAbsoluteUrl(caseStudy.mockImageSrc)] : undefined,
+    image: structuredDataImage ? [structuredDataImage] : undefined,
     author: {
       "@type": "Organization",
       name: "Yuvabe Studios",

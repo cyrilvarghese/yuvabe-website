@@ -445,10 +445,13 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_14%_50%,rgba(255,202,45,0.24)_0%,rgba(249,169,31,0.12)_18%,rgba(255,255,255,0)_46%),linear-gradient(90deg,rgba(255,249,236,0.52)_0%,rgba(255,246,228,0.34)_18%,rgba(255,255,255,0)_58%)] blur-2xl" />
             </div>
             <div className="relative max-w-[44rem] space-y-3">
-              <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--neutral-700)]">
-                What we care about now
-              </p>
-              <p className="max-w-[40rem] text-body-lg text-[var(--color-text-primary)]">
+              <div className="space-y-3">
+                <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-brand)]">
+                  What we care about now
+                </p>
+                <div className="h-px w-24 bg-[linear-gradient(90deg,var(--lavender-500),rgba(203,195,223,0))]" />
+              </div>
+              <p className="max-w-[40rem] text-body-lg font-medium text-[var(--neutral-950)]">
                 {content.paragraphs[2]}
               </p>
             </div>

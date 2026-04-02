@@ -17,11 +17,11 @@
     "mediaIconKey": "layoutGrid",
     "mockImageAlt": "General Aeronautics mobile product mock",
     "coverImages": {
-      "card": "/assets/general-aeronautics/cover-home.png",
+      "card": "/assets/general-aeronautics/cover-mock.png",
       "summary": "/assets/general-aeronautics/cover-summary.jpeg",
       "detail": "/assets/general-aeronautics/cover-detail.png"
     },
-    "mockImageSrc": "/assets/general-aeronautics/cover-home.png",
+    "mockImageSrc": "/assets/general-aeronautics/cover-mock.png",
     "mockImageClassName": "scale-[0.82]",
     "mockViewport": "portrait",
     "modalOutcomes": [
@@ -117,11 +117,11 @@
     "mediaIconKey": "bot",
     "mockImageAlt": "Bevolve.ai product experience mock",
     "coverImages": {
-      "card": "/assets/bevolve/cover-home.png",
+      "card": "/assets/bevolve/cover-mock.png",
       "summary": "/assets/bevolve/cover-summary.png",
       "detail": "/assets/bevolve/cover-detail.png"
     },
-    "mockImageSrc": "/assets/bevolve/cover-home.png",
+    "mockImageSrc": "/assets/bevolve/cover-mock.png",
     "mockViewport": "landscape",
     "modalOutcomes": [
       "Unified structured and unstructured ESG data into one clearer workflow.",
@@ -221,11 +221,11 @@
     "mediaIconKey": "bot",
     "mockImageAlt": "TVAM case study cover",
     "coverImages": {
-      "card": "/assets/tvam/cover-home.png",
+      "card": "/assets/tvam/cover-mock.png",
       "detail": "/assets/tvam/cover-detail.png",
       "summary": "/assets/tvam/cover-summary.png"
     },
-    "mockImageSrc": "/assets/tvam/cover-home.png",
+    "mockImageSrc": "/assets/tvam/cover-mock.png",
     "mockViewport": "landscape",
     "mockPresentation": "fullImage",
     "modalOutcomes": [
@@ -325,11 +325,11 @@
     "mediaIconKey": "sparkles",
     "mockImageAlt": "KittyKat AI fashion workflow cover",
     "coverImages": {
-      "card": "/assets/KK/Cover-home.png",
+      "card": "/assets/KK/cover-mock.png",
       "summary": "/assets/KK/Cover-summary.png",
       "detail": "/assets/KK/mock-detail.png"
     },
-    "mockImageSrc": "/assets/KK/Cover-home.png",
+    "mockImageSrc": "/assets/KK/cover-mock.png",
     "mockViewport": "landscape",
     "modalOutcomes": [
       "Built a generative AI fashion platform that automated product-to-model image generation.",

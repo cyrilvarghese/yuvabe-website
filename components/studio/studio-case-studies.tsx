@@ -6,6 +6,7 @@ import type { StudioHomepageWorkContent } from "@/components/studio/studio-homep
 import {
   StudioCaseStudyMockCard,
   type StudioCaseStudyGradientPlacement,
+  type StudioCaseStudyMockPresentation,
 } from "@/components/studio/studio-case-study-mock-card";
 import {
   getStudioCaseStudyHref,
@@ -30,15 +31,6 @@ const homepageCaseStudyOrder = [
   "tvam",
 ] as const;
 
-// Hard-coded logo sources keyed by case study ID.
-const caseStudyLogoMap: Partial<Record<string, string>> = {
-  "general-aeronautics": "/assets/general-aeronautics/logo.svg",
-  bevolve: "/assets/bevolve/logo.svg",
-  tvam: "/assets/tvam/logo.svg",
-  kittykat: "/assets/KK/logo.svg",
-  ageshift: "/assets/ageshift/logo.svg",
-};
-
 // Hard-coded video sources keyed by case study ID — ensures the video shows even when
 // the Supabase record predates the mockVideoSrc field being added.
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
@@ -46,6 +38,7 @@ const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 // Hard-coded viewport overrides — switches portrait phone frames to landscape where the
 // cover image is a wide/landscape asset and needs a wider container for full visibility.
 const homepageCaseStudyViewport = "landscape" as const;
+const homepageCaseStudyPresentation: StudioCaseStudyMockPresentation = "framed";
 
 const homepageCaseStudyGradientMap: Record<string, StudioCaseStudyGradientPlacement> = {
   "general-aeronautics": "sunriseLeft",
@@ -116,14 +109,13 @@ export function StudioCaseStudies({
               {homepageCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard
                   key={caseStudy.id}
-                  logoSrc={caseStudyLogoMap[caseStudy.id]}
                   sector={caseStudy.sector}
                   title={caseStudy.title}
                   summary={caseStudy.summary}
                   services={caseStudy.services}
                   imageSrc={
                     resolveStudioCaseStudyCoverSrc(caseStudy, "card") ??
-                    "/assets/GA_cover.png"
+                    "/assets/general-aeronautics/cover-mock.png"
                   }
                   imageAlt={
                     caseStudy.mockImageAlt ??
@@ -134,9 +126,10 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[caseStudy.id]
                   }
                   imageAspectRatio={caseStudy.mockImageAspectRatio}
-                  imageClassName={caseStudy.mockImageClassName}
+                  imageClassName="!rounded-none"
+                  mediaShellClassName="rounded-none"
                   mockViewport={homepageCaseStudyViewport}
-                  mockPresentation={caseStudy.mockPresentation}
+                  mockPresentation={homepageCaseStudyPresentation}
                   variant={caseStudy.mockVariant}
                   gradientPlacement={homepageCaseStudyGradientMap[caseStudy.id]}
                   layout={caseStudy.mockLayout}

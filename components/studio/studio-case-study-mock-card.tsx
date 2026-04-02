@@ -125,8 +125,7 @@ const mockViewportStyles: Record<
     imageClassName: "object-cover object-center",
   },
   landscape: {
-    frameClassName:
-      "h-[210px] w-[300px] sm:h-[240px] sm:w-[360px] lg:h-[280px] lg:w-[440px]",
+    frameClassName: "aspect-[16/9] w-[300px] sm:w-[360px] lg:w-[440px]",
     imageClassName: "object-cover object-center",
   },
 };
@@ -145,7 +144,7 @@ const fullSpanImageStageOverrides: Record<StudioCaseStudyMockCardLayout, string>
 
 const fullSpanViewportOverrides: Record<StudioCaseStudyMockViewport, string> = {
   portrait: "md:h-[400px] md:w-[250px] lg:h-[440px] lg:w-[275px]",
-  landscape: "md:h-[260px] md:w-[420px] lg:h-[320px] lg:w-[540px]",
+  landscape: "md:w-[420px] lg:w-[540px]",
 };
 
 const mockCardGradientPlacements: Record<
@@ -295,7 +294,7 @@ export function StudioCaseStudyMockCard({
   const shouldUseLogoPanel = Boolean(logoSrc);
   const shouldUseFramedStage = shouldUseLogoPanel || !isFullImagePresentation;
   const fullImageAspectRatio =
-    imageAspectRatio ?? (mockViewport === "portrait" ? "1310 / 2708" : "16 / 10");
+    imageAspectRatio ?? (mockViewport === "portrait" ? "1310 / 2708" : "16 / 9");
   const serviceTags = services.map(normalizeServiceLabel);
   const canOpenDetails = Boolean(onOpenDetails);
 
@@ -458,8 +457,8 @@ export function StudioCaseStudyMockCard({
                     "relative overflow-hidden",
                     shouldUseFramedStage
                       ? [
-                        "rounded-[1.6rem]",
-                        "border border-white/88 shadow-[0_14px_30px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.72)]",
+                        "rounded-[8px]",
+                        "border border-black/12 shadow-[0_1px_1px_rgba(15,23,42,0.12),0_10px_24px_rgba(15,23,42,0.1),inset_0_1px_0_rgba(255,255,255,0.55)]",
                         viewportStyles.frameClassName,
                         span === "full" && fullSpanViewportOverrides[mockViewport],
                       ]
@@ -507,12 +506,13 @@ export function StudioCaseStudyMockCard({
                     <>
                       {/* The media wrapper carries the visible mock perimeter so bright covers still read as framed objects over the premium gradient shell. */}
                       {/* The optional inner media shell makes contained covers feel intentional without changing the outer card framing contract. */}
-                      <div
-                        className={cn(
-                          "relative h-full w-full",
-                          mediaShellClassName,
-                        )}
-                      >
+                      <div className="h-full w-full bg-white p-2 sm:p-2.5">
+                        <div
+                          className={cn(
+                            "relative h-full w-full overflow-hidden",
+                            mediaShellClassName,
+                          )}
+                        >
                         {videoSrc ? (
                           <video
                             src={videoSrc}
@@ -554,6 +554,7 @@ export function StudioCaseStudyMockCard({
                             unoptimized={shouldSkipImageOptimization}
                           />
                         )}
+                        </div>
                       </div>
                     </>
                   )}

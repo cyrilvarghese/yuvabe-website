@@ -21,10 +21,10 @@ type StudioCaseStudyPageHeroProps = {
 
 const shouldSkipImageOptimization = process.env.NODE_ENV === "development";
 const caseStudyHeroLogoOverrides: Partial<Record<string, string>> = {
-  "general-aeronautics": "/logos/general-aeronautics.svg",
+  "general-aeronautics": "/assets/general-aeronautics/logo.svg",
   bevolve: "/assets/bevolve/logo-no-text.png",
-  kittykat: "/logos/kittykat.svg",
-  tvam: "/logos/tvam.svg",
+  kittykat: "/assets/KK/logo.svg",
+  tvam: "/assets/tvam/logo.svg",
 };
 
 // Some case-study logos need a larger hero presence while keeping their intrinsic proportions intact.

@@ -4,16 +4,16 @@ import {
 } from "@/components/studio/studio-page-shell";
 
 const companyLogos = [
-  { name: "Ageshift", src: "/logos/ageshift.svg" },
+  { name: "Ageshift", src: "/assets/ageshift/logo.svg" },
   { name: "AV Marathon", src: "/logos/av-marathon.svg" },
-  { name: "Bevolve AI", src: "/logos/bevolve-ai.svg" },
+  { name: "Bevolve AI", src: "/assets/bevolve/logo.svg" },
   { name: "BMH", src: "/logos/bmh.svg" },
   { name: "Buglerock", src: "/logos/buglerock.svg" },
   { name: "CAT", src: "/logos/cat.svg" },
-  { name: "General Aeronautics", src: "/logos/general-aeronautics.svg" },
+  { name: "General Aeronautics", src: "/assets/general-aeronautics/logo.svg" },
   { name: "Hemplanet", src: "/logos/hemplanet.svg" },
   { name: "Indic", src: "/logos/indic.svg" },
-  { name: "Kittykat", src: "/logos/kittykat.svg" },
+  { name: "Kittykat", src: "/assets/KK/logo.svg" },
   { name: "Maatram", src: "/logos/maatram.svg" },
   { name: "Matrimandir", src: "/logos/matrimandir.svg" },
   { name: "NSF", src: "/logos/nsf.svg" },
@@ -23,7 +23,7 @@ const companyLogos = [
   { name: "Shraddha Yoga", src: "/logos/shraddha-yoga.svg" },
   { name: "Solitude Farm", src: "/logos/solitude-farm.svg" },
   { name: "Startup-O", src: "/logos/startup-o.svg" },
-  { name: "Tvam", src: "/logos/tvam.svg" },
+  { name: "Tvam", src: "/assets/tvam/logo.svg" },
 ];
 
 // The frame guides keep the hero background and strip edges aligned to the same centered rail.

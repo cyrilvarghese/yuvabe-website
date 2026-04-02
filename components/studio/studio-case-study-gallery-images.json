@@ -4,25 +4,25 @@
     "itemImages": {
       "Drone system visual": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock1.png",
+          "src": "/assets/general-aeronautics/mock1.png",
           "alt": "General Aeronautics mission planning schedule mock."
         }
       ],
       "Flight dashboard view": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock3.png",
+          "src": "/assets/general-aeronautics/mock3.png",
           "alt": "General Aeronautics flight path setup view."
         }
       ],
       "Ops planner surface": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock13.png",
+          "src": "/assets/general-aeronautics/mock13.png",
           "alt": "General Aeronautics operations planner surface."
         }
       ],
       "Mission planning mock": [
         {
-          "src": "/assets/general-aeronautics/details-mocks/mock5.png",
+          "src": "/assets/general-aeronautics/mock5.png",
           "alt": "General Aeronautics mission planning workstation mock."
         }
       ]

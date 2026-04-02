@@ -20,58 +20,53 @@ type StudioCaseStudiesProps = {
   workContent: StudioHomepageWorkContent;
 };
 
+const homepageCaseStudyOrder = [
+  "general-aeronautics",
+  "bevolve",
+  "kittykat",
+  "tvam",
+  "ageshift",
+] as const;
+
 // Hard-coded logo sources keyed by case study ID.
 const caseStudyLogoMap: Partial<Record<string, string>> = {
-  "general-aeronautics": "/logos/general-aeronautics.svg",
-  bevolve: "/logos/bevolve-ai.svg",
-  tvam: "/logos/tvam.svg",
-  kittykat: "/logos/kittykat.svg",
-  ageshift: "/logos/ageshift.svg",
+  "general-aeronautics": "/assets/general-aeronautics/logo.svg",
+  bevolve: "/assets/bevolve/logo.svg",
+  tvam: "/assets/tvam/logo.svg",
+  kittykat: "/assets/KK/logo.svg",
+  ageshift: "/assets/ageshift/logo.svg",
 };
 
 // Hard-coded video sources keyed by case study ID — ensures the video shows even when
 // the Supabase record predates the mockVideoSrc field being added.
 const caseStudyVideoOverrides: Partial<Record<string, string>> = {};
 
-// Hard-coded image overrides stay reserved for covers that still need manual art-direction fixes.
-const caseStudyImageClassOverrides: Partial<Record<string, string>> = {
-  bevolve: "object-contain object-center",
-};
-
-// Some contained covers need an inner shell so the rounded stage still reads clearly when the artwork no longer fills the full frame.
-const caseStudyMediaShellClassOverrides: Partial<Record<string, string>> = {
-  bevolve:
-    "rounded-[1.55rem] bg-white/72 p-3 shadow-[inset_0_1px_0_rgba(255,255,255,0.45)] sm:p-4 lg:p-5",
-};
-
-
 // Hard-coded viewport overrides — switches portrait phone frames to landscape where the
 // cover image is a wide/landscape asset and needs a wider container for full visibility.
 const caseStudyViewportOverrides: Partial<
   Record<string, "portrait" | "landscape">
 > = {
+  bevolve: "landscape",
   "general-aeronautics": "landscape",
 };
 
 // Hard-coded presentation overrides — "fullImage" removes the phone frame and shows the
 // image directly at the correct aspect ratio so wide covers aren't cropped into a frame.
-const caseStudyPresentationOverrides: Partial<
-  Record<string, "framed" | "fullImage">
-> = {
-  "general-aeronautics": "fullImage",
-};
 
 // The case-studies section turns named proof into a scannable homepage evidence block.
 export function StudioCaseStudies({
   caseStudies,
   workContent,
 }: StudioCaseStudiesProps) {
+  const orderedCaseStudies = homepageCaseStudyOrder
+    .map((id) => caseStudies.find((caseStudy) => caseStudy.id === id))
+    .filter((caseStudy): caseStudy is StudioCaseStudySummary => Boolean(caseStudy));
   const [activeCaseStudy, setActiveCaseStudy] =
     useState<StudioCaseStudySummary | null>(null);
   const [isCaseStudyDialogOpen, setIsCaseStudyDialogOpen] = useState(false);
-  const featuredCaseStudies = caseStudies.slice(0, 2);
-  const secondaryCaseStudies = caseStudies.slice(2, 4);
-  const spotlightCaseStudy = caseStudies[4];
+  const featuredCaseStudies = orderedCaseStudies.slice(0, 2);
+  const secondaryCaseStudies = orderedCaseStudies.slice(2, 4);
+  const spotlightCaseStudy = orderedCaseStudies[4];
 
   // Keeping the selected study in parent state lets the modal animate out before content is cleared.
   function handleOpenCaseStudy(caseStudy: StudioCaseStudySummary) {
@@ -138,21 +133,12 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[caseStudy.id]
                   }
                   imageAspectRatio={caseStudy.mockImageAspectRatio}
-                  imageClassName={
-                    caseStudyImageClassOverrides[caseStudy.id] ??
-                    caseStudy.mockImageClassName
-                  }
-                  mediaShellClassName={
-                    caseStudyMediaShellClassOverrides[caseStudy.id]
-                  }
+                  imageClassName={caseStudy.mockImageClassName}
                   mockViewport={
                     caseStudyViewportOverrides[caseStudy.id] ??
                     caseStudy.mockViewport
                   }
-                  mockPresentation={
-                    caseStudyPresentationOverrides[caseStudy.id] ??
-                    caseStudy.mockPresentation
-                  }
+                  mockPresentation={caseStudy.mockPresentation}
                   variant={caseStudy.mockVariant}
                   layout={caseStudy.mockLayout}
                   detailHref={getStudioCaseStudyHref(caseStudy.id)}
@@ -183,21 +169,12 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[caseStudy.id]
                   }
                   imageAspectRatio={caseStudy.mockImageAspectRatio}
-                  imageClassName={
-                    caseStudyImageClassOverrides[caseStudy.id] ??
-                    caseStudy.mockImageClassName
-                  }
-                  mediaShellClassName={
-                    caseStudyMediaShellClassOverrides[caseStudy.id]
-                  }
+                  imageClassName={caseStudy.mockImageClassName}
                   mockViewport={
                     caseStudyViewportOverrides[caseStudy.id] ??
                     caseStudy.mockViewport
                   }
-                  mockPresentation={
-                    caseStudyPresentationOverrides[caseStudy.id] ??
-                    caseStudy.mockPresentation
-                  }
+                  mockPresentation={caseStudy.mockPresentation}
                   variant={caseStudy.mockVariant}
                   layout={caseStudy.mockLayout}
                   detailHref={getStudioCaseStudyHref(caseStudy.id)}
@@ -227,21 +204,12 @@ export function StudioCaseStudies({
                     caseStudyVideoOverrides[spotlightCaseStudy.id]
                   }
                   imageAspectRatio={spotlightCaseStudy.mockImageAspectRatio}
-                  imageClassName={
-                    caseStudyImageClassOverrides[spotlightCaseStudy.id] ??
-                    spotlightCaseStudy.mockImageClassName
-                  }
-                  mediaShellClassName={
-                    caseStudyMediaShellClassOverrides[spotlightCaseStudy.id]
-                  }
+                  imageClassName={spotlightCaseStudy.mockImageClassName}
                   mockViewport={
                     caseStudyViewportOverrides[spotlightCaseStudy.id] ??
                     spotlightCaseStudy.mockViewport
                   }
-                  mockPresentation={
-                    caseStudyPresentationOverrides[spotlightCaseStudy.id] ??
-                    spotlightCaseStudy.mockPresentation
-                  }
+                  mockPresentation={spotlightCaseStudy.mockPresentation}
                   variant={spotlightCaseStudy.mockVariant}
                   layout={spotlightCaseStudy.mockLayout}
                   span="full"

@@ -73,6 +73,13 @@ export type StudioCaseStudyHeroPalette = {
   logoLine: string;
 };
 
+export type StudioCaseStudyProofTone =
+  | "tintWarm"
+  | "tintGreen"
+  | "tintLavender"
+  | "tintPurple"
+  | "tintCyan";
+
 export type StudioCaseStudySummary = {
   id: StudioCaseStudyId;
   sector: string;
@@ -156,6 +163,18 @@ const defaultStudioCaseStudyHeroPalette: StudioCaseStudyHeroPalette = {
     "radial-gradient(circle,color-mix(in srgb,var(--purple-500) 16%,white),color-mix(in srgb,var(--lavender-500) 12%,white) 34%,color-mix(in srgb,var(--cyan-500) 8%,white) 56%,rgba(255,255,255,0) 74%)",
   logoLine:
     "linear-gradient(90deg,rgba(255,255,255,0),color-mix(in srgb,var(--lavender-500) 72%,white),color-mix(in srgb,var(--cyan-500) 52%,white),rgba(255,255,255,0))",
+};
+
+const defaultStudioCaseStudyProofTone: StudioCaseStudyProofTone =
+  "tintLavender";
+
+const studioCaseStudyProofToneMap: Record<string, StudioCaseStudyProofTone> = {
+  tvam: "tintWarm",
+  bevolve: "tintGreen",
+  kittykat: "tintLavender",
+  quiltai: "tintPurple",
+  ageshift: "tintCyan",
+  generalaeronautics: "tintGreen",
 };
 
 // Each case study can override the shared hero contract with logo-led colors while still using the same layout and markup.
@@ -248,6 +267,20 @@ export function resolveStudioCaseStudyHeroPalette(
   return (
     studioCaseStudyHeroPalettes[caseStudyId] ??
     defaultStudioCaseStudyHeroPalette
+  );
+}
+
+function normalizeStudioCaseStudyLabel(label: string) {
+  return label.toLowerCase().replace(/[^a-z0-9]+/g, "");
+}
+
+// This proof-tone resolver keeps logo-led About grid accents tied to the shared case-study palette contract.
+export function resolveStudioCaseStudyProofTone(
+  label: string,
+): StudioCaseStudyProofTone {
+  return (
+    studioCaseStudyProofToneMap[normalizeStudioCaseStudyLabel(label)] ??
+    defaultStudioCaseStudyProofTone
   );
 }
 

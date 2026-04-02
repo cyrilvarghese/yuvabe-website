@@ -113,14 +113,6 @@ const defaultTestimonialsContent: StudioHomepageTestimonialsContent = {
   ],
 };
 
-const legacyStudioAssetPathAliases: Record<string, string> = {
-  "/assets/ga-image.png": "/assets/GA_cover.png",
-  "/assets/Bevolve_cover.png": "/assets/bevolve/cover.png",
-  "/assets/bevolve/platform-banner.png": "/assets/bevolve/cover.png",
-  "/assets/tvam/tvam-cover.png": "/assets/tvam_cover.jpeg",
-  "/assets/ageshift/ageshift_cover.png": "/assets/ageShift_logo.svg",
-};
-
 function assertRecord(
   value: unknown,
   label: string,
@@ -143,13 +135,7 @@ function optionalString(value: unknown) {
 }
 
 function resolveStudioAssetPath(value: unknown) {
-  const pathValue = optionalString(value);
-
-  if (!pathValue) {
-    return undefined;
-  }
-
-  return legacyStudioAssetPathAliases[pathValue] ?? pathValue;
+  return optionalString(value);
 }
 
 function normalizeOptionalString(value: unknown) {

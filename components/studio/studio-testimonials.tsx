@@ -9,15 +9,15 @@ import { PremiumSurface } from "@/components/ui/premium-surface";
 
 function getLogoForAttribution(attribution: string): string | undefined {
   const s = attribution.toLowerCase();
-  if (s.includes("tvam")) return "/logos/tvam.svg";
+  if (s.includes("tvam")) return "/assets/tvam/logo.svg";
   if (s.includes("solitude")) return "/logos/solitude-farm.svg";
   if (s.includes("matrimandir")) return "/logos/matrimandir.svg";
   if (s.includes("indic")) return "/logos/indic.svg";
-  if (s.includes("bevolve")) return "/logos/bevolve-ai.svg";
-  if (s.includes("kittykat") || s.includes("kitty kat")) return "/logos/kittykat.svg";
+  if (s.includes("bevolve")) return "/assets/bevolve/logo.svg";
+  if (s.includes("kittykat") || s.includes("kitty kat")) return "/assets/KK/logo.svg";
   if (s.includes("quilt")) return "/logos/quilt.ai.svg";
-  if (s.includes("aeronautics")) return "/logos/general-aeronautics.svg";
-  if (s.includes("ageshift") || s.includes("age shift")) return "/logos/ageshift.svg";
+  if (s.includes("aeronautics")) return "/assets/general-aeronautics/logo.svg";
+  if (s.includes("ageshift") || s.includes("age shift")) return "/assets/ageshift/logo.svg";
   if (s.includes("maatram")) return "/logos/maatram.svg";
   if (s.includes("hemplanet")) return "/logos/hemplanet.svg";
   if (s.includes("northsouth") || s.includes("north south") || s.includes("nsf")) return "/logos/nsf.svg";

@@ -1,21 +1,4 @@
 import Image from "next/image";
-
-function getLogoForClient(client: string): string | undefined {
-  const s = client.toLowerCase();
-  if (s.includes("tvam")) return "/logos/tvam.svg";
-  if (s.includes("bevolve")) return "/logos/bevolve-ai.svg";
-  if (s.includes("kittykat") || s.includes("kitty kat")) return "/logos/kittykat.svg";
-  if (s.includes("quilt")) return "/logos/quilt.ai.svg";
-  if (s.includes("ageshift") || s.includes("age shift")) return "/logos/ageshift.svg";
-  if (s.includes("aeronautics")) return "/logos/general-aeronautics.svg";
-  if (s.includes("maatram")) return "/logos/maatram.svg";
-  if (s.includes("hemplanet")) return "/logos/hemplanet.svg";
-  if (s.includes("matrimandir")) return "/logos/matrimandir.svg";
-  if (s.includes("indic")) return "/logos/indic.svg";
-  if (s.includes("north south") || s.includes("nsf")) return "/logos/nsf.svg";
-  if (s.includes("solitude")) return "/logos/solitude-farm.svg";
-  return undefined;
-}
 import Link from "next/link";
 import {
   ArrowRight,
@@ -35,6 +18,10 @@ import {
   type StudioAboutValuesContent,
   type StudioAboutWorkflowContent,
 } from "@/components/studio/studio-about-content";
+import {
+  resolveStudioCaseStudyProofTone,
+  type StudioCaseStudyProofTone,
+} from "@/components/studio/studio-case-study-content";
 import { StudioCtaCard } from "@/components/studio/studio-cta-card";
 import { StudioHeader } from "@/components/studio/studio-header";
 import {
@@ -97,7 +84,7 @@ const aboutAssets = {
     alt: "A close-up of the Yuvabe mark printed on a grey team shirt.",
   },
   illustration: {
-    src: "/assets/about/yuvabe-illustration.png",
+    src: "/assets/about/yuvabe-illustration.jpg",
     alt: "An illustration of a sprout growing inside a light bulb.",
   },
 } as const;
@@ -127,6 +114,13 @@ const workflowCardStyles = [
       "border-white/80 bg-white/78 text-[var(--green-500)]",
   },
 ] as const;
+const aboutProofToneClassNames = {
+  tintWarm: "ds-proof-cell-wash-warm",
+  tintGreen: "ds-proof-cell-wash-green",
+  tintLavender: "ds-proof-cell-wash-lavender",
+  tintPurple: "ds-proof-cell-wash-purple",
+  tintCyan: "ds-proof-cell-wash-cyan",
+} satisfies Record<StudioCaseStudyProofTone, string>;
 
 function SectionIntro({
   eyebrow,
@@ -571,27 +565,20 @@ function AboutProofSection({ content }: { content: StudioAboutProofContent }) {
               const rowIndex = Math.floor(index / 2);
               const isLeftColumn = index % 2 === 0;
               const hasBottomBorder = rowIndex < totalRows - 1;
+              const proofTone = resolveStudioCaseStudyProofTone(entry.client);
 
               return (
                 <article
                   key={entry.client}
                   className={[
                     "min-h-[15rem] space-y-4 px-6 py-7 md:px-8 md:py-8",
+                    aboutProofToneClassNames[proofTone],
                     hasBottomBorder ? "border-b border-slate-200/80" : "",
                     isLeftColumn ? "lg:border-r lg:border-slate-200/80" : "",
                   ]
                     .filter(Boolean)
                     .join(" ")}
                 >
-                  {getLogoForClient(entry.client) ? (
-                    <Image
-                      src={getLogoForClient(entry.client)!}
-                      alt={`${entry.client} logo`}
-                      width={200}
-                      height={80}
-                      className="h-14 w-auto max-w-40 object-contain object-left opacity-80"
-                    />
-                  ) : null}
                   <p className="text-label-sm uppercase tracking-[0.18em] text-[var(--color-text-tertiary)]">
                     {entry.sector}
                   </p>
@@ -673,13 +660,13 @@ function AboutValuesAndTeamSection({
                           : "sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start",
                       ].join(" ")}
                     >
-                    <div
-                      className={[
-                        usesLargePanel
-                          ? "relative h-[5.6875rem] w-[5.6875rem] self-start"
-                          : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
-                      ].join(" ")}
-                    >
+                      <div
+                        className={[
+                          usesLargePanel
+                            ? "relative h-[5.6875rem] w-[5.6875rem] self-start"
+                            : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
+                        ].join(" ")}
+                      >
                         {valueIconAsset ? (
                           <div
                             className={[

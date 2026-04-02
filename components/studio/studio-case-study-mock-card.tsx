@@ -153,6 +153,19 @@ function normalizeServiceLabel(service: string) {
   return service;
 }
 
+// Logo-led cards share one base stage, with small per-brand scale overrides only when the mark needs optical correction.
+function getLogoPanelImageClass(logoSrc?: string) {
+  if (logoSrc === "/assets/KK/logo.svg") {
+    return "object-contain object-center scale-[0.75]";
+  }
+
+  if (logoSrc === "/assets/tvam/logo.svg") {
+    return "object-contain object-center scale-[1.1]";
+  }
+
+  return "object-contain object-center";
+}
+
 export type StudioCaseStudyMockCardProps = {
   sector: string;
   title: string;
@@ -216,6 +229,8 @@ export function StudioCaseStudyMockCard({
   const layoutStyles = mockCardLayoutStyles[layout];
   const viewportStyles = mockViewportStyles[mockViewport];
   const isFullImagePresentation = mockPresentation === "fullImage";
+  const shouldUseLogoPanel = Boolean(logoSrc);
+  const shouldUseFramedStage = shouldUseLogoPanel || !isFullImagePresentation;
   const fullImageAspectRatio =
     imageAspectRatio ?? (mockViewport === "portrait" ? "1310 / 2708" : "16 / 10");
   const serviceTags = services.map(normalizeServiceLabel);
@@ -331,9 +346,9 @@ export function StudioCaseStudyMockCard({
             <div
               className={cn(
                 "flex items-end justify-center [perspective:1400px]",
-                isFullImagePresentation
-                  ? "min-h-0 px-0 py-0"
-                  : layoutStyles.imageStageClassName,
+                shouldUseFramedStage
+                  ? layoutStyles.imageStageClassName
+                  : "min-h-0 px-0 py-0",
                 span === "full" && fullSpanImageStageOverrides[layout],
               )}
             >
@@ -352,11 +367,21 @@ export function StudioCaseStudyMockCard({
                 )}
               >
                 <div
-                  style={isFullImagePresentation ? { aspectRatio: fullImageAspectRatio } : undefined}
+                  style={
+                    shouldUseFramedStage
+                      ? undefined
+                      : { aspectRatio: fullImageAspectRatio }
+                  }
                   className={cn(
                     "relative overflow-hidden",
-                    isFullImagePresentation
+                    shouldUseFramedStage
                       ? [
+                        "rounded-[1.6rem]",
+                        "border border-white/88 shadow-[0_14px_30px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.72)]",
+                        viewportStyles.frameClassName,
+                        span === "full" && fullSpanViewportOverrides[mockViewport],
+                      ]
+                      : [
                         mockViewport === "portrait"
                           ? "w-[220px] sm:w-[250px] lg:w-[280px]"
                           : "w-[300px] sm:w-[360px] lg:w-[440px]",
@@ -365,65 +390,91 @@ export function StudioCaseStudyMockCard({
                             ? "md:w-[290px] lg:w-[320px]"
                             : "md:w-[420px] lg:w-[540px]"),
                         variantStyles.mockImageClassName,
-                      ]
-                      : [
-                        "rounded-[1.6rem]",
-                        "border border-white/88 shadow-[0_14px_30px_rgba(15,23,42,0.08),inset_0_1px_0_rgba(255,255,255,0.72)]",
-                        viewportStyles.frameClassName,
-                        span === "full" && fullSpanViewportOverrides[mockViewport],
                       ],
                   )}
                 >
-                  {/* The media wrapper carries the visible mock perimeter so bright covers still read as framed objects over the premium gradient shell. */}
-                  {/* The optional inner media shell makes contained covers feel intentional without changing the outer card framing contract. */}
-                  <div
-                    className={cn(
-                      "relative h-full w-full",
-                      mediaShellClassName,
-                    )}
-                  >
-                    {videoSrc ? (
-                      <video
-                        src={videoSrc}
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
+                  {/* Logo-led covers keep the glass frame as the shared homepage card contract once a brand mark exists. */}
+                  {shouldUseLogoPanel ? (
+                    <div className="relative flex h-full w-full items-center justify-center rounded-[inherit] bg-white/[0.035]">
+                      <div className="pointer-events-none absolute inset-0 rounded-[inherit] bg-[linear-gradient(180deg,rgba(255,255,255,0.09),rgba(255,255,255,0.015))]" />
+                      <div className="pointer-events-none absolute inset-[1px] rounded-[calc(1.6rem-1px)] shadow-[inset_0_1px_0_rgba(255,255,255,0.2)]" />
+                      <div className="relative h-[5rem] w-[72%] max-w-[16rem] sm:h-[5.75rem] sm:max-w-[18rem] lg:h-[6.5rem] lg:max-w-[20rem]">
+                        <Image
+                          src={logoSrc!}
+                          alt={`${title} logo`}
+                          fill
+                          sizes={
+                            mockViewport === "portrait"
+                              ? span === "full"
+                                ? "(max-width: 640px) 180px, (max-width: 1024px) 220px, 250px"
+                                : "(max-width: 640px) 170px, (max-width: 1024px) 200px, 220px"
+                              : span === "full"
+                                ? "(max-width: 640px) 220px, (max-width: 1024px) 280px, 320px"
+                                : "(max-width: 640px) 200px, (max-width: 1024px) 240px, 280px"
+                          }
+                          className={cn(
+                            getLogoPanelImageClass(logoSrc),
+                            "drop-shadow-[0_18px_40px_rgba(15,23,42,0.12)]",
+                          )}
+                          priority={false}
+                          unoptimized={shouldSkipImageOptimization}
+                        />
+                      </div>
+                    </div>
+                  ) : (
+                    <>
+                      {/* The media wrapper carries the visible mock perimeter so bright covers still read as framed objects over the premium gradient shell. */}
+                      {/* The optional inner media shell makes contained covers feel intentional without changing the outer card framing contract. */}
+                      <div
                         className={cn(
-                          "absolute inset-0 h-full w-full",
-                          isFullImagePresentation
-                            ? "object-contain object-center"
-                            : viewportStyles.imageClassName,
-                          !isFullImagePresentation && variantStyles.mockImageClassName,
-                          imageClassName,
+                          "relative h-full w-full",
+                          mediaShellClassName,
                         )}
-                      />
-                    ) : (
-                      <Image
-                        src={imageSrc}
-                        alt={imageAlt}
-                        fill
-                        sizes={
-                          mockViewport === "portrait"
-                            ? span === "full"
-                              ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
-                              : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
-                            : span === "full"
-                              ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
-                              : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
-                        }
-                        className={cn(
-                          isFullImagePresentation
-                            ? "object-contain object-center"
-                            : viewportStyles.imageClassName,
-                          !isFullImagePresentation && variantStyles.mockImageClassName,
-                          imageClassName,
+                      >
+                        {videoSrc ? (
+                          <video
+                            src={videoSrc}
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                            className={cn(
+                              "absolute inset-0 h-full w-full",
+                              isFullImagePresentation
+                                ? "object-contain object-center"
+                                : viewportStyles.imageClassName,
+                              !isFullImagePresentation && variantStyles.mockImageClassName,
+                              imageClassName,
+                            )}
+                          />
+                        ) : (
+                          <Image
+                            src={imageSrc}
+                            alt={imageAlt}
+                            fill
+                            sizes={
+                              mockViewport === "portrait"
+                                ? span === "full"
+                                  ? "(max-width: 640px) 200px, (max-width: 1024px) 250px, 275px"
+                                  : "(max-width: 640px) 200px, (max-width: 1024px) 220px, 240px"
+                                : span === "full"
+                                  ? "(max-width: 640px) 260px, (max-width: 1024px) 420px, 540px"
+                                  : "(max-width: 640px) 260px, (max-width: 1024px) 320px, 380px"
+                            }
+                            className={cn(
+                              isFullImagePresentation
+                                ? "object-contain object-center"
+                                : viewportStyles.imageClassName,
+                              !isFullImagePresentation && variantStyles.mockImageClassName,
+                              imageClassName,
+                            )}
+                            priority={false}
+                            unoptimized={shouldSkipImageOptimization}
+                          />
                         )}
-                        priority={false}
-                        unoptimized={shouldSkipImageOptimization}
-                      />
-                    )}
-                  </div>
+                      </div>
+                    </>
+                  )}
                 </div>
               </motion.div>
             </div>

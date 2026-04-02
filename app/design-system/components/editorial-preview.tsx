@@ -27,7 +27,7 @@ export function EditorialCaseStudyPreview() {
           headline="Branding for a deep-tech drone portfolio"
           subtext={generalAeronauticsSummary}
           brandName="General Aeronautics"
-          logoSrc="/assets/general-aeronautics.svg"
+          logoSrc="/assets/general-aeronautics/logo.svg"
           heroSrc="/assets/GA_cover.png"
           href="#"
         />
@@ -37,7 +37,7 @@ export function EditorialCaseStudyPreview() {
           headline="AI platform for ESG reporting"
           subtext={bevolveSummary}
           brandName="Bevolve.ai"
-          logoSrc="/assets/bevolve-ai.svg"
+          logoSrc="/assets/bevolve/logo.svg"
           heroSrc="/assets/bevolve/cover.png"
           href="#"
         />

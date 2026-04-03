@@ -146,9 +146,9 @@ const backgroundAssetShellOverrides: Record<
   StudioCaseStudyMockCardLayout,
   string
 > = {
-  feature: "px-0 py-0 md:p-6 lg:p-7",
-  compact: "px-0 py-0 md:p-5",
-  wide: "px-0 py-0 md:p-6 lg:p-7",
+  feature: "p-4 md:p-6 lg:p-7",
+  compact: "p-4 md:p-5",
+  wide: "p-4 md:p-6 lg:p-7",
 };
 
 const fullSpanImageStageOverrides: Record<StudioCaseStudyMockCardLayout, string> = {

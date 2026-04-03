@@ -111,7 +111,7 @@ export function StudioCaseStudies({
 
           {/* The work grid keeps a strict 50/50 desktop rhythm so all homepage cards align on the same cadence. */}
           {/* A small mobile gutter keeps the case-study cards from feeling pinned to the screen edges. */}
-          <div className="space-y-6 px-4 sm:px-0 lg:px-10 xl:px-14 pb-10">
+          <div className="space-y-6 px-0 sm:px-0 lg:px-10 xl:px-14 pb-10">
             <div className="grid gap-6 xl:grid-cols-2">
               {homepageCaseStudies.map((caseStudy) => (
                 <StudioCaseStudyMockCard

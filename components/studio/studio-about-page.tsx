@@ -600,14 +600,13 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             </div>
 
             <h2
-              className="max-w-[13ch] text-section-display text-[var(--neutral-950)]"
+              className="max-w-[18ch] text-section-display text-[var(--neutral-950)]"
               style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
             >
               {storyTitleRest ? (
                 <>
-                  <span>{`${storyTitleLead}.`}</span>
-                  <br />
-                  <span>{storyTitleRest}</span>
+                  <span>{`${storyTitleLead}. `}</span>
+                  <span className="whitespace-nowrap">{storyTitleRest}</span>
                 </>
               ) : (
                 content.title

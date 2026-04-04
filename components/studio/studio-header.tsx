@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useState, useSyncExternalStore } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
-import Link from "next/link";
 import Image from "next/image";
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { AnimatePresence, motion } from "framer-motion";
+import {
+  AnimatePresence,
+  motion,
+  useMotionTemplate,
+  useScroll,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowUpRight, Menu, X } from "lucide-react";
 
 import type { StudioHomepageNavItem } from "@/components/studio/studio-homepage-content";
@@ -47,6 +54,23 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
   const isMounted = useSyncExternalStore(subscribe, () => true, () => false);
   const pathname = usePathname();
   const router = useRouter();
+  const headerRef = useRef<HTMLElement | null>(null);
+  const { scrollY } = useScroll();
+
+  // The shell starts seamless at the top, then eases into a floating rounded rail as the page moves.
+  const headerProgress = useSpring(useTransform(scrollY, [0, 120], [0, 1]), {
+    stiffness: 240,
+    damping: 32,
+    mass: 0.32,
+  });
+  const headerInset = useTransform(headerProgress, [0, 1], [0, 12]);
+  const headerRadius = useTransform(headerProgress, [0, 1], [0, 32]);
+  const headerShadowY = useTransform(headerProgress, [0, 1], [0, 18]);
+  const headerShadowBlur = useTransform(headerProgress, [0, 1], [0, 48]);
+  const headerShadowAlpha = useTransform(headerProgress, [0, 1], [0, 0.1]);
+  const headerBorderAlpha = useTransform(headerProgress, [0, 1], [0.56, 0.8]);
+  const headerShadow = useMotionTemplate`0 ${headerShadowY}px ${headerShadowBlur}px rgba(15, 23, 42, ${headerShadowAlpha})`;
+  const headerBorderColor = useMotionTemplate`rgba(255, 255, 255, ${headerBorderAlpha})`;
 
   // Lock page scroll and flag the shell while the overlay menu is open so the background can blur and scale.
   useEffect(() => {
@@ -122,9 +146,13 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
       return false;
     }
 
-    targetElement.scrollIntoView({
+    const headerOffset = (headerRef.current?.offsetHeight ?? 0) + 12;
+    const targetTop =
+      targetElement.getBoundingClientRect().top + window.scrollY - headerOffset;
+
+    window.scrollTo({
+      top: Math.max(targetTop, 0),
       behavior: "smooth",
-      block: "start",
     });
 
     window.history.replaceState(
@@ -260,8 +288,21 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
               </motion.div>
 
               {/* The overlay menu uses the shared premium surface so other modal-like panels can inherit the same shell. */}
-              <PremiumSurface asChild tone="glass" elevation="lg" blur="lg" radius="xl" className="mx-auto mt-6 max-w-7xl p-3">
-                <motion.nav id="mobile-site-nav" variants={menuListVariants} initial="closed" animate="open" exit="closed">
+              <PremiumSurface
+                asChild
+                tone="glass"
+                elevation="lg"
+                blur="lg"
+                radius="xl"
+                className="mx-auto mt-6 max-w-7xl p-3"
+              >
+                <motion.nav
+                  id="mobile-site-nav"
+                  variants={menuListVariants}
+                  initial="closed"
+                  animate="open"
+                  exit="closed"
+                >
                   {navigationItems.map((item) => (
                     <motion.div key={item.label} variants={menuItemVariants}>
                       {renderNavigationItem(
@@ -282,48 +323,71 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
 
   return (
     <>
-      <header className="relative z-20 border-b border-slate-200/80 bg-white/85 backdrop-blur-xl">
-        <div className="mx-auto max-w-7xl px-6 py-3 md:px-10">
-          <div className="flex items-center justify-between gap-4">
-            {/* Logo — left side */}
-            <Link href="/" onClick={handleNavClick} className="flex shrink-0 items-center">
-              <Image
-                src="/logo.svg"
-                alt="Yuvabe Studios"
-                width={140}
-                height={36}
-                priority
-                className="h-9 w-auto"
-              />
-            </Link>
+      <motion.header
+        ref={headerRef}
+        className="sticky top-0 z-50"
+        style={{
+          paddingTop: headerInset,
+          paddingLeft: headerInset,
+          paddingRight: headerInset,
+        }}
+      >
+        {/* The sticky shell spans edge-to-edge at the top, then gains inset and radius as it turns into a floating rail. */}
+        <PremiumSurface
+          asChild
+          tone="glassPanelSubtle"
+          elevation="none"
+          blur="lg"
+          radius="md"
+          className="w-full"
+        >
+          <motion.div
+            style={{
+              borderRadius: headerRadius,
+              boxShadow: headerShadow,
+              borderColor: headerBorderColor,
+            }}
+          >
+            <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 md:px-10">
+              {/* Logo - left side */}
+              <Link href="/" onClick={handleNavClick} className="flex shrink-0 items-center">
+                <Image
+                  src="/logo.svg"
+                  alt="Yuvabe Studios"
+                  width={140}
+                  height={36}
+                  priority
+                  className="h-9 w-auto"
+                />
+              </Link>
 
-            {/* Desktop navigation — right side */}
-            <nav className="hidden items-center gap-8 lg:flex">
-              {navigationItems.map((item) =>
-                renderNavigationItem(
-                  item,
-                  "text-label-lg text-slate-800 transition-colors hover:text-[var(--purple-500)]",
-                ),
-              )}
-            </nav>
+              {/* Desktop navigation - right side */}
+              <nav className="hidden items-center gap-8 lg:flex">
+                {navigationItems.map((item) =>
+                  renderNavigationItem(
+                    item,
+                    "text-label-lg text-slate-900/90 transition-colors hover:text-[var(--purple-500)]",
+                  ),
+                )}
+              </nav>
 
-            {/* Mobile trigger — right side */}
-            <button
-              type="button"
-              aria-expanded={isMenuOpen}
-              aria-controls="mobile-site-nav"
-              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
-              onClick={() => setIsMenuOpen((open) => !open)}
-              className="inline-flex size-11 items-center justify-center rounded-full border border-slate-200 bg-white text-slate-900 shadow-sm transition-colors hover:border-[var(--purple-500)] hover:text-[var(--purple-500)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20 focus-visible:ring-offset-2 lg:hidden"
-            >
-              {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
-            </button>
-          </div>
-        </div>
-      </header>
+              {/* Mobile trigger - right side */}
+              <button
+                type="button"
+                aria-expanded={isMenuOpen}
+                aria-controls="mobile-site-nav"
+                aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+                onClick={() => setIsMenuOpen((open) => !open)}
+                className="inline-flex size-11 items-center justify-center rounded-full border border-white/75 bg-white/55 text-slate-900 shadow-[0_8px_18px_rgba(15,23,42,0.06)] transition-colors hover:border-[var(--purple-500)] hover:text-[var(--purple-500)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand/20 focus-visible:ring-offset-2 lg:hidden"
+              >
+                {isMenuOpen ? <X className="size-5" /> : <Menu className="size-5" />}
+              </button>
+            </div>
+          </motion.div>
+        </PremiumSurface>
+      </motion.header>
 
       {isMounted ? createPortal(overlay, document.body) : null}
     </>
   );
 }
-

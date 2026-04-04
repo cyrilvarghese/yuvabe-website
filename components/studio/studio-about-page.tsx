@@ -993,7 +993,7 @@ export function StudioAboutPage({ navigationItems, content }: StudioAboutPagePro
   return (
     <main
       data-studio-shell
-      className="relative min-h-screen overflow-hidden bg-white text-foreground"
+      className="relative min-h-screen overflow-x-clip overflow-y-visible bg-white text-foreground"
     >
       {/* The page-level rails keep the dedicated route visually tied to the homepage shell. */}
       <div aria-hidden="true" className="pointer-events-none absolute inset-0 z-0">

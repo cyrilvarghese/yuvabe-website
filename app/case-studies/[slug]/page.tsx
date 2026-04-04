@@ -119,7 +119,7 @@ export default async function CaseStudyPage({ params }: CaseStudyPageProps) {
   return (
     <main
       data-studio-shell
-      className="relative min-h-screen overflow-x-hidden overflow-y-visible bg-white text-foreground"
+      className="relative min-h-screen overflow-x-clip overflow-y-visible bg-white text-foreground"
     >
       <script
         type="application/ld+json"

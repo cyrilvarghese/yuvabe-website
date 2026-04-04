@@ -127,7 +127,7 @@ export function StudioServices({ content }: StudioServicesProps) {
                       </div>
 
                       <div className="space-y-3">
-                        <h3 className="max-w-[10ch] text-display-muted-editorial leading-[0.9]">
+                        <h3 className="max-w-[8.5ch] text-display-muted-editorial leading-[0.9]">
                           {service.title}
                         </h3>
                         <p className="max-w-[20ch] text-body-md font-bold text-[var(--color-text-brand)]">

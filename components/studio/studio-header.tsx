@@ -325,7 +325,7 @@ export function StudioHeader({ navigationItems }: StudioHeaderProps) {
     <>
       <motion.header
         ref={headerRef}
-        className="sticky top-0 z-50"
+        className="sticky top-0 z-50 mx-auto w-full max-w-7xl"
         style={{
           paddingTop: headerInset,
           paddingLeft: headerInset,

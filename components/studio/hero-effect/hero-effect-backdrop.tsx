@@ -62,6 +62,7 @@ export function StudioHeroNoiseBackdrop({
   ...props
 }: StudioHeroNoiseBackdropProps) {
   const shouldReduceMotion = useReducedMotion();
+  const reduceMotion = shouldReduceMotion ?? false;
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const stageRef = useRef<HTMLElement | null>(null);
   const burstsRef = useRef<HeroSignalBurst[]>([]);
@@ -89,8 +90,8 @@ export function StudioHeroNoiseBackdrop({
 
     burstSeedRef.current += 1;
     const seed = burstSeedRef.current * 0.173 + pointX * 0.0013 + pointY * 0.0017;
-    const particleCount = shouldReduceMotion ? 8 : 32;
-    const duration = shouldReduceMotion ? 480 : 920;
+    const particleCount = reduceMotion ? 8 : 32;
+    const duration = reduceMotion ? 480 : 920;
 
     burstsRef.current.push(
       createHeroSignalBurst(seed, width, height, pointX, pointY, particleCount, duration)
@@ -203,7 +204,7 @@ export function StudioHeroNoiseBackdrop({
       specksRef.current = createAmbientSpecks(
         width,
         height,
-        shouldReduceMotion ? 34 : 88
+        reduceMotion ? 34 : 88
       );
 
       if (!isLoopRunning) {
@@ -217,7 +218,7 @@ export function StudioHeroNoiseBackdrop({
 
     // The canvas only animates while a burst is alive; otherwise it falls back to one static frame.
     const render = (time: number) => {
-      const hasActiveBursts = drawFrame(time, !shouldReduceMotion);
+      const hasActiveBursts = drawFrame(time, !reduceMotion);
 
       if (!hasActiveBursts) {
         isLoopRunning = false;
@@ -251,7 +252,7 @@ export function StudioHeroNoiseBackdrop({
       window.cancelAnimationFrame(frameId);
       resizeObserver.disconnect();
     };
-  }, [isInViewport, shouldReduceMotion]);
+  }, [isInViewport, reduceMotion]);
 
   function handlePointerDown(event: PointerEvent<HTMLElement>) {
     const point = getLocalPointerPoint(event);
@@ -268,7 +269,7 @@ export function StudioHeroNoiseBackdrop({
       {/* This motion wrapper eases in the background system without animating the editorial content above it. */}
       <motion.div
         aria-hidden="true"
-        initial={shouldReduceMotion ? false : { opacity: 0, scale: 1.02 }}
+        initial={reduceMotion ? false : { opacity: 0, scale: 1.02 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.72, ease: heroSignalEase, delay: 0.08 }}
         className="pointer-events-none absolute inset-0 z-0 overflow-hidden"

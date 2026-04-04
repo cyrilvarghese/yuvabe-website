@@ -120,6 +120,7 @@ export function StudioHeroInfinityCloud({
   tuning = defaultHeroInfinityCloudTuning,
 }: StudioHeroInfinityCloudProps) {
   const shouldReduceMotion = useReducedMotion();
+  const reduceMotion = shouldReduceMotion ?? false;
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [densityTier, setDensityTier] = useState<HeroDensityTier>(() =>
     typeof window === "undefined" ? "desktop" : readDensityTier(window.innerWidth)
@@ -176,7 +177,7 @@ export function StudioHeroInfinityCloud({
     const particleCount = getResponsiveParticleCount(
       tuning.particleCount,
       densityTier,
-      shouldReduceMotion
+      reduceMotion
     );
     const particlePositions = new Float32Array(particleCount * 3);
     const particleColors = new Float32Array(particleCount * 3);
@@ -189,7 +190,7 @@ export function StudioHeroInfinityCloud({
       const phase = Math.random();
       particlePhase[index] = phase;
       particleSpread[index] = (Math.random() - 0.5) * (
-        shouldReduceMotion
+        reduceMotion
           ? Math.min(tuning.particleSpread, 0.06)
           : tuning.particleSpread
       );
@@ -213,7 +214,7 @@ export function StudioHeroInfinityCloud({
     const particleGlowMaterial = new THREE.PointsMaterial({
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: shouldReduceMotion ? 0.12 : 0.16,
+      opacity: reduceMotion ? 0.12 : 0.16,
       size: 0.13,
       sizeAttenuation: true,
       transparent: true,
@@ -222,7 +223,7 @@ export function StudioHeroInfinityCloud({
     const particleCoreMaterial = new THREE.PointsMaterial({
       blending: THREE.AdditiveBlending,
       depthWrite: false,
-      opacity: shouldReduceMotion ? 0.7 : 0.84,
+      opacity: reduceMotion ? 0.7 : 0.84,
       size: 0.042,
       sizeAttenuation: true,
       transparent: true,
@@ -261,13 +262,13 @@ export function StudioHeroInfinityCloud({
       ) as THREE.BufferAttribute;
 
       for (let index = 0; index < particleCount; index += 1) {
-        const drift = shouldReduceMotion
+        const drift = reduceMotion
           ? particlePhase[index]
           : particlePhase[index] + timeSeconds * 0.06;
         const wrapped = drift % 1;
         const point = getInfinityPosition(wrapped, tuning.scaleX, tuning.scaleY);
         const normal = getInfinityNormal(wrapped, tuning.scaleX, tuning.scaleY);
-        const motionOffset = shouldReduceMotion
+        const motionOffset = reduceMotion
           ? particleSpread[index]
           : particleSpread[index] +
             Math.sin(timeSeconds * 1.6 + particlePhase[index] * TAU) *
@@ -275,7 +276,7 @@ export function StudioHeroInfinityCloud({
         const baseIndex = index * 3;
         const particleX = point.x + normal.x * motionOffset;
         const particleY = point.y + normal.y * motionOffset;
-        const particleZ = shouldReduceMotion
+        const particleZ = reduceMotion
           ? 0
           : Math.sin(timeSeconds * 0.75 + particlePhase[index] * TAU) * 0.028;
 
@@ -286,19 +287,19 @@ export function StudioHeroInfinityCloud({
 
       positionAttribute.needsUpdate = true;
 
-      if (!shouldReduceMotion) {
+      if (!reduceMotion) {
         loopGroup.rotation.z = Math.sin(timeSeconds * 0.16) * 0.03;
         loopGroup.position.y = Math.sin(timeSeconds * 0.32) * 0.025;
       }
 
       renderer.render(scene, camera);
 
-      if (!shouldReduceMotion) {
+      if (!reduceMotion) {
         frameId = window.requestAnimationFrame(renderFrame);
       }
     };
 
-    if (shouldReduceMotion) {
+    if (reduceMotion) {
       renderFrame(0);
     } else {
       frameId = window.requestAnimationFrame(renderFrame);
@@ -316,7 +317,7 @@ export function StudioHeroInfinityCloud({
   }, [
     densityTier,
     isInViewport,
-    shouldReduceMotion,
+    reduceMotion,
     tuning.particleCount,
     tuning.particleSpread,
     tuning.scaleX,

@@ -4,7 +4,7 @@
 
 The homepage hero uses a layered interactive backdrop with the editorial copy and CTA sitting above it.
 
-The effect is made of four parts:
+The effect is made of five parts:
 
 1. A shared light brand surface and grid texture from the design system.
 2. A centered Three.js particle cloud that breathes between an infinity loop and a subtle double helix.
@@ -18,20 +18,35 @@ The current visual direction is:
 - the infinity shape is implied by particle density, not by a visible line stroke
 - the cloud now slowly breathes into a subtle horizontal double helix and back
 - the cursor-following glow has been removed
-- the temporary tuning panel has been removed
+- the live tuning panels are controlled by a code switch in `hero-effect-tuning.ts`
 - offscreen animation work is paused automatically
 - the click ripple still works across the full hero section
-- autonomous ripple pulses now fire at randomized positions while the hero is in view
+- ripple pulses are now click-only, so they no longer sync up with the helix morph timing
 
 The current baked values are:
 
 - `Path Width`: `1.85`
-- `Path Height`: `2.40`
-- `View Zoom`: `1.38`
-- `Density`: `24375` base desktop target
-- `Point Spread`: `0.23`
-- `Desktop X`: `27%`
+- `Path Height`: `1.91`
+- `View Zoom`: `1.06`
+- `Density`: `21500` base desktop target
+- `Point Spread`: `0.28`
+- `Desktop X`: `15%`
 - `Desktop Y`: `-50%`
+
+The current baked helix values are:
+
+- `Cycle Seconds`: `24`
+- `Turns`: `2.17`
+- `Helix Zoom`: `1.18`
+- `Horizontal Shift`: `0.17`
+- `Screen Span`: `1.50`
+- `Helix Height`: `0.43`
+- `Helix Depth`: `0.28`
+- `Rotate Y`: `0.90`
+- `Rotate X`: `0.10`
+- `Spread Tighten`: `0.54`
+- `Morph Start`: `0.08`
+- `Morph End`: `0.88`
 
 ## Module Ownership
 
@@ -58,10 +73,19 @@ Owns the full-section backdrop shell:
 - wraps the entire hero section
 - pauses both animation systems when the hero leaves the viewport
 - handles click events across the hero
-- schedules autonomous ripple pulses on a randomized cadence
 - renders a dedicated ambient blob canvas
 - renders a separate burst canvas above the blob layer
+- conditionally mounts the live debug panels when the code switch is enabled
 - places the shared surface, grid, bloom, and Three.js layer behind the content
+
+### [`./hero-effect-debug-controls.tsx`](./hero-effect-debug-controls.tsx)
+
+Owns the optional live tuning UI:
+
+- renders one panel for the shared cloud and stage values
+- renders one panel for the helix-only morph values
+- keeps the controls visually aligned with the rest of the hero module
+- stops slider and button interactions from triggering hero ripple clicks
 
 ### [`./hero-effect-burst.ts`](./hero-effect-burst.ts)
 
@@ -81,8 +105,18 @@ Owns the Three.js infinity cloud:
 - builds the orthographic scene
 - computes positions for both a horizontal infinity curve and a subtle 3D double helix
 - blends the same point cloud between those two targets on a slow breathing loop
+- accepts live helix tuning values when the debug panels are on
 - scales particle budgets down on mobile and tablet
 - animates the particle field with slight drift so the form stays alive
+
+### [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts)
+
+Owns the baked defaults and the debug switch:
+
+- stores the shared infinity cloud defaults
+- stores the helix morph defaults
+- exposes `showHeroEffectTuningPanels`
+- creates fresh copies for the optional live debug state
 
 ### [`./hero-effect-utils.ts`](./hero-effect-utils.ts)
 
@@ -168,7 +202,7 @@ Because this layer is isolated from the ripple canvas, the background blobs no l
 
 The click effect is a separate 2D canvas layer on top of the surface and beneath the text.
 
-When the user clicks anywhere in the hero, or when the ambient scheduler fires:
+When the user clicks anywhere in the hero:
 
 - the click position is converted into local hero coordinates
 - a burst is seeded at that location
@@ -216,7 +250,6 @@ It also now behaves more responsibly at runtime:
 - the ripple canvas only spins up during actual burst activity
 - the ambient blob canvas keeps its bobbing motion only while the hero is in view
 - smaller screens automatically use lower particle budgets
-- autonomous pulses stop as soon as the hero leaves the viewport
 
 This is also why removing the cursor-following gradient improved it: the cloud already provides a strong center, so a second hover-led glow added too much competition.
 
@@ -224,7 +257,62 @@ This is also why removing the cursor-following gradient improved it: the cloud a
 
 If this effect needs refinement later, these are the main controls to change.
 
-There is no live tuning UI in the hero anymore. The shared defaults now live in [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts).
+The baked defaults live in [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts).
+
+If you want the live tuning panels on screen, set:
+
+- `showHeroEffectTuningPanels = true`
+
+If you want a clean production hero again, set:
+
+- `showHeroEffectTuningPanels = false`
+
+The switch is intentionally code-only so the hero API stays clean and the panels never appear by accident in production screenshots.
+
+It is currently set to `true`, so both panels are visible while this tuning pass is active.
+
+## Live debug panels
+
+When `showHeroEffectTuningPanels` is enabled, the hero renders two floating panels:
+
+1. `Infinity + Stage`
+2. `Double Helix`
+
+It also renders a bottom-right runtime toggle so you can hide or reopen the overlay without changing the code switch.
+
+Infinity and helix zoom are now independent:
+
+- the first panel's `zoom` changes the shared camera view
+- the second panel's `zoom` changes only the helix target size
+
+The first panel controls:
+
+- `scaleX`
+- `scaleY`
+- `zoom`
+- `particleCount`
+- `particleSpread`
+- `offsetX`
+- `offsetY`
+
+The second panel controls:
+
+- `particleCount`
+- `particleSpread`
+- `cycleSeconds`
+- `turns`
+- `zoom`
+- `horizontalShift`
+- `span`
+- `amplitudeY`
+- `amplitudeZ`
+- `rotationYMax`
+- `rotationXMax`
+- `spreadScale`
+- `morphStart`
+- `morphEnd`
+
+Each panel has its own reset button, and both panels read from fresh local copies of the baked defaults so experimentation does not mutate the source values in the module.
 
 ## Infinity cloud density and softness
 
@@ -233,7 +321,7 @@ In [`./hero-effect-infinity-cloud.tsx`](./hero-effect-infinity-cloud.tsx):
 - `particleCount`
 - `particleSpread`
 - `particleDrift`
-- internal helix morph cycle and rotation constants
+- `helixTuning.spreadScale`
 - responsive density scaling inside `getResponsiveParticleCount`
 - `particleGlowMaterial.size`
 - `particleCoreMaterial.size`
@@ -249,6 +337,9 @@ In [`./hero-effect-infinity-cloud.tsx`](./hero-effect-infinity-cloud.tsx):
 - `tuning.scaleX`
 - `tuning.scaleY`
 - camera frustum sizing inside `syncRendererSize`
+- `helixTuning.zoom`
+- `helixTuning.span`
+- `helixTuning.horizontalShift`
 
 In [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts):
 
@@ -261,6 +352,21 @@ In [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts):
 In [`./hero-effect-backdrop.tsx`](./hero-effect-backdrop.tsx):
 
 - the centered wrapper dimensions around `StudioHeroInfinityCloud`
+
+## Helix morph timing and shape
+
+In [`./hero-effect-tuning.ts`](./hero-effect-tuning.ts):
+
+- `cycleSeconds`
+- `turns`
+- `zoom`
+- `amplitudeY`
+- `amplitudeZ`
+- `rotationYMax`
+- `rotationXMax`
+- `spreadScale`
+- `morphStart`
+- `morphEnd`
 
 ## Click burst behavior
 
@@ -294,7 +400,7 @@ As of now, the hero effect is:
 - dense enough that the loop path is hidden
 - breathing between infinity and a subtle horizontal double helix
 - interactive via subtle circular ripple pulses
-- configured through baked module defaults instead of an on-page tuning panel
+- configured through baked module defaults with an optional code-switched debug overlay
 - brand-aligned through shared surface tokens
 
 If we extend it later, the cleanest next step would be to let the click ripple temporarily disturb the Three.js particles too, so the ripple and the cloud feel like one system instead of two stacked systems.

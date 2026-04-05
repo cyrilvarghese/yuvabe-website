@@ -11,9 +11,18 @@ import {
 } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 
+import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
-import { defaultHeroEffectBackdropTuning } from "./hero-effect-tuning";
+import { StudioHeroEffectDebugControls } from "./hero-effect-debug-controls";
+import {
+  createHeroEffectDebugTuning,
+  defaultHeroEffectBackdropTuning,
+  defaultHeroHelixTuning,
+  type HeroEffectBackdropTuning,
+  type HeroHelixTuning,
+  showHeroEffectTuningPanels,
+} from "./hero-effect-tuning";
 import {
   type HeroSignalBurst,
   type HeroSignalPalette,
@@ -38,8 +47,6 @@ type LocalPointerPoint = {
 type StudioHeroNoiseBackdropProps = HTMLAttributes<HTMLElement>;
 
 const heroSignalEase = [0.22, 1, 0.36, 1] as const;
-const minAutoPulseDelay = 10000;
-const maxAutoPulseDelay = 10000;
 
 function isBurstActive(burst: HeroSignalBurst, time: number) {
   return time - burst.start < burst.duration;
@@ -57,26 +64,6 @@ function getLocalPointerPoint(
   const y = clampToBounds(event.clientY - bounds.top, bounds.height);
 
   return { x, y };
-}
-
-function getRandomPulseDelay() {
-  return (
-    minAutoPulseDelay +
-    Math.random() * (maxAutoPulseDelay - minAutoPulseDelay)
-  );
-}
-
-function getRandomBurstPoint(width: number, height: number): LocalPointerPoint {
-  const horizontalPadding = Math.min(width * 0.14, 160);
-  const topPadding = Math.min(height * 0.12, 96);
-  const bottomPadding = Math.min(height * 0.24, 180);
-  const safeWidth = Math.max(1, width - horizontalPadding * 2);
-  const safeHeight = Math.max(1, height - topPadding - bottomPadding);
-
-  return {
-    x: horizontalPadding + Math.random() * safeWidth,
-    y: topPadding + Math.random() * safeHeight,
-  };
 }
 
 function getStageSize(stage: HTMLElement) {
@@ -120,13 +107,59 @@ export function StudioHeroNoiseBackdrop({
   const burstSeedRef = useRef(0);
   const startCanvasLoopRef = useRef<(() => void) | null>(null);
   const [isInViewport, setIsInViewport] = useState(true);
-  // The tuned hero values are baked into the module now that the temporary control panel is gone.
-  const tuning = defaultHeroEffectBackdropTuning;
+  const [debugTuning, setDebugTuning] = useState(createHeroEffectDebugTuning);
+  const [areDebugPanelsVisible, setAreDebugPanelsVisible] = useState(true);
+  const tuning = showHeroEffectTuningPanels
+    ? debugTuning.backdrop
+    : defaultHeroEffectBackdropTuning;
+  const helixTuning = showHeroEffectTuningPanels
+    ? debugTuning.helix
+    : defaultHeroHelixTuning;
 
   const desktopCloudStyle = {
     "--hero-cloud-offset-x": `${tuning.offsetX}%`,
     "--hero-cloud-offset-y": `${tuning.offsetY}%`,
   } as CSSProperties;
+
+  const updateBackdropTuning = useCallback(
+    (key: keyof HeroEffectBackdropTuning, value: number) => {
+      setDebugTuning((currentTuning) => ({
+        ...currentTuning,
+        backdrop: {
+          ...currentTuning.backdrop,
+          [key]: value,
+        },
+      }));
+    },
+    []
+  );
+
+  const updateHelixTuning = useCallback(
+    (key: keyof HeroHelixTuning, value: number) => {
+      setDebugTuning((currentTuning) => ({
+        ...currentTuning,
+        helix: {
+          ...currentTuning.helix,
+          [key]: value,
+        },
+      }));
+    },
+    []
+  );
+
+  const resetBackdropTuning = useCallback(() => {
+    setDebugTuning((currentTuning) => ({
+      ...currentTuning,
+      backdrop: { ...defaultHeroEffectBackdropTuning },
+    }));
+  }, []);
+
+  const resetHelixTuning = useCallback(() => {
+    setDebugTuning((currentTuning) => ({
+      ...currentTuning,
+      helix: { ...defaultHeroHelixTuning },
+    }));
+  }, []);
 
   // Clicks only need a local seed and point; the rest of the burst visuals are delegated to the canvas helpers.
   const spawnBurst = useCallback(
@@ -361,40 +394,6 @@ export function StudioHeroNoiseBackdrop({
     };
   }, [isInViewport]);
 
-  useEffect(() => {
-    if (!isInViewport || reduceMotion) {
-      return;
-    }
-
-    let timeoutId = 0;
-    let isCancelled = false;
-
-    // A recursive timeout keeps the hero gently alive without making the pulses feel frequent or distracting.
-    const scheduleAutoPulse = () => {
-      timeoutId = window.setTimeout(() => {
-        if (isCancelled) {
-          return;
-        }
-
-        const { width, height } = sizeRef.current;
-
-        if (width && height) {
-          const point = getRandomBurstPoint(width, height);
-          spawnBurst(point.x, point.y);
-        }
-
-        scheduleAutoPulse();
-      }, getRandomPulseDelay());
-    };
-
-    scheduleAutoPulse();
-
-    return () => {
-      isCancelled = true;
-      window.clearTimeout(timeoutId);
-    };
-  }, [isInViewport, reduceMotion, spawnBurst]);
-
   function handlePointerDown(event: PointerEvent<HTMLElement>) {
     const point = getLocalPointerPoint(event);
     spawnBurst(point.x, point.y);
@@ -403,7 +402,7 @@ export function StudioHeroNoiseBackdrop({
   return (
     <section
       ref={stageRef}
-      className={cn("relative overflow-hidden", className)}
+      className={cn("relative overflow-x-hidden overflow-y-visible", className)}
       onPointerDown={handlePointerDown}
       {...props}
     >
@@ -426,12 +425,13 @@ export function StudioHeroNoiseBackdrop({
             style={desktopCloudStyle}
           >
             {/* The anchor box sets placement, while this larger internal stage prevents the loop from clipping against its own local bounds. */}
-            <div className="absolute left-1/2 top-1/2 h-[156%] w-[144%] -translate-x-1/2 -translate-y-1/2 sm:h-[160%] sm:w-[146%] md:h-[168%] md:w-[152%]">
+            <div className="absolute left-1/2 top-1/2 h-[160%] w-[176%] -translate-x-1/2 -translate-y-1/2 sm:h-[164%] sm:w-[186%] md:h-[176%] md:w-[208%]">
               <div className="absolute left-1/2 top-1/2 h-[16rem] w-[24rem] -translate-x-1/2 -translate-y-1/2 rounded-full ds-hero-signal-core opacity-72 blur-[42px] md:h-[24rem] md:w-[40rem]" />
               <StudioHeroInfinityCloud
                 isInViewport={isInViewport}
                 tuning={tuning}
-                className="opacity-98 [mask-image:radial-gradient(ellipse_at_center,rgba(0,0,0,1)_0%,rgba(0,0,0,0.998)_78%,rgba(0,0,0,0.95)_94%,rgba(0,0,0,0)_100%)]"
+                helixTuning={helixTuning}
+                className="opacity-98 [mask-image:radial-gradient(ellipse_120%_86%_at_center,rgba(0,0,0,1)_0%,rgba(0,0,0,1)_74%,rgba(0,0,0,0.96)_90%,rgba(0,0,0,0.45)_97%,rgba(0,0,0,0)_100%)]"
               />
             </div>
           </div>
@@ -453,6 +453,37 @@ export function StudioHeroNoiseBackdrop({
       </motion.div>
 
       {children}
+
+      {showHeroEffectTuningPanels && areDebugPanelsVisible ? (
+        <div className="pointer-events-none absolute left-4 top-4 z-20">
+          {/* The tuning overlay is code-switched on for design iteration and stays isolated from the hero click surface. */}
+          <StudioHeroEffectDebugControls
+            backdropTuning={debugTuning.backdrop}
+            helixTuning={debugTuning.helix}
+            onBackdropValueChange={updateBackdropTuning}
+            onHelixValueChange={updateHelixTuning}
+            onResetBackdrop={resetBackdropTuning}
+            onResetHelix={resetHelixTuning}
+          />
+        </div>
+      ) : null}
+
+      {showHeroEffectTuningPanels ? (
+        <div
+          className="pointer-events-auto absolute bottom-4 right-4 z-20"
+          onPointerDownCapture={(event) => event.stopPropagation()}
+        >
+          {/* This runtime toggle hides the debug overlay without disabling the underlying code-switched tuning system. */}
+          <Button
+            type="button"
+            variant="secondary"
+            size="sm"
+            onClick={() => setAreDebugPanelsVisible((isVisible) => !isVisible)}
+          >
+            {areDebugPanelsVisible ? "Hide Controls" : "Show Controls"}
+          </Button>
+        </div>
+      ) : null}
     </section>
   );
 }

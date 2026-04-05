@@ -32,7 +32,7 @@ export function StudioHero({ content }: StudioHeroProps) {
   return (
     <StudioHeroNoiseBackdrop
       id="about"
-      className="relative flex flex-col justify-start overflow-hidden bg-white pb-14 md:min-h-[calc(100svh-72px)] md:pb-20"
+      className="relative flex flex-col justify-start overflow-x-hidden overflow-y-visible bg-white pb-14 md:min-h-[calc(100svh-72px)] md:pb-20"
     >
       <HeroBackground />
 

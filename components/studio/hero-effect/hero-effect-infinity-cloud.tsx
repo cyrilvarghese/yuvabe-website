@@ -7,7 +7,9 @@ import * as THREE from "three";
 import { cn } from "@/lib/utils";
 
 import {
+  defaultHeroHelixTuning,
   defaultHeroInfinityCloudTuning,
+  type HeroHelixTuning,
   type HeroInfinityCloudTuning,
 } from "./hero-effect-tuning";
 import { TAU, readCssToken } from "./hero-effect-utils";
@@ -18,6 +20,7 @@ type StudioHeroInfinityCloudProps = {
   className?: string;
   isInViewport?: boolean;
   tuning?: HeroInfinityCloudTuning;
+  helixTuning?: HeroHelixTuning;
 };
 
 type HeroDensityTier = "mobile" | "tablet" | "desktop";
@@ -34,13 +37,8 @@ type CloudPoint3 = {
   z: number;
 };
 
-const helixMorphCycleSeconds = 24;
-const helixTurns = 1.15;
-const helixRotationYMax = 0.34;
-const helixRotationXMax = -0.12;
 const infinityIdleRotationZ = 0.03;
 const infinityIdleYOffset = 0.025;
-const helixHorizontalShift = 0.82;
 
 function readInfinityPalette() {
   return {
@@ -113,34 +111,37 @@ function getInfinityNormal(
   target.z = 0;
 }
 
-function getHelixAngle(t: number, strand: number) {
-  return t * TAU * helixTurns + (strand === 0 ? 0 : Math.PI);
+function getHelixAngle(t: number, turns: number, strand: number) {
+  return t * TAU * turns + (strand === 0 ? 0 : Math.PI);
 }
 
 // The helix target uses the same phase domain as the infinity loop, so particles can split into two strands without respawning.
 function getHelixPosition(
   t: number,
-  scaleX: number,
-  scaleY: number,
+  helixWidthBase: number,
+  helixTuning: HeroHelixTuning,
   strand: number,
   target: CloudPoint3
 ) {
-  const angle = getHelixAngle(t, strand);
+  const angle = getHelixAngle(t, helixTuning.turns, strand);
+  const helixZoom = helixTuning.zoom;
 
-  target.x = (t - 0.5) * scaleX * 1.92;
-  target.y = Math.sin(angle) * scaleY * 0.36;
-  target.z = Math.cos(angle) * scaleY * 0.34;
+  target.x = (t - 0.5) * helixWidthBase * helixTuning.span * helixZoom;
+  target.y = Math.sin(angle) * helixTuning.amplitudeY * helixZoom;
+  target.z = Math.cos(angle) * helixTuning.amplitudeZ * helixZoom;
 }
 
 // The helix spread rides on an elliptical radial normal so the cloud keeps a readable strand thickness in 3D.
 function getHelixNormal(
   t: number,
+  helixTuning: HeroHelixTuning,
   strand: number,
   target: CloudPoint3
 ) {
-  const angle = getHelixAngle(t, strand);
-  const radialY = Math.sin(angle) * 0.36;
-  const radialZ = Math.cos(angle) * 0.34;
+  const angle = getHelixAngle(t, helixTuning.turns, strand);
+  const helixZoom = helixTuning.zoom;
+  const radialY = Math.sin(angle) * helixTuning.amplitudeY * helixZoom;
+  const radialZ = Math.cos(angle) * helixTuning.amplitudeZ * helixZoom;
   const length = Math.hypot(radialY, radialZ) || 1;
 
   target.x = 0;
@@ -175,6 +176,7 @@ export function StudioHeroInfinityCloud({
   className,
   isInViewport = true,
   tuning = defaultHeroInfinityCloudTuning,
+  helixTuning = defaultHeroHelixTuning,
 }: StudioHeroInfinityCloudProps) {
   const shouldReduceMotion = useReducedMotion();
   const reduceMotion = shouldReduceMotion ?? false;
@@ -320,12 +322,17 @@ export function StudioHeroInfinityCloud({
     // The frame loop reprojects particles onto two procedural targets and blends them into a continuous breathing morph.
     const renderFrame = (time: number) => {
       const timeSeconds = time * 0.001;
+      const helixWidthBase = camera.right - camera.left;
       const rawMorph = reduceMotion
         ? 0
-        : 0.5 - 0.5 * Math.cos((timeSeconds * TAU) / helixMorphCycleSeconds);
+        : 0.5 - 0.5 * Math.cos((timeSeconds * TAU) / helixTuning.cycleSeconds);
       const morph = reduceMotion
         ? 0
-        : THREE.MathUtils.smootherstep(rawMorph, 0.08, 0.88);
+        : THREE.MathUtils.smootherstep(
+            rawMorph,
+            helixTuning.morphStart,
+            helixTuning.morphEnd
+          );
       const positionAttribute = particleGeometry.getAttribute(
         "position"
       ) as THREE.BufferAttribute;
@@ -338,7 +345,7 @@ export function StudioHeroInfinityCloud({
         // Tightening the lateral spread as the helix appears keeps the strands crisp instead of reading like one blurred ribbon.
         const spreadScale = reduceMotion
           ? 1
-          : THREE.MathUtils.lerp(1, 0.56, morph);
+          : THREE.MathUtils.lerp(1, helixTuning.spreadScale, morph);
         const motionOffset = (reduceMotion
           ? particleSpread[index]
           : particleSpread[index] +
@@ -346,9 +353,9 @@ export function StudioHeroInfinityCloud({
         ) * spreadScale;
 
         getInfinityPosition(wrapped, tuning.scaleX, tuning.scaleY, infinityPoint);
-        getHelixPosition(wrapped, tuning.scaleX, tuning.scaleY, strand, helixPoint);
+        getHelixPosition(wrapped, helixWidthBase, helixTuning, strand, helixPoint);
         getInfinityNormal(wrapped, tuning.scaleX, tuning.scaleY, infinityNormal);
-        getHelixNormal(wrapped, strand, helixNormal);
+        getHelixNormal(wrapped, helixTuning, strand, helixNormal);
 
         let blendedNormalX = THREE.MathUtils.lerp(
           infinityNormal.x,
@@ -406,10 +413,11 @@ export function StudioHeroInfinityCloud({
       positionAttribute.needsUpdate = true;
 
       if (!reduceMotion) {
-        // Sliding the group left during the helix phase lets the strands continue behind the copy without disturbing the infinity resting position.
-        loopGroup.position.x = -tuning.scaleX * helixHorizontalShift * morph;
-        loopGroup.rotation.y = helixRotationYMax * morph;
-        loopGroup.rotation.x = helixRotationXMax * morph;
+        // Shifting by a fraction of the visible frustum keeps the helix bias proportional as the viewport gets wider.
+        loopGroup.position.x =
+          -(helixWidthBase * 0.5) * helixTuning.horizontalShift * morph;
+        loopGroup.rotation.y = helixTuning.rotationYMax * morph;
+        loopGroup.rotation.x = helixTuning.rotationXMax * morph;
         loopGroup.rotation.z =
           Math.sin(timeSeconds * 0.16) *
           infinityIdleRotationZ *
@@ -453,6 +461,18 @@ export function StudioHeroInfinityCloud({
     tuning.scaleX,
     tuning.scaleY,
     tuning.zoom,
+    helixTuning.amplitudeY,
+    helixTuning.amplitudeZ,
+    helixTuning.cycleSeconds,
+    helixTuning.horizontalShift,
+    helixTuning.morphEnd,
+    helixTuning.morphStart,
+    helixTuning.rotationXMax,
+    helixTuning.rotationYMax,
+    helixTuning.span,
+    helixTuning.spreadScale,
+    helixTuning.turns,
+    helixTuning.zoom,
   ]);
 
   return (

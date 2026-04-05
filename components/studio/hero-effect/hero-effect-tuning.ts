@@ -32,7 +32,7 @@ export type HeroEffectDebugTuning = {
 };
 
 // Flip this switch when you want the live hero tuning panels visible in the hero.
-export const showHeroEffectTuningPanels = true;
+export const showHeroEffectTuningPanels = false;
 
 export const defaultHeroInfinityCloudTuning: HeroInfinityCloudTuning = {
   scaleX: 1.85,

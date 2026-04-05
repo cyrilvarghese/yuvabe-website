@@ -269,7 +269,7 @@ If you want a clean production hero again, set:
 
 The switch is intentionally code-only so the hero API stays clean and the panels never appear by accident in production screenshots.
 
-It is currently set to `true`, so both panels are visible while this tuning pass is active.
+It is currently set to `false`, so the live panels are hidden unless you explicitly turn them back on in code.
 
 ## Live debug panels
 

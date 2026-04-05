@@ -37,7 +37,7 @@
     "secondaryCtaLabel": "See Our Work"
   },
   "proof": {
-    "title": "A few places we've done this.",
+    "title": "Proof across product, AI, and growth.",
     "entries": [
       {
         "client": "TVAM",
@@ -97,7 +97,7 @@
     ]
   },
   "values": {
-    "title": "How we work.",
+    "title": "The standards behind the work.",
     "values": [
       {
         "title": "Care",
@@ -112,7 +112,7 @@
         "description": "Find simpler, better ways through hard product and technical problems."
       }
     ],
-    "eyebrow": "How we work",
+    "eyebrow": "Our standards",
     "principles": [
       "Stay useful",
       "Stay honest",
@@ -122,7 +122,7 @@
     "description": "These are the standards behind how we work with clients and with each other."
   },
   "workflow": {
-    "title": "One team across the full loop.",
+    "title": "One connected loop from strategy to growth.",
     "stages": [
       {
         "label": "Strategy",
@@ -141,17 +141,17 @@
         "description": "Launch, learn, and improve based on what people actually do."
       }
     ],
-    "eyebrow": "How we work",
+    "eyebrow": "Connected execution",
     "description": "Strategy, design, engineering, and growth stay connected here. Fewer handoffs, faster decisions, and a product that holds together from the first bet to what happens after launch."
   },
   "teamTeaser": {
-    "title": "Small team. Close collaboration.",
+    "title": "Small team. Close to the work.",
     "points": [
       "Fewer handoffs because we are builders, not just designers or engineers.",
       "Strategy, design, engineering, and growth stay in one room.",
       "A working style shaped by curiosity, responsibility, and care."
     ],
-    "eyebrow": "Team",
+    "eyebrow": "Working with us",
     "description": "We're set up to work closely with founders, not hide behind layers. The people shaping the product are part of the conversation, and that keeps the work faster, clearer, and more grounded."
   }
 }

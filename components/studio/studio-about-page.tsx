@@ -211,7 +211,7 @@ function SectionIntro({
         {eyebrow}
       </p>
       <h2
-        className="text-section-display text-[var(--neutral-950)]"
+        className="max-w-5xl text-display-muted-editorial tracking-[-0.032em] text-[var(--neutral-950)]"
         style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
       >
         {title}
@@ -576,14 +576,14 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.98)_0%,rgba(255,255,255,0.92)_20%,rgba(255,255,255,0.72)_38%,rgba(255,255,255,0.36)_58%,rgba(255,255,255,0.1)_74%,rgba(255,255,255,0)_100%)]" />
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.76)_0%,rgba(255,255,255,0.34)_18%,rgba(255,255,255,0.14)_48%,rgba(255,255,255,0.36)_76%,rgba(255,255,255,0.72)_100%)]" />
         <div className="absolute left-[4%] top-[6%] h-[24rem] w-[24rem] rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.22)_0%,rgba(255,255,255,0.05)_42%,rgba(255,255,255,0)_76%)] blur-3xl" />
-        <div className="absolute inset-x-0 bottom-0 flex justify-center px-2 opacity-[0.1] lg:hidden">
+        <div className="absolute inset-0 flex items-center justify-center px-2 opacity-[0.1] lg:hidden">
           <Image
             src={aboutAssets.illustration.src}
             alt=""
             width={320}
             height={303}
             sizes="100vw"
-            className="h-auto w-[min(36rem,94vw)] translate-y-10"
+            className="h-auto max-w-none w-[min(45rem,117.5vw)]"
           />
         </div>
       </div>
@@ -600,13 +600,17 @@ function AboutStorySection({ content }: { content: StudioAboutStoryContent }) {
             </div>
 
             <h2
-              className="max-w-[18ch] text-section-display text-[var(--neutral-950)]"
-              style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
+              className="max-w-[15ch] text-display-muted-editorial tracking-[-0.032em] text-[var(--neutral-950)] sm:max-w-[16ch] lg:max-w-[18ch]"
+              style={{
+                fontSize: "clamp(3rem, 11vw, 3.5rem)",
+                fontWeight: 600,
+                wordSpacing: ".2rem",
+              }}
             >
               {storyTitleRest ? (
                 <>
-                  <span>{`${storyTitleLead}. `}</span>
-                  <span className="whitespace-nowrap">{storyTitleRest}</span>
+                  <span className="block">{`${storyTitleLead}.`}</span>
+                  <span className="block">{storyTitleRest}</span>
                 </>
               ) : (
                 content.title
@@ -668,7 +672,7 @@ function AboutTeamBandSection() {
             People behind the work
           </p>
           <h2
-            className="max-w-[28ch] text-section-display text-[var(--neutral-950)]"
+            className="max-w-[28ch] text-display-muted-editorial tracking-[-0.032em] text-[var(--neutral-950)]"
             style={{ fontSize: "3.5rem", fontWeight: 600, wordSpacing: ".2rem" }}
           >
             <span>Small team. Deep involvement.</span>
@@ -866,16 +870,16 @@ function AboutValuesAndTeamSection({
                     <div
                       key={value.title}
                       className={[
-                        "grid min-w-0 gap-4 py-1 md:gap-5 md:py-2",
+                        "grid min-w-0 items-start gap-4 py-1 md:gap-5 md:py-2",
                         usesLargePanel
-                          ? "sm:grid-cols-[5.6875rem_minmax(0,1fr)] sm:items-start"
-                          : "sm:grid-cols-[auto_minmax(0,1fr)] sm:items-start",
+                          ? "grid-cols-[4.5rem_minmax(0,1fr)] sm:grid-cols-[5.6875rem_minmax(0,1fr)]"
+                          : "grid-cols-[3rem_minmax(0,1fr)] sm:grid-cols-[auto_minmax(0,1fr)]",
                       ].join(" ")}
                     >
                       <div
                         className={[
                           usesLargePanel
-                            ? "relative h-[5.6875rem] w-[5.6875rem] self-start"
+                            ? "relative h-[4.5rem] w-[4.5rem] self-start sm:h-[5.6875rem] sm:w-[5.6875rem]"
                             : "flex size-11 items-center justify-center rounded-full border border-slate-200/80 bg-white text-[var(--color-text-brand)] shadow-[0_10px_28px_rgba(15,23,42,0.06)]",
                         ].join(" ")}
                       >
@@ -895,7 +899,9 @@ function AboutValuesAndTeamSection({
                               sizes={usesLargePanel ? "91px" : "20px"}
                               className={[
                                 "object-contain",
-                                usesLargePanel ? "scale-[0.65]" : "",
+                                usesLargePanel
+                                  ? "origin-left scale-[0.72] sm:scale-[0.65]"
+                                  : "",
                               ]
                                 .filter(Boolean)
                                 .join(" ")}
@@ -905,7 +911,7 @@ function AboutValuesAndTeamSection({
                       </div>
                       <div
                         className={[
-                          "min-w-0 space-y-2",
+                          "min-w-0 space-y-2 self-start",
                           usesLargePanel ? "self-start pt-1" : "",
                         ]
                           .filter(Boolean)
@@ -957,9 +963,9 @@ function AboutValuesAndTeamSection({
               {teamTeaser.points.map((point) => (
                 <div
                   key={point}
-                  className="grid min-w-0 gap-3 py-2 sm:grid-cols-[0.875rem_minmax(0,1fr)] sm:items-start"
+                  className="grid min-w-0 grid-cols-[0.875rem_minmax(0,1fr)] items-start gap-3 py-2"
                 >
-                  <span className="mt-2 flex size-3 shrink-0 rounded-full bg-[var(--purple-500)]" />
+                  <span className="mt-[0.7rem] flex size-3 shrink-0 rounded-full bg-[var(--purple-500)]" />
                   <p className="text-body-md text-[var(--color-text-secondary)]">
                     {point}
                   </p>
@@ -980,6 +986,9 @@ function AboutFinalCta({ content }: { content: StudioAboutPageContent["cta"] }) 
       eyebrow={content.eyebrow}
       title={content.title}
       description={content.description}
+      copyWrapperClassName="space-y-4 text-center md:text-left"
+      descriptionClassName="hidden max-w-3xl text-body-lg text-[var(--color-text-secondary)] md:block"
+      ctaWrapperClassName="flex items-start justify-center"
       primaryCtaLabel={content.primaryCtaLabel}
       primaryCtaHref={content.primaryCtaHref}
     />

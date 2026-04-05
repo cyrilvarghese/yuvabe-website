@@ -19,6 +19,8 @@ type StudioCtaCardProps = {
   titleClassName?: string;
   titleStyle?: CSSProperties;
   descriptionClassName?: string;
+  ctaWrapperClassName?: string;
+  copyWrapperClassName?: string;
   contentLayout?: "split" | "stacked";
 };
 
@@ -34,6 +36,8 @@ export function StudioCtaCard({
   titleClassName = "max-w-4xl text-display-muted-editorial text-[var(--neutral-950)]",
   titleStyle = { wordSpacing: ".2rem" },
   descriptionClassName = "max-w-3xl text-body-lg text-[var(--color-text-secondary)]",
+  ctaWrapperClassName = "flex items-start justify-start lg:justify-center",
+  copyWrapperClassName = "space-y-4",
   contentLayout = "split",
 }: StudioCtaCardProps) {
   const opensStartProjectModal = isStartProjectHref(primaryCtaHref);
@@ -61,7 +65,7 @@ export function StudioCtaCard({
 
           {/* The content column stays editorial while the action area keeps one clear next step. */}
           <div className={contentLayoutClassName}>
-            <div className="space-y-4">
+            <div className={copyWrapperClassName}>
               {eyebrow ? (
                 <p className="text-label-sm uppercase tracking-[0.22em] text-[var(--color-text-tertiary)]">
                   {eyebrow}
@@ -76,7 +80,7 @@ export function StudioCtaCard({
             </div>
 
             {/* The CTA button reuses the shared contract so these inserts do not create a parallel action style. */}
-            <div className="flex items-start justify-center">
+            <div className={ctaWrapperClassName}>
               {opensStartProjectModal ? (
                 <StartProjectButton
                   size="lg"

@@ -2,8 +2,9 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState, type FormEvent } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Check, LoaderCircle } from "lucide-react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { Button } from "@/components/ui/button";
 import { ModalShell } from "@/components/ui/modal-shell";
@@ -53,6 +54,7 @@ export function StartProjectModal({
     "idle",
   );
   const [submitMessage, setSubmitMessage] = useState("");
+  const recaptchaRef = useRef<ReCAPTCHA>(null);
 
   // Each open should feel like a fresh start, not a stale draft from a prior CTA click.
   useEffect(() => {
@@ -68,11 +70,19 @@ export function StartProjectModal({
     setIsSubmitting(false);
     setSubmitState("idle");
     setSubmitMessage("");
+    recaptchaRef.current?.reset();
   }, [open]);
 
   // The modal submits to our route so the inquiry lands in Yuvabe's inbox without leaving the site.
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: { preventDefault(): void }) {
     event.preventDefault();
+
+    const recaptchaToken = recaptchaRef.current?.getValue();
+    if (!recaptchaToken) {
+      setSubmitState("error");
+      setSubmitMessage("Please complete the reCAPTCHA check.");
+      return;
+    }
 
     setIsSubmitting(true);
     setSubmitState("idle");
@@ -91,6 +101,7 @@ export function StartProjectModal({
           needs,
           notes,
           source,
+          recaptchaToken,
         }),
       });
 
@@ -107,6 +118,7 @@ export function StartProjectModal({
       setPhone("");
       setNeeds([]);
       setNotes("");
+      recaptchaRef.current?.reset();
       return;
     } catch (error) {
       setSubmitState("error");
@@ -290,6 +302,11 @@ export function StartProjectModal({
                 onChange={(event) => setNotes(event.target.value)}
               />
             </div>
+
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+            />
 
             {/* The submit area keeps status visible so founders know whether the inquiry actually went through. */}
             <div className="space-y-2 pt-1">

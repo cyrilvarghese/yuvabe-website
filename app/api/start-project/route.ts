@@ -40,8 +40,8 @@ async function sendAdminEmail(submission: StartProjectDraft) {
 
   return resend.emails.send({
     from: "Yuvabe Studios <noreply@mail.yuvabe.com>",
-    to: ["roopavanan@yuvabe.com"],
-    reply_to: submission.email,
+    to: ["sales@yuvabe.com"],
+    replyTo: submission.email,
     subject: `New Inquiry from ${submission.name}`,
     html: `
       <h2 style="color:#111827;">New Start-Project Inquiry</h2>

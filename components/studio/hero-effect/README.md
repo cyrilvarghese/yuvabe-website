@@ -133,10 +133,10 @@ Owns small shared helpers:
 Owns the shared hero-surface utilities:
 
 - `--gradient-hero-signal-stage`
-- `--gradient-hero-copy-wash`
+- `--gradient-hero-copy-halo`
 - `--pattern-hero-signal-grid`
 - `.ds-surface-hero-signal`
-- `.ds-overlay-hero-copy-wash`
+- `.ds-overlay-hero-copy-halo`
 - `.ds-pattern-hero-signal-grid`
 
 ### [`../../../package.json`](../../../package.json)
@@ -154,7 +154,7 @@ The hero backdrop starts with a shared light gradient and one softer large-forma
 
 This keeps the hero visually connected to the rest of the site and avoids one-off page styling.
 
-A dedicated left-to-right copy wash is anchored behind the hero copy block, with negative bleed and softened edges, so the headline stays readable without looking boxed into the container.
+A larger radial copy halo is anchored behind the hero copy block, with generous bleed and soft blur, so the headline stays readable without revealing a hard-edged overlay box.
 
 ## 2. Three.js Morphing Cloud
 

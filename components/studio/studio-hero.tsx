@@ -43,7 +43,6 @@ export function StudioHero({ content }: StudioHeroProps) {
               className="pointer-events-none absolute -left-16 -top-14 h-[calc(100%+10rem)] w-[calc(100%+20rem)] max-w-[54rem] overflow-visible sm:-left-20 sm:-top-16 sm:h-[calc(100%+13rem)] sm:w-[calc(100%+26rem)] sm:max-w-[64rem] lg:-left-28 lg:-top-24 lg:h-[calc(100%+18rem)] lg:w-[calc(100%+38rem)] lg:max-w-[88rem] xl:-left-32 xl:w-[calc(100%+44rem)] xl:max-w-[96rem]"
             >
               <div className="ds-overlay-hero-copy-halo absolute inset-0" />
-              <div className="ds-overlay-hero-copy-wash absolute inset-0" />
             </div>
 
             {/* The left column follows Stripe's strong editorial layout with a compact badge, oversized headline, and one CTA. */}

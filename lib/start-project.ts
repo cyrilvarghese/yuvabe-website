@@ -1,4 +1,4 @@
-export const START_PROJECT_EMAIL = "sales@yuvabe.com";
+export const START_PROJECT_EMAIL = "cyril@yuvabe.com";
 
 const startProjectHrefSet = new Set(["#", "#process", "/#process"]);
 

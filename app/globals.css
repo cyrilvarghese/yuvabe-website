@@ -326,18 +326,6 @@
     radial-gradient(78% 66% at 86% 16%, color-mix(in srgb, var(--cyan-200) 70%, white) 0%, rgba(255, 255, 255, 0) 60%),
     radial-gradient(92% 72% at 72% 92%, color-mix(in srgb, var(--lavender-500) 42%, white) 0%, rgba(255, 255, 255, 0) 66%),
     linear-gradient(180deg, rgba(255, 255, 255, 0.94) 0%, rgba(248, 248, 250, 0.82) 100%);
-  --gradient-hero-copy-wash:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.596) 0%,
-      rgba(255, 255, 255, 0.588) 18%,
-      rgba(255, 255, 255, 0.548) 34%,
-      rgba(255, 255, 255, 0.388) 50%,
-      rgba(255, 255, 255, 0.18) 66%,
-      rgba(255, 255, 255, 0.056) 82%,
-      rgba(255, 255, 255, 0.012) 92%,
-      rgba(255, 255, 255, 0) 100%
-    );
   --gradient-hero-copy-halo:
     radial-gradient(
       96% 90% at 34% 42%,
@@ -349,18 +337,6 @@
       rgba(255, 255, 255, 0.12) 86%,
       rgba(255, 255, 255, 0.03) 94%,
       rgba(255, 255, 255, 0) 100%
-    );
-  --mask-hero-copy-wash:
-    radial-gradient(
-      144% 154% at 28% 42%,
-      rgba(0, 0, 0, 1) 0%,
-      rgba(0, 0, 0, 0.985) 36%,
-      rgba(0, 0, 0, 0.93) 54%,
-      rgba(0, 0, 0, 0.78) 68%,
-      rgba(0, 0, 0, 0.5) 82%,
-      rgba(0, 0, 0, 0.2) 92%,
-      rgba(0, 0, 0, 0.04) 98%,
-      rgba(0, 0, 0, 0) 100%
     );
   --pattern-hero-signal-grid:
     linear-gradient(to right, rgb(148 163 184 / 0.1) 1px, transparent 1px),
@@ -543,16 +519,7 @@ h6 {
   background-repeat: no-repeat;
   background-size: 100% 100%;
   filter: blur(72px);
-}
-
-/* This shared overlay keeps the hero copy readable without flattening the full signal field. */
-.ds-overlay-hero-copy-wash {
-  background-image: var(--gradient-hero-copy-wash);
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  filter: blur(44px);
-  -webkit-mask-image: var(--mask-hero-copy-wash);
-  mask-image: var(--mask-hero-copy-wash);
+  opacity: 0.1;
 }
 
 /* This shared utility centralizes the field grid so the hero effect can stay layered without inline texture recipes. */
